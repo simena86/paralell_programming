@@ -1,0 +1,11 @@
+LECTURE NOTES
+
+--------mon 14. jan----------
+
+TRITON
+ssh -l username triton-login.sdsc.edu
+gbalance -u simena86   --- show cpu time
+qstat - shows que of jobs waiting to run
+module list
+module load/unload
+
