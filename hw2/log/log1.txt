@@ -1,0 +1,10 @@
+log from triton
+
+n=2400
+
+1 processors : 25.67  seconds
+2 processors : 12.95 seconds
+4 processors : 6.47
+8 processors : 3.41
+16 processors : 1.97
+
