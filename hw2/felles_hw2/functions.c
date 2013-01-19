@@ -21,37 +21,36 @@ double norm2(double * x, int size){
 	return sqrt(the_norm);
 }
 
-void matVec(double * mat, double * x, int size){
+
+void matVec(double * mat, double * x,double * out, int size){
+	int debug=0;
 	int i,j, nprocs, rank;
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 	for(i = 0; i < size/nprocs; i++){
 		out[i] = 0;
 	}
-	for(i = 0; i < size/nproccs; i++){
+	for(i = 0; i < size/nprocs; i++){
 		for(j = 0; j < size; j++)
 		{
 			out[i] += mat[i*size + j] * x[j];	
 		}
 	}
 
-	// gathering vectors from every processor
+	// gathering vectors from every processor to processor 0
 	double * rcv_buffer=NULL;
 	if (rank==0){
 		rcv_buffer=malloc(size*sizeof(double));
-		MPI_Gather_(out,size/nprocs,MPI_DOUBLE,rcv_buffer,size,MPI_DOUBLE, 0,MPI_COMM_WORLD);
+		MPI_Gather(out,size/nprocs,MPI_DOUBLE,rcv_buffer,size/nprocs,MPI_DOUBLE, 0,MPI_COMM_WORLD);
+		for(i=0;i<size;i++){
+			x[i]=rcv_buffer[i];
+		}
+		free(rcv_buffer);
 	}else{
-		MPI_Gather_(out,size/nprocs,MPI_DOUBLE,rcv_buffer,size,MPI_DOUBLE, 0,MPI_COMM_WORLD);
+			MPI_Gather(out,size/nprocs,MPI_DOUBLE,rcv_buffer,size/nprocs,MPI_DOUBLE, 0,MPI_COMM_WORLD);
 	}
 	// broadcasting vectors from processor 0
-	MPI_Bcast(rcv_buffer,size,MPI_DOUBLE, 0,MPI_COMM_WORLD);
-	x=rcv_buffer;
-
-	if (rank==0){
-		for(i=0;i<size;i++){
-			printf("%f",x[i]);
-		}		
-	}
+	MPI_Bcast(x,size,MPI_DOUBLE,0,MPI_COMM_WORLD);
 }
 
 // Subroutine for generating the input matrix
@@ -60,6 +59,7 @@ void generatematrix(double * mat, int size){
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	int i, j;
+	printf("rank %i:--------- \n", rank);
 	for (i=0 ; i < size/nprocs; i++){
 		for ( j=0; j<size; j++){
 			if ( j<=rank*size/nprocs+i){
@@ -67,9 +67,13 @@ void generatematrix(double * mat, int size){
 			}else{
 				mat[i*size + j ] = 0;
 			}
+			//mat[i*size +j]=i*j-i*i*3 +2*j;
+			//printf(" %f ",mat[i*size+j]);
 		}
-	}	
+		//printf("\n");
+	}
 }
+
 
 // Subroutine to generate a random vector
 void generatevec(double * x,int size)
@@ -92,9 +96,11 @@ double powerMethod(double * mat, double * x, int size, int iter)
 	
 	for(i = 0; i < iter; i++){
 		the_norm = norm2(x, size);
+		
 		for(j = 0; j < size; j++){
 			x[j] = x[j] / the_norm;
 		}
+		
 		matVec(mat, x,out,size);
 	}
 		

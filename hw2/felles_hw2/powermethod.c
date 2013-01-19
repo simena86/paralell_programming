@@ -68,7 +68,6 @@ int main(int argc, char **argv)
 		printf("Time in seconds : %lf\n", stop - start);
 
 		// myprintouts
-		printf("Some random printouts\n here are some of the vector %f, %f", vec[1], vec[2]);
 	}
 
 
