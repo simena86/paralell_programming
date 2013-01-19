@@ -19,9 +19,8 @@ void generatematrix(double * mat, int size)
 }
 
 // Subroutine to generate a random vector
-void generatevec(double * x,int size)
-{
-
+void generatevec(double * x,int size){
+	
 }
 
 // Subroutine for the power method, to return the spectral radius
