@@ -38,16 +38,10 @@ void matVec(double * mat, double * x,double * out, int size){
 	}
 
 	// gathering vectors from every processor to processor 0
-	double * rcv_buffer=NULL;
 	if (rank==0){
-		rcv_buffer=malloc(size*sizeof(double));
-		MPI_Gather(out,size/nprocs,MPI_DOUBLE,rcv_buffer,size/nprocs,MPI_DOUBLE, 0,MPI_COMM_WORLD);
-		for(i=0;i<size;i++){
-			x[i]=rcv_buffer[i];
-		}
-		free(rcv_buffer);
+		MPI_Gather(out,size/nprocs,MPI_DOUBLE,x,size/nprocs,MPI_DOUBLE, 0,MPI_COMM_WORLD);
 	}else{
-			MPI_Gather(out,size/nprocs,MPI_DOUBLE,rcv_buffer,size/nprocs,MPI_DOUBLE, 0,MPI_COMM_WORLD);
+			MPI_Gather(out,size/nprocs,MPI_DOUBLE,x,size/nprocs,MPI_DOUBLE, 0,MPI_COMM_WORLD);
 	}
 	// broadcasting vectors from processor 0
 	MPI_Bcast(x,size,MPI_DOUBLE,0,MPI_COMM_WORLD);
@@ -59,7 +53,6 @@ void generatematrix(double * mat, int size){
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	int i, j;
-	printf("rank %i:--------- \n", rank);
 	for (i=0 ; i < size/nprocs; i++){
 		for ( j=0; j<size; j++){
 			if ( j<=rank*size/nprocs+i){
