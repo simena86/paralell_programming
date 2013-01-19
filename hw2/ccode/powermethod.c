@@ -9,6 +9,7 @@
 
 #include"powermethod.h"
 
+
 int main(int argc, char **argv)
 {
 	//Input matrix and vector declaration 
@@ -51,7 +52,8 @@ int main(int argc, char **argv)
 	start = MPI_Wtime();
 	spectral_radius = powerMethod(mat,vec,size,iter);
 	stop = MPI_Wtime();
-	
+
+
 
 	// Free all the variables 
 	free(mat);
@@ -65,7 +67,11 @@ int main(int argc, char **argv)
 		printf("Spectral radius is : %lf\n",spectral_radius);	
 		printf("Time in seconds : %lf\n", stop - start);
 
+		// myprintouts
+		printf("Some random printouts\n here are some of the vector %f, %f", vec[1], vec[2]);
 	}
+
+
 
 	MPI_Finalize();
 }
