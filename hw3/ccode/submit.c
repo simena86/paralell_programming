@@ -54,11 +54,14 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	int nprocs;
 	int i;
 	int I;
+	int j;
+	int src, dest;	
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	double** a_v;
 	double size=n/nprocs;
-
+	
+	// allocate space for a
 	a_v = (double **)malloc(sizeof(double *) * size);
 	for (i = 0; i < size; i++) {
 		a_v[i] = (double*)malloc(sizeof(double) * 3);
@@ -66,12 +69,88 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			a_v[i][j] = 0;
 		}
 	}
-
 	
+	// buffers
+	double *m_bf1;
+	double** s_bf1;
+	m_bf1 = (double *)malloc(sizeof(double) * size);
+	for(i = 0; i < size; i++) {
+		m_bf1[i] = 0;
+	}
+	
+	s_bf1 = (double **)malloc(sizeof(double *) * size);
+	for (i = 0; i < size; i++) {
+		s_bf1[i] = (double*)malloc(sizeof(double) * 3);
+		for(j = 0; j < 3; j++) {
+			s_bf1[i][j] = 0;
+		}
+	}
 
+	double *m_bf2;
+	double** s_bf2;
+	// extra buffer for every second processor
+	if(myrank % 2 ==0){
+		m_bf2 = (double *)malloc(sizeof(double) * size);
+		for(i = 0; i < size; i++) {
+			m_bf2[i] = 0;
+		}
+	
+		s_bf2 = (double **)malloc(sizeof(double *) * size);
+		for (i = 0; i < size; i++) {
+			s_bf2[i] = (double*)malloc(sizeof(double) * 3);
+			for(j = 0; j < 3; j++) {
+				s_bf2[i][j] = 0;
+			}
+		}
+	}
+	// copy to buffers
+	for(i=0;i<size;i++){
+		m_bf1[i]=m[i];
+		s_bf1[i][0] = s[i][0];
+		s_bf1[i][1] = s[i][1];
+		s_bf1[i][2] = s[i][2];
+	}
+	
+	double mrg[3]={myrank, myrank, myrank};
+	double  mrg_bf1[3]={0};
+
+	// main loop
 	for(I=0; I<iter ; I++){
+		// zero out acceleration after each step
 		for(i=0; i<nprocs; i++){
-
+			if(i % 2==0 || myrank % 2!=0 ){
+				compute_acceleration(a_v,s,m,s_bf1,m_bf1, n);
+			}else{
+				compute_acceleration(a_v,s,m,s_bf2,m_bf2, n);
+			}
+			// MARY GO ROUND
+			//  check for processor 0 or nrpoc
+			if(myrank==0){
+			   	src = nprocs-1;
+				dest=myrank+1;
+			}else if(myrank==nprocs-1){ 
+					dest = 0;
+					src=myrank-1;
+			}else{
+				dest=myrank+1;
+				src=myrank-1;
+			}
+			// start communication
+			if(myrank % 2 == 0){
+				if(i % 2==0){
+					MPI_Recv(mrg_bf1, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+					MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+				}else{
+					MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE  );
+					MPI_Send(mrg_bf1, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+				}
+			}else{
+				MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+				MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+			}
+			if(myrank == 1){
+				printf("mrgs rank: %f, %f, %f\n", mrg[0], mrg[1], mrg[2]);
+			}
 		}
 	}
 
@@ -84,7 +163,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 }
 
 
-void compute_acceleration(double ** a, double ** s, double* m) {
+void compute_acceleration(double ** a_v, double ** s, double* m, double **s_bf, double* m_bf, int n) {
 	double f_v[3];
 	double G = 6.674e-11;
 	double r;
@@ -104,13 +183,13 @@ void compute_acceleration(double ** a, double ** s, double* m) {
 				f_v[0]=0;	f_v[1]=0;	f_v[2]=0;		
 			}else {
 				for(l=0;l<3;l++){
-					r_v[l]=s[j][l]-s[k][l];
+					r_v[l]=s[j][l]-s_bf[k][l];
 				}
 				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));
-			    f=G*m[j]*m[k]/pow(r,2);
+			    f=G*m[j]*m_bf[k]/pow(r,2);
 				for(l=0;l<3;l++){
 					f_v[l] = f*r_v[l]/r;
-					a_v[j][l] =a_v[j][l] - f_v[l]/m[j];
+					a_v[j][l] += - f_v[l]/m[j];
 				}
 			}
 		}
