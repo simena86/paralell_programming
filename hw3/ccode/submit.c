@@ -39,7 +39,7 @@ void gennbody(double** s, double** v, double* m, int n) {
 	for(i=0; i<n/nprocs; i++){
 		m[i] = 1000;
 		for(j=0; j<3; j++){
-			s[i][j]= myrank*1000 + 10*j + 10*i;
+			s[i][j]= myrank*1000 + i*j  + 10*j + 10*i;
 			v[i][j]= 0;
 		}
 			// DEBUG
@@ -53,30 +53,66 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	int myrank;
 	int nprocs;
 	int i;
-	int j;
 	int I;
-	int k;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-	
-	for(I=0; I<iter ; I++){
-		for(i=0; i<nprocs; i++){
-			for(j=0;j<n/nprocs;j++){
-				for (k=0;k<n/nprocs;k++){
-						
-				}
-			}
+	double** a_v;
+	double size=n/nprocs;
+
+	a_v = (double **)malloc(sizeof(double *) * size);
+	for (i = 0; i < size; i++) {
+		a_v[i] = (double*)malloc(sizeof(double) * 3);
+		for(j = 0; j < 3; j++) {
+			a_v[i][j] = 0;
 		}
 	}
 
+	
 
-	// This is an example of printing the body parameters to the stderr. Your code should print out the final body parameters
-	// in the exact order as the input file. Since we are writing to the stderr in this case, rather than the stdout, make
-	// sure you dont add extra debugging statements in stderr.
+	for(I=0; I<iter ; I++){
+		for(i=0; i<nprocs; i++){
 
+		}
+	}
+
+	//DEBUG
 	if (myrank == 0) {
 		for (i = 0; i < n / nprocs; i++) {
 			fprintf(stderr, OUTPUT_BODY, s[i][0], s[i][1], s[i][2], v[i][0], v[i][1], v[i][2], m[i]);
+		}
+	}
+}
+
+
+void compute_acceleration(double ** a, double ** s, double* m) {
+	double f_v[3];
+	double G = 6.674e-11;
+	double r;
+	double r_v[3];
+	double f;
+	int myrank;
+	int nprocs;
+	int j;
+	int k;
+	int l;
+	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+	
+	for(j=0;j<n/nprocs;j++){
+		for (k=0;k<n/nprocs;k++){
+			if(j==k){
+				f_v[0]=0;	f_v[1]=0;	f_v[2]=0;		
+			}else {
+				for(l=0;l<3;l++){
+					r_v[l]=s[j][l]-s[k][l];
+				}
+				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));
+			    f=G*m[j]*m[k]/pow(r,2);
+				for(l=0;l<3;l++){
+					f_v[l] = f*r_v[l]/r;
+					a_v[j][l] =a_v[j][l] - f_v[l]/m[j];
+				}
+			}
 		}
 	}
 }
