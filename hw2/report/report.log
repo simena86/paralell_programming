@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.21)  20 JAN 2013 03:00
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.21)  21 JAN 2013 19:35
 entering extended mode
  %&-line parsing enabled.
 **report.tex --shell-escape
@@ -891,33 +891,29 @@ File: lstlang1.sty 2004/09/05 1.3 listings language file
 LaTeX Warning: Unused global option(s):
     [amsbsy].
 
-(./report.aux
-
-LaTeX Warning: Label `fig:' multiply defined.
-
-)
+(./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 14.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 15.
  (/usr/share/texmf-texlive/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    ... okay on input line 15.
 
 (/usr/share/texmf/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -933,7 +929,7 @@ LaTeX Font Info:    ... okay on input line 14.
 \everyMPtoPDFconversion=\toks43
 ) ABD: EveryShipout initializing macros
 \c@lstlisting=\count187
-Package hyperref Info: Link coloring OFF on input line 14.
+Package hyperref Info: Link coloring OFF on input line 15.
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
@@ -943,8 +939,8 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
 \c@section@level=\count188
 )
-LaTeX Info: Redefining \ref on input line 14.
-LaTeX Info: Redefining \pageref on input line 14.
+LaTeX Info: Redefining \ref on input line 15.
+LaTeX Info: Redefining \pageref on input line 15.
  (./report.out)
 (./report.out)
 \@outlinefile=\write4
@@ -994,7 +990,7 @@ driver: dvips
 -----------------------
 Package caption Info: Begin \AtBeginDocument code.
 Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
-LaTeX Info: Redefining \subref on input line 14.
+LaTeX Info: Redefining \subref on input line 15.
 Package caption Info: Incompatible package detected (regarding \caption).
 (caption)             \caption = \long macro:->\ifx \@captype \@undefined \@lat
 ex@error {\noexpand \caption outside float}\@ehd \expandafter \@gobble \else \r
@@ -1046,36 +1042,6 @@ File: ./figures/plot2.pdf Graphic file (type pdf)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./figures/legend_16.pdf, id=37, 506.89375pt x 190.7125pt>
-File: ./figures/legend_16.pdf Graphic file (type pdf)
-
-<use ./figures/legend_16.pdf>
-<./figures/paraprof_pic_16.pdf, id=38, 1679.27374pt x 1000.73875pt>
-File: ./figures/paraprof_pic_16.pdf Graphic file (type pdf)
-
-<use ./figures/paraprof_pic_16.pdf>
-Overfull \hbox (41.33098pt too wide) in paragraph at lines 48--49
- [][][] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<./figures/legend_16_inclusive.pdf, id=39, 506.89375pt x 190.7125pt>
-File: ./figures/legend_16_inclusive.pdf Graphic file (type pdf)
-
-<use ./figures/legend_16_inclusive.pdf>
-<./figures/paraprof_pic_16_inclusive.pdf, id=40, 1679.27374pt x 1000.73875pt>
-File: ./figures/paraprof_pic_16_inclusive.pdf Graphic file (type pdf)
-
-<use ./figures/paraprof_pic_16_inclusive.pdf>
-Overfull \hbox (41.33098pt too wide) in paragraph at lines 57--58
- [][][] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
 
 Package Fancyhdr Warning: \headheight is too small (0.0pt): 
  Make it at least 13.59999pt.
@@ -1087,8 +1053,23 @@ has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.61 \clearpage
-                <./figures/plot1.pdf>]
+l.42 
+      <./figures/plot1.pdf>]
+<./figures/legend_16.pdf, id=49, 506.89375pt x 190.7125pt>
+File: ./figures/legend_16.pdf Graphic file (type pdf)
+
+<use ./figures/legend_16.pdf>
+<./figures/paraprof_pic_16.pdf, id=50, 1679.27374pt x 1000.73875pt>
+File: ./figures/paraprof_pic_16.pdf Graphic file (type pdf)
+
+<use ./figures/paraprof_pic_16.pdf>
+Overfull \hbox (41.33098pt too wide) in paragraph at lines 54--55
+ [][][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 
 Package Fancyhdr Warning: \headheight is too small (0.0pt): 
  Make it at least 13.59999pt.
@@ -1100,7 +1081,7 @@ has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.61 \clearpage
+l.59 \clearpage
                 <./figures/plot2.pdf>]
 
 Package Fancyhdr Warning: \headheight is too small (0.0pt): 
@@ -1113,138 +1094,116 @@ has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.61 \clearpage
+l.59 \clearpage
                 <./figures/legend_16.pdf> <./figures/paraprof_pic_16.pdf>]
 
-Package Fancyhdr Warning: \headheight is too small (0.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
+pdfTeX warning: /usr/bin/pdflatex (file ./side1.pdf): PDF inclusion: found PDF 
+version <1.5>, but at most version <1.4> allowed
 
-[5pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) 
-has been already used, duplicate ignored
 
-\@EveryShipout@Output ...@Org@Shipout \box \@cclv 
-                                                  
-l.61 \clearpage
-                <./figures/legend_16_inclusive.pdf> <./figures/paraprof_pic_16_
-inclusive.pdf>]
+pdfTeX warning: /usr/bin/pdflatex (file ./side1.pdf): PDF inclusion: found PDF 
+version <1.5>, but at most version <1.4> allowed
 
-Package Fancyhdr Warning: \headheight is too small (0.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
 
-[6
+pdfTeX warning: /usr/bin/pdflatex (file ./side1.pdf): PDF inclusion: found PDF 
+version <1.5>, but at most version <1.4> allowed
+<side1.pdf, id=77, page=1, 597.50786pt x 845.04686pt>
+File: side1.pdf Graphic file (type pdf)
+ <use side1.pdf, page 1>
+File: side1.pdf Graphic file (type pdf)
 
-] <log_4.pdf, id=95, page=1, 614.295pt x 794.97pt>
-File: log_4.pdf Graphic file (type pdf)
- <use log_4.pdf, page 1>
-File: log_4.pdf Graphic file (type pdf)
+<use side1.pdf, page 1>
+File: side1.pdf Graphic file (type pdf)
+ <use side1.pdf, page 1>
+File: side1.pdf Graphic file (type pdf)
+ <use side1.pdf, page 1>
+File: side1.pdf Graphic file (type pdf)
 
-<use log_4.pdf, page 1>
-File: log_4.pdf Graphic file (type pdf)
- <use log_4.pdf, page 1>
-File: log_4.pdf Graphic file (type pdf)
- <use log_4.pdf, page 1>
-File: log_4.pdf Graphic file (type pdf)
+<use side1.pdf, page 1> [5
 
-<use log_4.pdf, page 1> [7 <./log_4.pdf>]
-<log_4.pdf, id=108, page=2, 614.295pt x 794.97pt>
-File: log_4.pdf Graphic file (type pdf)
- <use log_4.pdf, page 2>
-File: log_4.pdf Graphic file (type pdf)
+ <./side1.pdf>]
+<log.pdf, id=112, page=2, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 2>
+File: log.pdf Graphic file (type pdf)
 
-<use log_4.pdf, page 2>
-File: log_4.pdf Graphic file (type pdf)
- <use log_4.pdf, page 2> [8 <./log_4.pdf>]
+<use log.pdf, page 2>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 2>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 2>
+File: log.pdf Graphic file (type pdf)
 
-Package Fancyhdr Warning: \headheight is too small (0.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
+<use log.pdf, page 2> [6 <./log.pdf>]
+<log.pdf, id=129, page=3, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 3>
+File: log.pdf Graphic file (type pdf)
 
-[9
+<use log.pdf, page 3>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 3> [7 <./log.pdf>]
+<log.pdf, id=136, page=4, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 4>
+File: log.pdf Graphic file (type pdf)
 
-] <log_16.pdf, id=123, page=1, 614.295pt x 794.97pt>
-File: log_16.pdf Graphic file (type pdf)
+<use log.pdf, page 4>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 4> [8 <./log.pdf>]
+<log.pdf, id=142, page=5, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 5>
+File: log.pdf Graphic file (type pdf)
 
-<use log_16.pdf, page 1>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 1>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 1>
-File: log_16.pdf Graphic file (type pdf)
+<use log.pdf, page 5>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 5> [9 <./log.pdf>]
+<log.pdf, id=148, page=6, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 6>
+File: log.pdf Graphic file (type pdf)
 
-<use log_16.pdf, page 1>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 1> [10 <./log_16.pdf>]
-<log_16.pdf, id=135, page=2, 614.295pt x 794.97pt>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 2>
-File: log_16.pdf Graphic file (type pdf)
+<use log.pdf, page 6>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 6> [10 <./log.pdf>]
+<log.pdf, id=154, page=7, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 7>
+File: log.pdf Graphic file (type pdf)
 
-<use log_16.pdf, page 2>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 2> [11 <./log_16.pdf>]
-<log_16.pdf, id=141, page=3, 614.295pt x 794.97pt>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 3>
-File: log_16.pdf Graphic file (type pdf)
+<use log.pdf, page 7>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 7> [11 <./log.pdf>]
+<log.pdf, id=160, page=8, 614.295pt x 794.97pt>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 8>
+File: log.pdf Graphic file (type pdf)
 
-<use log_16.pdf, page 3>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 3> [12 <./log_16.pdf>]
-<log_16.pdf, id=147, page=4, 614.295pt x 794.97pt>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 4>
-File: log_16.pdf Graphic file (type pdf)
-
-<use log_16.pdf, page 4>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 4> [13 <./log_16.pdf>]
-<log_16.pdf, id=154, page=5, 614.295pt x 794.97pt>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 5>
-File: log_16.pdf Graphic file (type pdf)
-
-<use log_16.pdf, page 5>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 5> [14 <./log_16.pdf>]
-<log_16.pdf, id=160, page=6, 614.295pt x 794.97pt>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 6>
-File: log_16.pdf Graphic file (type pdf)
-
-<use log_16.pdf, page 6>
-File: log_16.pdf Graphic file (type pdf)
- <use log_16.pdf, page 6> [15 <./log_16.pdf>])
-(./report.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+<use log.pdf, page 8>
+File: log.pdf Graphic file (type pdf)
+ <use log.pdf, page 8> [12 <./log.pdf>]) (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 17417 strings out of 493848
- 274514 string characters out of 1152822
- 511352 words of memory out of 3000000
- 20245 multiletter control sequences out of 15000+50000
+ 17398 strings out of 493848
+ 273989 string characters out of 1152822
+ 511353 words of memory out of 3000000
+ 20237 multiletter control sequences out of 15000+50000
  15291 words of font info for 58 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 49i,16n,49p,1289b,1853s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf
--texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.
-pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texl
-ive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf/fonts/type1/public/cm-super/s
-frm0800.pfb>
-Output written on report.pdf (15 pages, 373265 bytes).
+ 49i,16n,49p,1348b,1853s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/font
+s/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+tt8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb>
+Output written on report.pdf (12 pages, 298862 bytes).
 PDF statistics:
- 210 PDF objects out of 1000 (max. 8388607)
- 41 named destinations out of 1000 (max. 500000)
- 103 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 207 PDF objects out of 1000 (max. 8388607)
+ 33 named destinations out of 1000 (max. 500000)
+ 93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

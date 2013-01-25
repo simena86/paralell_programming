@@ -38,8 +38,14 @@ The c-code where tested on matrices of dimension $N$ where $N$ allways where the
 As we can from Fig. \ref{fig:plot} and Fig. \ref{fig:para} the parallelization of the code worked very well. On matrices with high dimensions the execution time where almost halved when the number of processors where doubled, for a small number of processors. 
 
 \subsection*{Tau Profiling Tool}
-The Tau Profiling tool where used to analyze the performance of the code both with a text based interface and with the graphical interface $paraprof$. 
+The Tau Profiling tool where used to analyze the performance of the code both with a text based interface and with the graphical interface $paraprof$. The program was changed to do only 10 iterations of the main loop. At first the program ran with 4 processors, and than with 16 processors. The results of the generated text profile reports, $pprof$, are in the appendix. From the profile reports it shows that all the processors, except from node 0, have very similar characteristics. They all use most of their time on the initialisation, $MPI\_init$. Beside this it is clear that the $matVec()$ function, who is called in $powerMethod()$, uses a considerable amount of the execution time. Node 0 stands out from the other nodes with the amount of time used on the calls $MPI\_Gather()$ and $MPI\_Bcast$. Node 0, who has to gather data from all the other nodes, uses a lot of time on $MPI\_Gather()$, while all the other nodes uses almost no time on this call. This effect is more reviling with many processors, and is probably one of the main causes why the parallel efficiency goes down with more processors. The call to $MPI\_Bcast$ has the opposite effect. Node 0, who is broadcasting data, uses less time on this call than all the other nodes, which are on the receiving side. 
 
+
+\subsection*{Conclusion}
+The results we got from this assignment was pretty much as expected, but we thought the parallel efficiency was surprisingly good. It was very satisfying seeing the difference between the execution time of the power method with 1 processor versus 16 processors. With many processors, the synchronisation with $MPI\_Gather()$ and $MPI\_Bcast$ takes more time than the actual multiplication done in $matVec()$, and leads to less parallel efficiency. This is no surprise since moving data takes time.\\
+From the figures in $parafrof$ it was very quick and easy to get a first overview over the execution time for the different MPI functions. It was also easy to compare the running times between the different processors. From the text profile report, $pprof$, we got more detailed information.
+
+ 
 \begin{figure}[h!] 
  \center 
  \subfloat[]{ 
@@ -49,30 +55,15 @@ The Tau Profiling tool where used to analyze the performance of the code both wi
  \caption{ The figure shows the execution time for the different MPI functions running on the different processors \label{fig:}}
  \end{figure}
 
-\begin{figure}[h!] 
- \center 
- \subfloat[]{ 
- \includegraphics[scale=0.4]{./figures/legend_16_inclusive.pdf} } \\
- \subfloat[]{ 
- \includegraphics[scale=0.3]{./figures/paraprof_pic_16_inclusive.pdf} }
- \caption{ The figure shows the execution time for all the functions on the different processors \label{fig:}}
- \end{figure}
 
 \clearpage
 
 
-\appendix
 
-\subsection*{A.1 pprof output}
-\subsection*{4 Processors}
+\includepdf[pages=1]{side1.pdf}
+\includepdf[pages=2-8]{log.pdf}
 
 
-\includepdf[pages=-]{log_4.pdf}
-
-\clearpage 
-\subsection*{16 Processors}
-
-\includepdf[pages=-]{log_16.pdf}
 
 
 
