@@ -6,6 +6,11 @@ Team Member 2 :
 
 #include "nBody.h"
 
+
+// prototype
+void compute_acceleration(double ** a_v, double ** s, double* m, double **s_bf, double* m_bf, int n); 
+void update_states(double ** a_v, double ** s, double ** v, int size, double dt );
+
 void readnbody(double** s, double** v, double* m, int n) {
 	int myrank;
 	int nprocs;
@@ -86,9 +91,9 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 	}
 
+	// extra buffer for every second processor
 	double *m_bf2;
 	double** s_bf2;
-	// extra buffer for every second processor
 	if(myrank % 2 ==0){
 		m_bf2 = (double *)malloc(sizeof(double) * size);
 		for(i = 0; i < size; i++) {
@@ -123,35 +128,12 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			}else{
 				compute_acceleration(a_v,s,m,s_bf2,m_bf2, n);
 			}
-			// MARY GO ROUND
-			//  check for processor 0 or nrpoc
-			if(myrank==0){
-			   	src = nprocs-1;
-				dest=myrank+1;
-			}else if(myrank==nprocs-1){ 
-					dest = 0;
-					src=myrank-1;
-			}else{
-				dest=myrank+1;
-				src=myrank-1;
-			}
-			// start communication
-			if(myrank % 2 == 0){
-				if(i % 2==0){
-					MPI_Recv(mrg_bf1, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
-					MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
-				}else{
-					MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE  );
-					MPI_Send(mrg_bf1, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
-				}
-			}else{
-				MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
-				MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
-			}
 			if(myrank == 1){
 				printf("mrgs rank: %f, %f, %f\n", mrg[0], mrg[1], mrg[2]);
 			}
+			// ----------end communication -------------------------//
 		}
+		update_states(a_v,s,v,size,timestep);	
 	}
 
 	//DEBUG
@@ -162,7 +144,54 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	}
 }
 
+/* ------------ start communication -------------------------- /
+/ all processors with even rank have two buffers
+/ one for receive and one for send. The even processors 
+/ also switches which of the buffers to send and receive to 
+/ avoid having to copy the buffers						     */	
+void mary_go_round(int myranke, double ** s_bf1,double **s_bf2, double *m_bf1, double *m_bf2, ){
+	//  check for processor 0 or last processor
+	if(myrank==0){
+	   	src = nprocs-1;
+		dest=myrank+1;
+	}else if(myrank==nprocs-1){ 
+		dest = 0;
+		src=myrank-1;
+	}else{
+		dest=myrank+1;
+		src=myrank-1;
+	}
+	// start communication
+	if(myrank % 2 == 0){
+		if(i % 2==0){
+			MPI_Recv(s_bf1, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+			MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+		}else{
+			MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE  );
+			MPI_Send(mrg_bf1, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+		}
+	}else{
+		MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+		MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+	}
 
+}
+
+
+// update the velocities and positions of the planets
+void update_states(double ** a_v, double ** s, double ** v, int size, double dt ){
+	int i,j;
+	for(i=0;i<size;i++){
+		for(j=0; j<3;j++){
+			v[i][j]+= dt*a_v[i][j];
+			s[i][j]+= dt*v[i][j];	
+		}	
+	}
+}
+
+
+
+// computes the acceleration vector excerted on s an m due to gravity from s_bf and m_bf
 void compute_acceleration(double ** a_v, double ** s, double* m, double **s_bf, double* m_bf, int n) {
 	double f_v[3];
 	double G = 6.674e-11;
