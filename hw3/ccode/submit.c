@@ -8,8 +8,9 @@ Team Member 2 :
 
 
 // prototype
-void compute_acceleration(double ** a_v, double ** s, double* m, double **s_bf, double* m_bf, int n); 
 void update_states(double ** a_v, double ** s, double ** v, int size, double dt );
+void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg );
+void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n); 
 
 void readnbody(double** s, double** v, double* m, int n) {
 	int myrank;
@@ -59,12 +60,12 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	int nprocs;
 	int i;
 	int I;
+	int nMrg;
 	int j;
-	int src, dest;	
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	double** a_v;
-	double size=n/nprocs;
+	int size=n/nprocs;
 	
 	// allocate space for a
 	a_v = (double **)malloc(sizeof(double *) * size);
@@ -75,63 +76,50 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 	}
 	
-	// buffers
-	double *m_bf1;
-	double** s_bf1;
-	m_bf1 = (double *)malloc(sizeof(double) * size);
-	for(i = 0; i < size; i++) {
-		m_bf1[i] = 0;
+	// BUFFERS to make it easier to send and revceive, each 
+	// buffer is an 1 D array. 
+	//  each buffers holds all three position components + mass.
+	//  element 0 to size -1 is x position, size - 2*size-1 is y position,
+	//  2*size - 3*size-1 is y position, 3*size - 4*size-1 is mass
+	double* bf1;
+	double* bf2;
+	bf1 = (double *)malloc(sizeof(double) * size*4);
+	for(i=0;i<4*size;i++){
+		bf1[i]=0;
 	}
-	
-	s_bf1 = (double **)malloc(sizeof(double *) * size);
-	for (i = 0; i < size; i++) {
-		s_bf1[i] = (double*)malloc(sizeof(double) * 3);
-		for(j = 0; j < 3; j++) {
-			s_bf1[i][j] = 0;
-		}
-	}
-
-	// extra buffer for every second processor
-	double *m_bf2;
-	double** s_bf2;
 	if(myrank % 2 ==0){
-		m_bf2 = (double *)malloc(sizeof(double) * size);
-		for(i = 0; i < size; i++) {
-			m_bf2[i] = 0;
+		bf2 = (double *)malloc(sizeof(double) * size*4);
+		for(i = 0; i < 4*size; i++) {
+			bf2[i] = 0;
 		}
-	
-		s_bf2 = (double **)malloc(sizeof(double *) * size);
-		for (i = 0; i < size; i++) {
-			s_bf2[i] = (double*)malloc(sizeof(double) * 3);
-			for(j = 0; j < 3; j++) {
-				s_bf2[i][j] = 0;
-			}
-		}
-	}
+	} 
+
 	// copy to buffers
 	for(i=0;i<size;i++){
-		m_bf1[i]=m[i];
-		s_bf1[i][0] = s[i][0];
-		s_bf1[i][1] = s[i][1];
-		s_bf1[i][2] = s[i][2];
+		bf1[size*3+i]=m[i];
+		for(j=0;j<3;j++){
+			bf1[i*size+j] = s[i][j];
+		}
 	}
 	
-	double mrg[3]={myrank, myrank, myrank};
-	double  mrg_bf1[3]={0};
-
 	// main loop
 	for(I=0; I<iter ; I++){
 		// zero out acceleration after each step
-		for(i=0; i<nprocs; i++){
-			if(i % 2==0 || myrank % 2!=0 ){
-				compute_acceleration(a_v,s,m,s_bf1,m_bf1, n);
+		for(i=0;i<size;i++){
+			for(j=0;j<size;j++){
+				a_v[i][j]=0;
+			}
+		}
+		for(nMrg=0; nMrg<nprocs; nMrg++){
+			if(nMrg % 2==0 || myrank % 2!=0 ){
+				compute_acceleration(a_v,s,m,bf1, n);
 			}else{
-				compute_acceleration(a_v,s,m,s_bf2,m_bf2, n);
+				compute_acceleration(a_v,s,m,bf2, n);
 			}
+			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);
 			if(myrank == 1){
-				printf("mrgs rank: %f, %f, %f\n", mrg[0], mrg[1], mrg[2]);
+				printf("mrgs rank: ");
 			}
-			// ----------end communication -------------------------//
 		}
 		update_states(a_v,s,v,size,timestep);	
 	}
@@ -144,12 +132,14 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	}
 }
 
-/* ------------ start communication -------------------------- /
+/* Communication ----------------------------------
 / all processors with even rank have two buffers
 / one for receive and one for send. The even processors 
 / also switches which of the buffers to send and receive to 
 / avoid having to copy the buffers						     */	
-void mary_go_round(int myranke, double ** s_bf1,double **s_bf2, double *m_bf1, double *m_bf2, ){
+void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg ){
+	int i,j;
+	int src, dest;	
 	//  check for processor 0 or last processor
 	if(myrank==0){
 	   	src = nprocs-1;
@@ -163,20 +153,19 @@ void mary_go_round(int myranke, double ** s_bf1,double **s_bf2, double *m_bf1, d
 	}
 	// start communication
 	if(myrank % 2 == 0){
-		if(i % 2==0){
-			MPI_Recv(s_bf1, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
-			MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+		if(nMrg % 2==0){
+			MPI_Recv(bf2,4*size , MPI_DOUBLE, src,nMrg, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+			MPI_Send(bf1, 4*size, MPI_DOUBLE,dest,nMrg,MPI_COMM_WORLD);
 		}else{
-			MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE  );
-			MPI_Send(mrg_bf1, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+			MPI_Recv(bf1,4*size, MPI_DOUBLE, src,nMrg, MPI_COMM_WORLD, MPI_STATUS_IGNORE  );
+			MPI_Send(bf1,4*size, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
 		}
 	}else{
-		MPI_Send(mrg, 3, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
-		MPI_Recv(mrg, 3, MPI_DOUBLE, src,i, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
+		MPI_Send(bf1, 4*size, MPI_DOUBLE,dest,nMrg,MPI_COMM_WORLD);
+		MPI_Recv(bf1, 4*size, MPI_DOUBLE, src,nMrg, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 	}
 
 }
-
 
 // update the velocities and positions of the planets
 void update_states(double ** a_v, double ** s, double ** v, int size, double dt ){
@@ -189,10 +178,8 @@ void update_states(double ** a_v, double ** s, double ** v, int size, double dt 
 	}
 }
 
-
-
 // computes the acceleration vector excerted on s an m due to gravity from s_bf and m_bf
-void compute_acceleration(double ** a_v, double ** s, double* m, double **s_bf, double* m_bf, int n) {
+void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n) {
 	double f_v[3];
 	double G = 6.674e-11;
 	double r;
@@ -205,17 +192,17 @@ void compute_acceleration(double ** a_v, double ** s, double* m, double **s_bf, 
 	int l;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-	
-	for(j=0;j<n/nprocs;j++){
-		for (k=0;k<n/nprocs;k++){
+	int size = n/nprocs;	
+	for(j=0;j<size;j++){
+		for (k=0;k<size;k++){
 			if(j==k){
 				f_v[0]=0;	f_v[1]=0;	f_v[2]=0;		
 			}else {
 				for(l=0;l<3;l++){
-					r_v[l]=s[j][l]-s_bf[k][l];
+					r_v[l]=s[j][l]-bf[k+l*size];
 				}
 				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));
-			    f=G*m[j]*m_bf[k]/pow(r,2);
+			    f=G*m[j]*bf[3*size+k]/pow(r,2);
 				for(l=0;l<3;l++){
 					f_v[l] = f*r_v[l]/r;
 					a_v[j][l] += - f_v[l]/m[j];
