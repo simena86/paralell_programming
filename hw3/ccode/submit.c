@@ -1,16 +1,28 @@
 /*
 Assignment 3 
-Team Member 1 :
-Team Member 2 :
+Team Member 1 : Sverre Kvamme
+Team Member 2 :	Simen Andresen
 */
 
 #include "nBody.h"
 
 
-// prototype
+// prototypes
 void update_states(double ** a_v, double ** s, double ** v, int size, double dt );
 void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg );
 void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n); 
+
+void print_msg(char* s, int proc, int myrank){
+	if(myrank==proc){
+		fprintf(stderr,"%s \n",s);
+	}
+}
+
+void print_msg_w_arg(char* s, int proc, int myrank, int arg){
+	if(myrank==proc){
+		fprintf(stderr,"%s , arg: %d\n",s,arg );
+	}
+}
 
 void readnbody(double** s, double** v, double* m, int n) {
 	int myrank;
@@ -39,9 +51,8 @@ void gennbody(double** s, double** v, double* m, int n) {
 	int i, j;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-	if(myrank==0){
-		printf("\nGenerating bodies\n");
-	}
+	
+	print_msg("Generating bodies\n",0,myrank);
 	for(i=0; i<n/nprocs; i++){
 		m[i] = 1000;
 		for(j=0; j<3; j++){
@@ -101,15 +112,15 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			bf1[i*size+j] = s[i][j];
 		}
 	}
-	
+
 	// main loop
 	for(I=0; I<iter ; I++){
-		// zero out acceleration after each step
 		for(i=0;i<size;i++){
 			for(j=0;j<size;j++){
 				a_v[i][j]=0;
 			}
 		}
+
 		for(nMrg=0; nMrg<nprocs; nMrg++){
 			if(nMrg % 2==0 || myrank % 2!=0 ){
 				compute_acceleration(a_v,s,m,bf1, n);
@@ -117,19 +128,16 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 				compute_acceleration(a_v,s,m,bf2, n);
 			}
 			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);
-			if(myrank == 1){
-				printf("mrgs rank: ");
-			}
 		}
-		update_states(a_v,s,v,size,timestep);	
+		update_states(a_v,s,v,size,timestep);
+	}
+	
+	free(bf1);
+	free(a_v);
+	if(myrank %2==0){
+		free(bf2);
 	}
 
-	//DEBUG
-	if (myrank == 0) {
-		for (i = 0; i < n / nprocs; i++) {
-			fprintf(stderr, OUTPUT_BODY, s[i][0], s[i][1], s[i][2], v[i][0], v[i][1], v[i][2], m[i]);
-		}
-	}
 }
 
 /* Communication ----------------------------------
@@ -140,7 +148,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg ){
 	int i,j;
 	int src, dest;	
-	//  check for processor 0 or last processor
+	//  check if first or last processor
 	if(myrank==0){
 	   	src = nprocs-1;
 		dest=myrank+1;
@@ -158,13 +166,12 @@ void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, in
 			MPI_Send(bf1, 4*size, MPI_DOUBLE,dest,nMrg,MPI_COMM_WORLD);
 		}else{
 			MPI_Recv(bf1,4*size, MPI_DOUBLE, src,nMrg, MPI_COMM_WORLD, MPI_STATUS_IGNORE  );
-			MPI_Send(bf1,4*size, MPI_DOUBLE,dest,i,MPI_COMM_WORLD);
+			MPI_Send(bf2,4*size, MPI_DOUBLE,dest,nMrg,MPI_COMM_WORLD);
 		}
 	}else{
 		MPI_Send(bf1, 4*size, MPI_DOUBLE,dest,nMrg,MPI_COMM_WORLD);
 		MPI_Recv(bf1, 4*size, MPI_DOUBLE, src,nMrg, MPI_COMM_WORLD, MPI_STATUS_IGNORE );
 	}
-
 }
 
 // update the velocities and positions of the planets
