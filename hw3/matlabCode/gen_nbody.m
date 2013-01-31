@@ -33,9 +33,15 @@ if nargin == 0
     vxyz = diag(speed) * direction;
     vxyz(1,:) = [0 0 0];
 else  % generate n bodies with random masses and positions, zero velocity
-    mass = 1e30 * rand(n,1);    % masses up to about 1/2 solar mass
-    dist = .5e13 * rand(n,1);   % coords up to about solar system radius
-    theta = 2*pi*rand(n,1);     % random directions from origin
-    xyz = [dist.*cos(theta) dist.*sin(theta) 1e11*(rand(n,1)-.5)]; % flattish disk
+    mass = 1e30*ones(n,1);    % masses up to about 1/2 solar mass
+    i=0;
+    for proc=0:1
+        for j=0:2
+             xyz(proc+1,j+1)=proc*1000 + i*j  + 10*j + 10*i;
+        end
+    end
+    
     vxyz = zeros(n,3);          % initial velocities all zero
+    disp('init states');
+    disp([xyz(1,1), xyz(1,2),xyz(1,3),vxyz(1,1), vxyz(1,2),vxyz(1,3)]);
 end;

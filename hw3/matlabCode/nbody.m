@@ -23,9 +23,9 @@ end;
                           
 G = 6.674e-11;             % gravitational constant, m^3 kg^-1 s^-2
 week = 60 * 60 * 24 * 7;   % one week, in seconds
-dt = 1 * week;             % size of a time step
-steps = 500;               % number of time steps to simulate    
-pix = 1;                   % 1 to draw pictures, 0 not to
+dt = 2; %1 * week;             % size of a time step
+steps = 2; % 500;               % number of time steps to simulate    
+pix = 0;                   % 1 to draw pictures, 0 not to
 
 if pix > 0, clf reset; plot_pix(xyz,0); end;
 
@@ -43,6 +43,9 @@ for s = 1:steps
     end;
     vxyz = vxyz + dt * axyz;    % update to velocity
     xyz = xyz + dt * vxyz;      % update to position
+    disp('updated states');
+    disp([xyz(1,1), xyz(1,2),xyz(1,3),vxyz(1,1), vxyz(1,2),vxyz(1,3)]);
+    
     if pix > 0, plot_pix(xyz,s); end;
 end;
 xyzfinal = xyz;

@@ -10,17 +10,18 @@ Team Member 2 :	Simen Andresen
 // prototypes
 void update_states(double ** a_v, double ** s, double ** v, int size, double dt );
 void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg );
-void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n); 
+void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n, int nMrg); 
 
+// Debug function
 void print_msg(char* s, int proc, int myrank){
 	if(myrank==proc){
 		fprintf(stderr,"%s \n",s);
 	}
 }
-
-void print_msg_w_arg(char* s, int proc, int myrank, int arg){
+// debug function
+void print_msg_w_arg(char* s, int proc, int myrank, double arg){
 	if(myrank==proc){
-		fprintf(stderr,"%s , arg: %d\n",s,arg );
+		fprintf(stderr,"%s , arg: %1.4e\n",s,arg );
 	}
 }
 
@@ -54,16 +55,16 @@ void gennbody(double** s, double** v, double* m, int n) {
 	
 	print_msg("Generating bodies\n",0,myrank);
 	for(i=0; i<n/nprocs; i++){
-		m[i] = 1000;
+		m[i] = 1e30;
 		for(j=0; j<3; j++){
 			s[i][j]= myrank*1000 + i*j  + 10*j + 10*i;
 			v[i][j]= 0;
 		}
-			// DEBUG
-			if(myrank==0){
+		// DEBUG
+		if(myrank==0){
 			fprintf(stderr, OUTPUT_BODY, s[i][0], s[i][1], s[i][2], v[i][0], v[i][1], v[i][2], m[i]);
-			}
-	}	
+		}
+	}
 }
 
 void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
@@ -113,6 +114,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 	}
 
+
 	// main loop
 	for(I=0; I<iter ; I++){
 		for(i=0;i<size;i++){
@@ -120,20 +122,25 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 				a_v[i][j]=0;
 			}
 		}
-
 		for(nMrg=0; nMrg<nprocs; nMrg++){
 			if(nMrg % 2==0 || myrank % 2!=0 ){
-				compute_acceleration(a_v,s,m,bf1, n);
+				compute_acceleration(a_v,s,m,bf1, n,nMrg);
 			}else{
-				compute_acceleration(a_v,s,m,bf2, n);
+				compute_acceleration(a_v,s,m,bf2, n,nMrg);
 			}
 			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);
 		}
 		update_states(a_v,s,v,size,timestep);
+		if(myrank==0){
+			fprintf(stderr, OUTPUT_BODY, s[0][0], s[0][1], s[0][2], v[0][0], v[0][1], v[0][2], m[0]);
+		}
 	}
+	// end main loop
 	
 	free(bf1);
-	free(a_v);
+	for(i=0;i<size;i++){
+		free(a_v[i]);
+	}
 	if(myrank %2==0){
 		free(bf2);
 	}
@@ -146,7 +153,6 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 / also switches which of the buffers to send and receive to 
 / avoid having to copy the buffers						     */	
 void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg ){
-	int i,j;
 	int src, dest;	
 	//  check if first or last processor
 	if(myrank==0){
@@ -186,7 +192,7 @@ void update_states(double ** a_v, double ** s, double ** v, int size, double dt 
 }
 
 // computes the acceleration vector excerted on s an m due to gravity from s_bf and m_bf
-void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n) {
+void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n, int nMrg) {
 	double f_v[3];
 	double G = 6.674e-11;
 	double r;
@@ -202,17 +208,17 @@ void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int
 	int size = n/nprocs;	
 	for(j=0;j<size;j++){
 		for (k=0;k<size;k++){
-			if(j==k){
+			if(j==k && nMrg==0){
 				f_v[0]=0;	f_v[1]=0;	f_v[2]=0;		
 			}else {
 				for(l=0;l<3;l++){
-					r_v[l]=s[j][l]-bf[k+l*size];
+					r_v[l]=s[j][l]-bf[k+l*size];  						// get the distance vector between planets
 				}
-				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));
-			    f=G*m[j]*bf[3*size+k]/pow(r,2);
+				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));  // get the length of the distance vector
+			    f=G*m[j]*bf[3*size+k]/pow(r,2);							// get the total scalar force between two planets
 				for(l=0;l<3;l++){
-					f_v[l] = f*r_v[l]/r;
-					a_v[j][l] += - f_v[l]/m[j];
+					f_v[l] = f*r_v[l]/r;								// get the force as a vector
+					a_v[j][l] += - f_v[l]/m[j];							// get the acceleration due to force
 				}
 			}
 		}
