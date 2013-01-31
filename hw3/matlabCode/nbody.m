@@ -44,7 +44,10 @@ for s = 1:steps
     vxyz = vxyz + dt * axyz;    % update to velocity
     xyz = xyz + dt * vxyz;      % update to position
     disp('updated states');
-    disp([xyz(1,1), xyz(1,2),xyz(1,3),vxyz(1,1), vxyz(1,2),vxyz(1,3)]);
+    for i=1:3
+        disp(xyz(1,i));
+        disp(vxyz(1,i))
+    end
     
     if pix > 0, plot_pix(xyz,s); end;
 end;

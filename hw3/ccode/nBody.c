@@ -1,4 +1,5 @@
 #include "nBody.h"
+#include "submit.h"
 
 int main(int argc, char *argv[]) {
 

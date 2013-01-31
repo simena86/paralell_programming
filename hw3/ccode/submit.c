@@ -11,22 +11,63 @@ Team Member 2 :	Simen Andresen
 void readnbody(double** s, double** v, double* m, int n) {
 	int myrank;
 	int nprocs;
-	int i;
+	int i,j;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-	
-	// This is an example of reading the body parameters from the input file. 
+	int size=n/nprocs;
+	double ** recv_bfr;
+	double * recv_bfr2;
+	// extract all data to processor 0 
 	if (myrank == 0) {
-		for (i = 0; i < n; i++) {
-			double x, y, z, vx, vy, vz, m;
-
-			int result = scanf(INPUT_BODY, &x, &y, &z, &vx, &vy, &vz, &m);
-			if (result != 7) {
-				fprintf(stderr, "error reading body %d. Check if the number of bodies is correct.\n", i);
-				exit(0);
+		// allocate space
+		recv_bfr= (double **)malloc(sizeof(double) * nprocs);
+		for(i=0;i<nprocs;i++){
+			recv_bfr[i]=(double *)malloc(sizeof(double) * size*7 );
+			for(j=0;j<size*7;j++){
+				recv_bfr[i][j]=0;
 			}
 		}
+		// read from stdin
+		for (i = 0; i < nprocs; i++) {
+			for(j=0;j<size;j++){
+			int result =
+		scanf(INPUT_BODY, &recv_bfr[i][j*7],&recv_bfr[i][j*7+1],&recv_bfr[i][j*7+2],&recv_bfr[i][j*7+3],&recv_bfr[i][j*7+4],&recv_bfr[i][j*7+5],&recv_bfr[i][j*7+6]);
+				if (result != 7) {
+					fprintf(stderr, "error reading body %d. Check if the number of bodies is correct.\n", i);
+					exit(0);
+				}
+			}
+		}
+		// copy data to processor 0
+		for(i=0;i<size;i++){
+			m[i]=recv_bfr[i][6];
+			for(j=0;j<3;j++){
+				s[i][j]=recv_bfr[i][j];
+				v[i][j]=recv_bfr[i][j+3];
+			}
+		}
+		// send rest of data to other processors
+		for(i=0;i<nprocs;i++){
+			MPI_Send(recv_bfr[i],size*7,MPI_DOUBLE,i,i,MPI_COMM_WORLD);
+		}	
+	}else{
+		// allocate space
+		for(i=0;i<size*7;i++){
+			recv_bfr2=(double *)malloc(sizeof(double) * size*7 );
+				recv_bfr2[i]=0;
+		}
+		// receive data
+		MPI_Recv(recv_bfr2,size*7,MPI_DOUBLE,0,myrank,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+		// ectract data from buffer into s,v and m
+		for(i=0;i<size;i++){
+			m[i]=recv_bfr2[i*7+6];
+			for(j=0;j<3;j++){
+				s[i][j]=recv_bfr2[i*7+j];
+				v[i][j]=recv_bfr2[i*7+j+3];
+			}
+		}	
 	}
+
 }
 
 void gennbody(double** s, double** v, double* m, int n) {
@@ -37,9 +78,9 @@ void gennbody(double** s, double** v, double* m, int n) {
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 
 	// generating pseudo random positions and masses.
-	// their values are deterministic for ease debugging
+	// their values are deterministic for easy debugging
 	for(i=0; i<n/nprocs; i++){
-		m[i] = 1e30+1e20*myrank*pow(-1,j);
+		m[i] = 1e30+1e29*myrank*pow(-1,j);
 		for(j=0; j<3; j++){
 			s[i][j]= (myrank*1000 + i*j  + 10*j*j + 10*i)*10e10;
 			v[i][j]= 0;
@@ -181,7 +222,10 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	double** a_v;
 	int size=n/nprocs;
+
 	
+	collect_data_from_all(s, v,m, size, myrank, nprocs);
+
 	// allocate space for a
 	a_v = (double **)malloc(sizeof(double *) * size);
 	for (i = 0; i < size; i++) {
@@ -239,7 +283,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	}
 	// end main loop
 
-	collect_data_from_all(s, v,m, size, myrank, nprocs);
+	//collect_data_from_all(s, v,m, size, myrank, nprocs);
 	free(bf1);
 	for(i=0;i<size;i++){
 		free(a_v[i]);
