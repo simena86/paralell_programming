@@ -35,6 +35,7 @@ void readnbody(double** s, double** v, double* m, int n) {
 	double * recv_bfr2;
 	// read data from input.txt to processor 0 
 	if (myrank == 0) {
+		
 		recv_bfr= (double **)malloc(sizeof(double) * nprocs);
 		for(i=0;i<nprocs;i++){
 			recv_bfr[i]=(double *)malloc(sizeof(double) * size*7 );
@@ -56,16 +57,22 @@ void readnbody(double** s, double** v, double* m, int n) {
 		}
 		// copy data to processor 0's local buffer
 		for(i=0;i<size;i++){
-			m[i]=recv_bfr[i][6];
+			m[i]=recv_bfr[0][i*7+6];
 			for(j=0;j<3;j++){
-				s[i][j]=recv_bfr[i][j];
-				v[i][j]=recv_bfr[i][j+3];
+				s[i][j]=recv_bfr[0][i*7+j];
+				v[i][j]=recv_bfr[0][i*7+j+3];
 			}
 		}
+	
+		print_msg("readnbody",0,myrank);
 		// send rest of data to other processors
-		for(i=0;i<nprocs;i++){
+		for(i=1;i<nprocs;i++){
 			MPI_Send(recv_bfr[i],size*7,MPI_DOUBLE,i,i,MPI_COMM_WORLD);
+		}
+		for(i=0;i<nprocs;i++){
+			free(recv_bfr[i]);
 		}	
+		free(recv_bfr);
 	}else{ // myrank!=0 
 		recv_bfr2=(double *)malloc(sizeof(double) * size*7 );
 		for(i=0;i<size*7;i++){
@@ -78,7 +85,8 @@ void readnbody(double** s, double** v, double* m, int n) {
 				s[i][j]=recv_bfr2[i*7+j];
 				v[i][j]=recv_bfr2[i*7+j+3];
 			}
-		}	
+		}
+		free(recv_bfr2);	
 	}
 }
 
@@ -173,7 +181,8 @@ void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int
 				}
 				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));  // get the length of the distance vector
 			   	if(r==0){												// avoid divide by zero
-					r=0.001;
+					r=0.0001;
+					print_msg("divide by zero",0,myrank);
 				}
 			   	f=G*m[j]*bf[3*size+k]/pow(r,2);							// get the total scalar force between two planets
 				for(l=0;l<3;l++){
@@ -241,6 +250,10 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 	}
 	
+
+
+
+
 	/* BUFFERS to make it easier to send and revceive, each  buffer is an 1 D array.  each buffers holds
 	*  all three position components + mass.  element 0 to size-1   is x position, size to 2*size-1
 	*   is y position, 2*size to 3*size-1 is y position, 3*size to 4*size-1 is mass   */
@@ -267,14 +280,12 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	// main calculation loop
 	for(I=0; I<iter ; I++){
 		for(i=0;i<size;i++){		// reset acceleration to 0	
-			for(j=0;j<size;j++){		
+			for(j=0;j<3;j++){		
 				a_v[i][j]=0;
 			}
 		}
-		nMrg=0;
-		compute_acceleration(a_v,s,m,bf1, n,nMrg);
-		update_states(a_v,s,v,size,timestep);					// update states
-		for(nMrg=1; nMrg<nprocs; nMrg++){ 		// compute new states 
+
+		for(nMrg=0; nMrg<nprocs; nMrg++){ 		// compute new states 
 			if(nMrg % 2==0 || myrank % 2!=0 ){
 				compute_acceleration(a_v,s,m,bf1, n,nMrg);
 			}else{
@@ -284,10 +295,11 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 		update_states(a_v,s,v,size,timestep);					// update states
 	}
+	free(bf1);
 	if(myrank % 2 ==0){
-	//	free(bf2);
+		free(bf2);
 	}
-	//collect_data_from_all(s,v,m, size, myrank, nprocs);
+    collect_data_from_all(s,v,m, size, myrank, nprocs);
 		print_msg("debug ----",0,myrank);
 }
 
