@@ -3,17 +3,36 @@ Assignment 3
 Team Member 1 : Sverre Kvamme
 Team Member 2 :	Simen Andresen
 */
-
+#include <stdlib.h>
+#include <time.h>
 #include "nBody.h"
-#define OUT_VARS (all[i*size*7+j], all[i*size*7+j+size], all[i*size*7+j+2*size],all[i*size+j+3*size],all[i*size+j+4*size],all[i*size+j+5*size],all[i*size+j+6*size])
+#include <math.h>
+#ifndef PI
+	#define PI 3.14
+#endif
 
+
+// Debug function
+void print_msg(char* s, int proc, int myrank){
+	if(myrank==proc){
+		fprintf(stderr,"%s \n",s);
+	}
+}
+// debug function
+void print_msg_w_arg(char* s, int proc, int myrank, double arg){
+	if(myrank==proc){
+		fprintf(stderr,"%s , arg: %1.4e\n",s,arg );
+	}
+}
 
 void readnbody(double** s, double** v, double* m, int n) {
+
 	int myrank;
 	int nprocs;
 	int i,j;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+
 	int size=n/nprocs;
 	double ** recv_bfr;
 	double * recv_bfr2;
@@ -52,12 +71,15 @@ void readnbody(double** s, double** v, double* m, int n) {
 		}	
 	}else{
 		// allocate space
+		recv_bfr2=(double *)malloc(sizeof(double) * size*7 );
 		for(i=0;i<size*7;i++){
-			recv_bfr2=(double *)malloc(sizeof(double) * size*7 );
-				recv_bfr2[i]=0;
+			recv_bfr2[i]=0;
 		}
+
 		// receive data
 		MPI_Recv(recv_bfr2,size*7,MPI_DOUBLE,0,myrank,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+		
+		print_msg("digg\n",1,myrank);
 		// ectract data from buffer into s,v and m
 		for(i=0;i<size;i++){
 			m[i]=recv_bfr2[i*7+6];
@@ -70,6 +92,11 @@ void readnbody(double** s, double** v, double* m, int n) {
 
 }
 
+double rand1(){
+	double ran = (double)(rand())/(double)(RAND_MAX); 
+	return ran;
+}
+
 void gennbody(double** s, double** v, double* m, int n) {
 	int myrank;
 	int nprocs;
@@ -80,15 +107,18 @@ void gennbody(double** s, double** v, double* m, int n) {
 	// generating pseudo random positions and masses.
 	// their values are deterministic for easy debugging
 	for(i=0; i<n/nprocs; i++){
-		m[i] = 1e30+1e29*myrank*pow(-1,j);
+		srand ( time(NULL)+myrank );
+		m[i] =1e30*rand1();;
+		s[i][0]=0.5e13*rand1()*cos(2*PI*rand1());
+		s[i][1]=0.5e13*rand1()*sin(2*PI*rand1());
+		s[i][2]=1e11*rand1()-0.5;
 		for(j=0; j<3; j++){
-			s[i][j]= (myrank*1000 + i*j  + 10*j*j + 10*i)*10e10;
 			v[i][j]= 0;
 		}
 		// DEBUG
-		if(myrank==0){
+	//	if(myrank==1){
 			fprintf(stderr, OUTPUT_BODY, s[i][0], s[i][1], s[i][2], v[i][0], v[i][1], v[i][2], m[i]);
-		}
+	//	}
 	}
 }
 
@@ -161,7 +191,11 @@ void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int
 					r_v[l]=s[j][l]-bf[k+l*size];  						// get the distance vector between planets
 				}
 				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));  // get the length of the distance vector
-			    f=G*m[j]*bf[3*size+k]/pow(r,2);							// get the total scalar force between two planets
+			   	if(r==0){												// avoid divide by zero
+					fprintf(stderr,"ERROR, divide by zero!");
+					r=0.001;
+				}
+			   	f=G*m[j]*bf[3*size+k]/pow(r,2);							// get the total scalar force between two planets
 				for(l=0;l<3;l++){
 					f_v[l] = f*r_v[l]/r;								// get the force as a vector
 					a_v[j][l] += - f_v[l]/m[j];							// get the acceleration due to force
@@ -171,8 +205,8 @@ void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int
 	}
 }
 
-// collect distance s and velocity v from all procs to proc 0
-// and print to file final_states.txt
+/* collect distance s and velocity v from all procs 
+ * to proc 0 and print to file final_states.txt    */
 void collect_data_from_all(double ** s, double** v, double * m, int size, int myrank, int nprocs){
 	double * all;
 	double * sendarray;
@@ -222,9 +256,6 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	double** a_v;
 	int size=n/nprocs;
-
-	
-	collect_data_from_all(s, v,m, size, myrank, nprocs);
 
 	// allocate space for a
 	a_v = (double **)malloc(sizeof(double *) * size);
@@ -277,21 +308,14 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);
 		}
 		update_states(a_v,s,v,size,timestep);
-		if(myrank==0){
-			fprintf(stderr, OUTPUT_BODY, s[0][0], s[0][1], s[0][2], v[0][0], v[0][1], v[0][2], m[0]);
-		}
+	//	if(myrank==0){
+	//		fprintf(stderr, OUTPUT_BODY, s[0][0], s[0][1], s[0][2], v[0][0], v[0][1], v[0][2], m[0]);
+	//	}
 	}
 	// end main loop
 
-	//collect_data_from_all(s, v,m, size, myrank, nprocs);
-	free(bf1);
-	for(i=0;i<size;i++){
-		free(a_v[i]);
-	}
-	if(myrank %2==0){
-		free(bf2);
-	}
-
+	collect_data_from_all(s, v,m, size, myrank, nprocs);
+	
 }
 
 
