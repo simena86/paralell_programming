@@ -85,7 +85,6 @@ void readnbody(double** s, double** v, double* m, int n) {
 double rand1(){
 	int myrank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
-	srand ( time(NULL)+myrank );
 	double ran = (double)(rand())/(double)(RAND_MAX); 
 	return ran;
 }
@@ -98,10 +97,11 @@ void gennbody(double** s, double** v, double* m, int n) {
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	// generate random values for each planet
 	for(i=0; i<n/nprocs; i++){
-		m[i] =1e30*rand1();;
-		s[i][0]=0.5e13*rand1()*cos(2*PI*rand1());
-		s[i][1]=0.5e13*rand1()*sin(2*PI*rand1());
-		s[i][2]=1e11*rand1()-0.5;
+		srand ( time(NULL)+myrank+i);
+		m[i] =1e30*rand1()*0.00001;
+		s[i][0]=0.5e13*rand1()*cos(2*PI*rand1())*0.000000001;
+		s[i][1]=0.5e13*rand1()*sin(2*PI*rand1())*0.000000001;;
+		s[i][2]=1e11*rand1()-0.5*0.0000001;
 		for(j=0; j<3; j++){
 			v[i][j]= 0;
 		}
@@ -256,12 +256,11 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			bf2[i] = 0;
 		}
 	} 
-
 	// copy local data to buffers
 	for(i=0;i<size;i++){
 		bf1[size*3+i]=m[i];
 		for(j=0;j<3;j++){
-			bf1[i*size+j] = s[i][j];
+			bf1[i+size*j] = s[i][j];
 		}
 	}
 
@@ -272,7 +271,10 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 				a_v[i][j]=0;
 			}
 		}
-		for(nMrg=0; nMrg<nprocs; nMrg++){ 		// compute new states 
+		nMrg=0;
+		compute_acceleration(a_v,s,m,bf1, n,nMrg);
+		update_states(a_v,s,v,size,timestep);					// update states
+		for(nMrg=1; nMrg<nprocs; nMrg++){ 		// compute new states 
 			if(nMrg % 2==0 || myrank % 2!=0 ){
 				compute_acceleration(a_v,s,m,bf1, n,nMrg);
 			}else{
@@ -282,7 +284,11 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 		update_states(a_v,s,v,size,timestep);					// update states
 	}
-	collect_data_from_all(s,v,m, size, myrank, nprocs);
+	if(myrank % 2 ==0){
+	//	free(bf2);
+	}
+	//collect_data_from_all(s,v,m, size, myrank, nprocs);
+		print_msg("debug ----",0,myrank);
 }
 
 

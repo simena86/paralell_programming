@@ -1,4 +1,4 @@
-function xyzfinal = nbody(n)
+function xyzfinal = nbody(n,iters,step_size)
 % NBODY : Simulate n-body problem
 %
 % xyzfinal = nbody(n)
@@ -23,8 +23,8 @@ end;
                           
 G = 6.674e-11;             % gravitational constant, m^3 kg^-1 s^-2
 week = 60 * 60 * 24 * 7;   % one week, in seconds
-dt = 2; %1 * week;             % size of a time step
-steps = 2; % 500;               % number of time steps to simulate    
+dt = step_size;%1 * week;             % size of a time step
+steps =  iters;               % number of time steps to simulate    
 pix = 0;                   % 1 to draw pictures, 0 not to
 
 if pix > 0, clf reset; plot_pix(xyz,0); end;
@@ -43,14 +43,11 @@ for s = 1:steps
     end;
     vxyz = vxyz + dt * axyz;    % update to velocity
     xyz = xyz + dt * vxyz;      % update to position
-    disp('updated states');
-    for i=1:3
-        disp(xyz(1,i));
-        disp(vxyz(1,i))
-    end
+   
     
     if pix > 0, plot_pix(xyz,s); end;
 end;
+vxyz
 xyzfinal = xyz;
 end
 

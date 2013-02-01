@@ -33,24 +33,16 @@ if nargin == 0
     vxyz = diag(speed) * direction;
     vxyz(1,:) = [0 0 0];
 else  % generate n bodies with random masses and positions, zero velocity
-    nprocs=4;
-    size=n/nprocs;
-    
-    for proc=0:1
-        for j=0:2
-            mass(proc+1)=1e30+1e29*proc*(-1)^j;
-            xyz(proc+1,j+1)=(proc*1000 + i*j  + 10*j*j + 10*i)*10e10;
-        end
+    A=csvread('input.txt');
+    xyz=zeros(n,3);
+    vxyz=zeros(n,3);
+    for i=1:n
+        line=A(i,:);
+        xyz(i,:)=[line(1),line(2) line(3)];
+        vxyz(i,:)=[line(4),line(5) line(6)];
+        mass(i)=line(7); 
     end
     
-    vxyz = zeros(n,3);          % initial velocities all zero
-    disp('init states');
-    for i=1:3
-        disp(xyz(1,i));
-        disp(vxyz(1,i));
-    end
-    disp('init masses');
-    disp([mass(1)]);
 end;
 
 
