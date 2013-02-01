@@ -26,19 +26,15 @@ void print_msg_w_arg(char* s, int proc, int myrank, double arg){
 }
 
 void readnbody(double** s, double** v, double* m, int n) {
-
-	int myrank;
-	int nprocs;
+	int myrank, nprocs;
 	int i,j;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-
 	int size=n/nprocs;
 	double ** recv_bfr;
 	double * recv_bfr2;
-	// extract all data to processor 0 
+	// read data from input.txt to processor 0 
 	if (myrank == 0) {
-		// allocate space
 		recv_bfr= (double **)malloc(sizeof(double) * nprocs);
 		for(i=0;i<nprocs;i++){
 			recv_bfr[i]=(double *)malloc(sizeof(double) * size*7 );
@@ -46,18 +42,19 @@ void readnbody(double** s, double** v, double* m, int n) {
 				recv_bfr[i][j]=0;
 			}
 		}
-		// read from stdin
 		for (i = 0; i < nprocs; i++) {
 			for(j=0;j<size;j++){
-			int result =
-		scanf(INPUT_BODY, &recv_bfr[i][j*7],&recv_bfr[i][j*7+1],&recv_bfr[i][j*7+2],&recv_bfr[i][j*7+3],&recv_bfr[i][j*7+4],&recv_bfr[i][j*7+5],&recv_bfr[i][j*7+6]);
+			int result =scanf(INPUT_BODY, 
+					&recv_bfr[i][j*7],&recv_bfr[i][j*7+1],&recv_bfr[i][j*7+2], 		// position
+					&recv_bfr[i][j*7+3],&recv_bfr[i][j*7+4],&recv_bfr[i][j*7+5],	// velocity
+					&recv_bfr[i][j*7+6]);											// mass
 				if (result != 7) {
 					fprintf(stderr, "error reading body %d. Check if the number of bodies is correct.\n", i);
 					exit(0);
 				}
 			}
 		}
-		// copy data to processor 0
+		// copy data to processor 0's local buffer
 		for(i=0;i<size;i++){
 			m[i]=recv_bfr[i][6];
 			for(j=0;j<3;j++){
@@ -69,18 +66,12 @@ void readnbody(double** s, double** v, double* m, int n) {
 		for(i=0;i<nprocs;i++){
 			MPI_Send(recv_bfr[i],size*7,MPI_DOUBLE,i,i,MPI_COMM_WORLD);
 		}	
-	}else{
-		// allocate space
+	}else{ // myrank!=0 
 		recv_bfr2=(double *)malloc(sizeof(double) * size*7 );
 		for(i=0;i<size*7;i++){
 			recv_bfr2[i]=0;
 		}
-
-		// receive data
 		MPI_Recv(recv_bfr2,size*7,MPI_DOUBLE,0,myrank,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-		
-		print_msg("digg\n",1,myrank);
-		// ectract data from buffer into s,v and m
 		for(i=0;i<size;i++){
 			m[i]=recv_bfr2[i*7+6];
 			for(j=0;j<3;j++){
@@ -89,10 +80,12 @@ void readnbody(double** s, double** v, double* m, int n) {
 			}
 		}	
 	}
-
 }
 
 double rand1(){
+	int myrank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+	srand ( time(NULL)+myrank );
 	double ran = (double)(rand())/(double)(RAND_MAX); 
 	return ran;
 }
@@ -103,11 +96,8 @@ void gennbody(double** s, double** v, double* m, int n) {
 	int i, j;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-
-	// generating pseudo random positions and masses.
-	// their values are deterministic for easy debugging
+	// generate random values for each planet
 	for(i=0; i<n/nprocs; i++){
-		srand ( time(NULL)+myrank );
 		m[i] =1e30*rand1();;
 		s[i][0]=0.5e13*rand1()*cos(2*PI*rand1());
 		s[i][1]=0.5e13*rand1()*sin(2*PI*rand1());
@@ -115,19 +105,14 @@ void gennbody(double** s, double** v, double* m, int n) {
 		for(j=0; j<3; j++){
 			v[i][j]= 0;
 		}
-		// DEBUG
-	//	if(myrank==1){
-			fprintf(stderr, OUTPUT_BODY, s[i][0], s[i][1], s[i][2], v[i][0], v[i][1], v[i][2], m[i]);
-	//	}
 	}
 }
 
-
 /* Communication ----------------------------------
-/ all processors with even rank have two buffers
-/ one for receive and one for send. The even processors 
-/ also switches which of the buffers to send and receive to 
-/ avoid having to copy the buffers						     */	
+* all processors with even rank have two buffers
+* one for receive and one for send. The even processors 
+* also switches which of the buffers to send and receive 
+* to avoid having to copy the buffers						     */	
 void mary_go_round(int myrank, double *bf1,double *bf2, int size, int nprocs, int nMrg ){
 	int src, dest;	
 	//  check if first or last processor
@@ -167,18 +152,14 @@ void update_states(double ** a_v, double ** s, double ** v, int size, double dt 
 	}
 }
 
-// computes the acceleration vector excerted on planets with  s distance  and mass m due to gravity from s_bf and m_bf
+// computes the acceleration vector excerted on planets with s distance  and mass m due to gravity from s_bf and m_bf
 void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int n, int nMrg) {
 	double f_v[3];
+    double r_v[3];
 	double G = 6.674e-11;
-	double r;
-	double r_v[3];
-	double f;
-	int myrank;
-	int nprocs;
-	int j;
-	int k;
-	int l;
+	double f,r;
+	int myrank, nprocs;
+   	int	j,k,l;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 	int size = n/nprocs;	
@@ -192,7 +173,6 @@ void compute_acceleration(double ** a_v, double ** s, double* m, double *bf, int
 				}
 				r=sqrt( pow(r_v[0],2) + pow(r_v[1],2)+ pow(r_v[2],2));  // get the length of the distance vector
 			   	if(r==0){												// avoid divide by zero
-					fprintf(stderr,"ERROR, divide by zero!");
 					r=0.001;
 				}
 			   	f=G*m[j]*bf[3*size+k]/pow(r,2);							// get the total scalar force between two planets
@@ -227,10 +207,8 @@ void collect_data_from_all(double ** s, double** v, double * m, int size, int my
 			all[i]=0;
 		}
 	}
-	// collect data
 	MPI_Gather(sendarray,size*7,MPI_DOUBLE,all,size*7,MPI_DOUBLE, 0,MPI_COMM_WORLD);
-	// write data to file
-	if(myrank==0){
+	if(myrank==0){  // write data to file
 		FILE * out;
 		char filename[]="final_states.txt";
 		out=fopen(filename,"w");
@@ -238,7 +216,9 @@ void collect_data_from_all(double ** s, double** v, double * m, int size, int my
 			for(j=0;j<size;j++){
 				fprintf(out,"Proc nr %d\n",i);
 				fprintf(out,OUTPUT_BODY,
-				all[i*size*7+j], all[i*size*7+j+size], all[i*size*7+j+2*size],all[i*size*7+j+3*size],all[i*size*7+j+4*size],all[i*size*7+j+5*size],all[i*size*7+j+6*size]);
+						all[i*size*7+j], all[i*size*7+j+size], all[i*size*7+j+2*size], 			// position
+						all[i*size*7+j+3*size],all[i*size*7+j+4*size],all[i*size*7+j+5*size],	// velocity
+						all[i*size*7+j+6*size]);												// mass
 			}
 		}	
 		fclose(out);	
@@ -246,18 +226,13 @@ void collect_data_from_all(double ** s, double** v, double * m, int size, int my
 } 
 
 void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
-	int myrank;
-	int nprocs;
-	int i;
-	int I;
-	int nMrg;
-	int j;
+	int myrank,nprocs;
+	int i, I, nMrg, j;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-	double** a_v;
 	int size=n/nprocs;
-
-	// allocate space for a
+	// allocate space for acceleration a_v
+	double** a_v;
 	a_v = (double **)malloc(sizeof(double *) * size);
 	for (i = 0; i < size; i++) {
 		a_v[i] = (double*)malloc(sizeof(double) * 3);
@@ -266,11 +241,9 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 	}
 	
-	// BUFFERS to make it easier to send and revceive, each 
-	// buffer is an 1 D array. 
-	//  each buffers holds all three position components + mass.
-	//  element 0 to size -1 is x position, size - 2*size-1 is y position,
-	//  2*size - 3*size-1 is y position, 3*size - 4*size-1 is mass
+	/* BUFFERS to make it easier to send and revceive, each  buffer is an 1 D array.  each buffers holds
+	*  all three position components + mass.  element 0 to size-1   is x position, size to 2*size-1
+	*   is y position, 2*size to 3*size-1 is y position, 3*size to 4*size-1 is mass   */
 	double* bf1;
 	double* bf2;
 	bf1 = (double *)malloc(sizeof(double) * size*4);
@@ -292,30 +265,24 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		}
 	}
 
-	// main loop
+	// main calculation loop
 	for(I=0; I<iter ; I++){
-		for(i=0;i<size;i++){
-			for(j=0;j<size;j++){
+		for(i=0;i<size;i++){		// reset acceleration to 0	
+			for(j=0;j<size;j++){		
 				a_v[i][j]=0;
 			}
 		}
-		for(nMrg=0; nMrg<nprocs; nMrg++){
+		for(nMrg=0; nMrg<nprocs; nMrg++){ 		// compute new states 
 			if(nMrg % 2==0 || myrank % 2!=0 ){
 				compute_acceleration(a_v,s,m,bf1, n,nMrg);
 			}else{
 				compute_acceleration(a_v,s,m,bf2, n,nMrg);
 			}
-			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);
+			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);	// 1 round of mary go round communication
 		}
-		update_states(a_v,s,v,size,timestep);
-	//	if(myrank==0){
-	//		fprintf(stderr, OUTPUT_BODY, s[0][0], s[0][1], s[0][2], v[0][0], v[0][1], v[0][2], m[0]);
-	//	}
+		update_states(a_v,s,v,size,timestep);					// update states
 	}
-	// end main loop
-
-	collect_data_from_all(s, v,m, size, myrank, nprocs);
-	
+	collect_data_from_all(s,v,m, size, myrank, nprocs);
 }
 
 
