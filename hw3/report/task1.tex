@@ -1,1 +1,23 @@
 \section{Implementation}
+The code was implemented for parallel processors using the MPI library for C. The main() function is called from nBody.c which initializes the MPI functions, collects planet data and calculates the nBody problem. The program can generate parameters, mass and initial positions and velocities for the n planets in two different ways. Either it generates randomly distributed values around realistic parameter values, or it reads from a file input.txt redirected to standard input. When reading from the file input.txt, the data is read by processor 0 and then distributed to all other processors, while when generating random values each processor generates their values. When each processor has generated its parameter values for $\frac{n}{nprocs}$ planets the nbody() function starts calculating the n body problem. \\
+\textbf{Nbody()}. In the nbody() function each processor with an even rank has 2 buffers used for communication, in order to first receive and then send, while the odd ranked processors has only one buffer. For each iteration of the numerical integration of the n-body problem, each processor calculates the effects between it's $\frac{n}{nprocs}$, then it uses a "Mary Go Round" routine where each processor's data goes to the processor with $rank=rank+1$ (except for processor 0 and processor nprocs-1). Further each processor's planets are updated with a new position and a new velocity using the simple numerical integration:
+
+\begin{align}
+\label{eq:}
+ v_n&=v_{n-1}+a*T \\
+p_n&=p_{n-1}+v_n*T
+ \end{align}
+Where $v, a, p$ and $T$ is the position, acceleration, velocity and time step respectively. \\
+\textbf{Testing and Debugging}
+For testing and debugging, the result from the calculations where compared to a matlab code, reading the input.txt using the same values for $T,n$ and $I$(number of iterations). This made
+the testing easy, and proved the code successful. 
+
+
+\section{Performance}
+The performance tests where done by running the code on Triton. The timing was done using MPI\_Wtime() which measured the running time of  the $nbody()$ function. 
+
+
+
+
+
+
