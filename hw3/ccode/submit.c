@@ -291,7 +291,9 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			}else{
 				compute_acceleration(a_v,s,m,bf2, n,nMrg);
 			}
-			mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);	// 1 round of mary go round communication
+			if(nprocs!=1){
+				mary_go_round(myrank, bf1, bf2, size,nprocs,nMrg);	// 1 round of mary go round communication
+			}
 		}
 		update_states(a_v,s,v,size,timestep);					// update states
 	}
@@ -300,7 +302,6 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 		free(bf2);
 	}
     collect_data_from_all(s,v,m, size, myrank, nprocs);
-		print_msg("debug ----",0,myrank);
 }
 
 
