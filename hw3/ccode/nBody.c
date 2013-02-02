@@ -1,5 +1,7 @@
 #include "nBody.h"
 #include "submit.h"
+#include <unistd.h>
+#include <errno.h>
 
 int main(int argc, char *argv[]) {
 
@@ -15,7 +17,7 @@ int main(int argc, char *argv[]) {
 	double** v; // velocity in 3D space for each body
 	double* m;  // mass of each body
 	int size; // # of bodies stored on each proc.
-
+	double start, stop;
 	// arguments: ./nBody r #n #iter #timestep
 	// or         ./nBody g #n #iter #timestep
 	if (argc != 5) {
@@ -61,7 +63,11 @@ int main(int argc, char *argv[]) {
 		gennbody(s, v, m, n);
 	}
 
+
+	start = MPI_Wtime();
 	nbody(s, v, m, n, iters, timestep);
+	stop = MPI_Wtime();
+
 
 	for (i = 0; i < size; i++) {
 		free(s[i]);
@@ -72,6 +78,17 @@ int main(int argc, char *argv[]) {
 	free(v);
 	free(m);
 
+	if(myrank==0){
+		FILE * out;
+		if(access("timing.txt",F_OK)==-1){
+			out= fopen("timing.txt","a");
+			fprintf(out,"Processors, Number of planets , Iterations:, Timestep: , RUNTIME:\n" );
+		}else{
+			out= fopen("timing.txt","a");
+		}
+		fprintf(out,"%d, ,%d,%d, %d,%1.4e\n",nprocs,n,iters,timestep,stop-start );
+		fclose(out);
+	}	
 	MPI_Finalize();
 	return 0;
 }
