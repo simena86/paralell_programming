@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <reducer_opadd.h>
 
-//int coars = 2;
+int coars = 2;
 
 int rec_cilkified(int *a,int *b,unsigned int n){
 	int sum1=0;
