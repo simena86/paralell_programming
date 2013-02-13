@@ -1,3 +1,9 @@
+/*
+ *	Authors: Sverre Kvamme, Perm Number: X276063
+ *			 Simen Andresen, Perm Number: X276060
+ *
+ */
+
 #include "functions.h"
 #include <stdio.h>
 #include <reducer_opadd.h>
