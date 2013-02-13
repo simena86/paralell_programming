@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.10.21)  12 FEB 2013 22:16
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.10.21)  13 FEB 2013 11:12
 entering extended mode
  %&-line parsing enabled.
 **report.tex
@@ -972,38 +972,38 @@ See the caption package documentation for explanation.
 
 Package caption Info: End \AtBeginDocument code.
 (./task1.tex
-File: ./figures//plot1.eps Graphic file (type eps)
- <./figures//plot1.eps>
-File: ./figures//plot2.eps Graphic file (type eps)
- <./figures//plot2.eps> [1
-
-]
-LaTeX Font Info:    Try loading font information for U+msa on input line 24.
-
-(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Try loading font information for U+msa on input line 8.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+LaTeX Font Info:    Try loading font information for U+msb on input line 8.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 24.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 8.
 
 (/usr/share/texmf-texlive/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
+File: ./figures//plot1.eps Graphic file (type eps)
+ <./figures//plot1.eps>
+File: ./figures//plot2.eps Graphic file (type eps)
+
+<./figures//plot2.eps> [1
+
+]
 File: ./figures//plot21.eps Graphic file (type eps)
  <./figures//plot21.eps>) [2
 
 ] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 15733 strings out of 493849
- 251138 string characters out of 1152845
+ 15735 strings out of 493849
+ 251156 string characters out of 1152845
  376601 words of memory out of 3000000
- 18648 multiletter control sequences out of 15000+50000
+ 18650 multiletter control sequences out of 15000+50000
  12456 words of font info for 47 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 49i,10n,49p,566b,412s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 49i,10n,49p,422b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on report.dvi (2 pages, 10800 bytes).
+Output written on report.dvi (2 pages, 10968 bytes).
