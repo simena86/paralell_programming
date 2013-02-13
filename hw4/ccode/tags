@@ -1,0 +1,23 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+INC	Makefile	/^INC=\/home\/beta\/cilk\/include\/cilk$/;"	m
+cilk_main	innerproduct.cpp	/^int cilk_main(int argc, char **argv)$/;"	f
+cilk_main	innerproduct.cpp	/^int cilk_main(int argc, char **argv)$/;"	f	signature:(int argc, char **argv)
+coars	submit.cpp	/^int coars = 4;$/;"	v
+fill_arrays	innerproduct.cpp	/^void fill_arrays(int *a, int *b, int n)$/;"	f
+fill_arrays	innerproduct.cpp	/^void fill_arrays(int *a, int *b, int n)$/;"	f	signature:(int *a, int *b, int n)
+fill_arrays	innerproduct.cpp	/^void fill_arrays(int *a, int *b, int n);$/;"	p	file:	signature:(int *a, int *b, int n)
+hyperobject_cilkified	functions.h	/^int hyperobject_cilkified(int *a,int *b,unsigned int n);$/;"	p	signature:(int *a,int *b,unsigned int n)
+hyperobject_cilkified	submit.cpp	/^int hyperobject_cilkified(int *a,int *b,unsigned int n)$/;"	f
+hyperobject_cilkified	submit.cpp	/^int hyperobject_cilkified(int *a,int *b,unsigned int n)$/;"	f	signature:(int *a,int *b,unsigned int n)
+loop_cilkified	functions.h	/^int loop_cilkified(int *a,int *b,unsigned int n);$/;"	p	signature:(int *a,int *b,unsigned int n)
+loop_cilkified	submit.cpp	/^int loop_cilkified(int *a,int *b,unsigned int n){$/;"	f
+loop_cilkified	submit.cpp	/^int loop_cilkified(int *a,int *b,unsigned int n){$/;"	f	signature:(int *a,int *b,unsigned int n)
+rec_cilkified	functions.h	/^int rec_cilkified(int *a,int *b,unsigned int n);$/;"	p	signature:(int *a,int *b,unsigned int n)
+rec_cilkified	submit.cpp	/^int rec_cilkified(int *a,int *b,unsigned int n){$/;"	f
+rec_cilkified	submit.cpp	/^int rec_cilkified(int *a,int *b,unsigned int n){$/;"	f	signature:(int *a,int *b,unsigned int n)
+result	innerproduct.cpp	/^char result[][15] = {"matched","did not match"};$/;"	v

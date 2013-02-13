@@ -1,0 +1,5 @@
+cilk++ works for shared memory 
+good for divide and conquer algorithms - merge e.g. merge sort.
+
+cilkscreen - finds race conditions.
+cilkview - performance 

@@ -1,0 +1,10 @@
+There is a bit of security in the Linux kernel that prevents Pin and GDB from attaching to a process. Disabling the security involves two files (you will need sudo access to edit both):
+
+/etc/sysctl.d/10-ptrace.conf: This file is read at boot. To turn off the security, permanently, you should edit the file and set the kernel.yama.ptrace_scope variable to 0.
+
+/proc/sys/kernel/yama/ptrace_scope: This file is created at boot-time, based on the kernel.yama.ptrace_scope variable in the file above. It contains only the value of kernel.yama.ptrace_scope (0 or 1). If you edit it to 0, Pin and GDB will be able to attach to running processes. But it will reset to 1 the next time the system boots unless you also change 10-ptrace.conf. Note: You cannot edit this file with emacs (even as root). You must:
+
+% sudo bash
+% echo 0 > /proc/sys/kernel/yama/ptrace_scope
+
+FYI, if you update to Ubuntu 11.10, you won't be able to use Cilkscreen or Cilkview for Cilk++, at all. The version of Pin that we shipped with it is incompatible with the 3.0 Linux kernel. Cilkscreen and Cilkview for Cilk Plus use a newer version of Pin that works, but the old tools (for the old product)won't work with the new kernel. You should be fine with Ubuntu 11.04, though.
