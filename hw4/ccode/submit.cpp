@@ -1,7 +1,8 @@
 #include "functions.h"
 #include <stdio.h>
+#include <reducer_opadd.h>
 
-int coars = 4;
+//int coars = 2;
 
 int rec_cilkified(int *a,int *b,unsigned int n){
 	int sum1=0;
@@ -30,18 +31,21 @@ int loop_cilkified(int *a,int *b,unsigned int n){
 	}
 	int rest_sum=0;
 	int fsum=0;
-	printf("modulo %d\n",n-(n%coars));
 	for(int k=n-(n % coars); k<n;k++){
 		rest_sum+=a[k]*b[k];
 	}
 	for(int i=0;i<n/coars;i++){
 		fsum+=sum[i];
 	}
-	printf("total = %d, fsum =%d, rest_sum=%d\n",fsum+rest_sum, fsum,rest_sum);
 	return fsum + rest_sum;
 	
 }
 
 int hyperobject_cilkified(int *a,int *b,unsigned int n){
+	cilk::reducer_opadd<int> sum;
+	cilk_for(int i=0; i < n;i++ ){
+		sum+= a[i]*b[i];
+	}
+	return sum.get_value();
 }
 
