@@ -1,22 +1,44 @@
 /*
 Homework 5 : The Game of Life.
-Team member 1 : John Doe 
-Team member 2 : Jane Doe
+Team member 1 : Sverre Kvamme 
+Team member 2 : Simen Andresen
 */
 
 #include "header.h"
+#include <string.h>
+using namespace std;
 
 //Generate the life matrix any way you want. We would highly recommend that you print the generated
 //matrix into a file, so that you can share it with other teams for checking correctness.
-void genlife(int *a, unsigned int n)
-{
-		
+void genlife(int *a, unsigned int n){
+			
 }
 
 //Read the life matrix from a file
-void readlife(int *a, unsigned int n)
-{
-
+void readlife(int *a, unsigned int n){
+	int zeros;	
+	string filename;		
+	if (!(n==10 || n==20 || n==100 || n==200)){
+		printf("n must be 10, 20 , 100 or 200 in readlife\n");
+		// set to -1 for debugging
+		a[0]=-1; 
+		return;
+	}
+	switch(n){
+		case 10:
+			filename="./input/input-0";
+		case 20:
+			filename="./input/input-1.2";
+		case 100:
+			filename="./input/input-1.3";
+		case 200:
+			filename="./input/input-1.4";
+	}
+	for(int i=0; i<n;i++){
+		for(int j=0;j<n;j++){
+				
+		}
+	}
 }
 
 //Life function
@@ -44,3 +66,5 @@ void life(int *a, unsigned int n, unsigned int iter)
 	//		
 	//	}
 }
+
+

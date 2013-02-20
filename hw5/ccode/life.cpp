@@ -5,10 +5,9 @@ Team member 2 : Jane Doe
 */
 
 // Function declarations file
-#include "header.h"
+#include "life.h"
 
 // Debugging flag. Set to 0 during performance evaluation
-#define DEBUG 1
 int *livecount;
 
 using namespace std;
@@ -20,25 +19,43 @@ int cilk_main(int argc, char **argv)
 	int *a;
 
 	// Size calculation
+	
 	// Initialize life matrix through either reading from standard input or initializing as required. 
-	if(argc < 3){
+	
+	if(argc < 3)
+	{
 		printf("Usage : ./life [r] <matrix size> <number of iterations>\n");	
 		exit(-1);
 	}
 	
 	// Read from file
-	if(argv[1][0] == 'r'){
+	if(argv[1][0] == 'r')	
+	{
 		n = (unsigned int)atoi(argv[2]);
 		iter = (unsigned int)atoi(argv[3]);
 		a = (int *)malloc(sizeof(int)*(n*n));
+
+		if(a == NULL) {
+			printf("Malloc failed .. Exiting\n");
+			exit(-1);
+		}
+
 		readlife(a,n);
 	}
 	// Generate random data
-	else{
+	else
+	{
 		n = (unsigned int)atoi(argv[1]);
 		iter = (unsigned int)atoi(argv[2]);
 		a = (int *)malloc(sizeof(int)*(n*n));
+
+		if(a == NULL) {
+			printf("Malloc failed .. Exiting\n");
+			exit(-1);
+		}
+
 		genlife(a,n);
+
 		int live = countlive(a,n);
 	}
 	
