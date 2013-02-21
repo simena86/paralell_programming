@@ -1,4 +1,4 @@
-#include<cilk.h>
+//#include<cilk.h>
 #include<iostream>
 #include<string.h>
 #include<stdio.h>
