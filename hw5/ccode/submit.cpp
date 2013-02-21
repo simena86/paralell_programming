@@ -90,7 +90,7 @@ void readlife(int *a, unsigned int n){
 //Life function
 void life(int *a, unsigned int n, unsigned int iter)
 {
-	// You need to store the total number of livecounts for every 1/0th of the total iterations into the livecount array. 
+	// You need to store the total number of livecounts for every 1/10th of the total iterations into the livecount array. 
 	// For example, if there are 50 iterations in your code, you need to store the livecount for iteration number 5 10 15 
 	// 20 ... 50 starting from 1. The countlive function is defined in life.cpp, which you can use. Remember that you can
 	// do the debugging if the number of iterations is a multiple of 10.
