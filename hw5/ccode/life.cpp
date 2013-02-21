@@ -5,7 +5,7 @@ Team member 2 : Jane Doe
 */
 
 // Function declarations file
-#include "header.h"
+#include "life.h"
 
 // Debugging flag. Set to 0 during performance evaluation
 #define DEBUG 0
@@ -37,6 +37,12 @@ int main(int argc, char **argv)
 		n = (unsigned int)atoi(argv[2]);
 		iter = (unsigned int)atoi(argv[3]);
 		a = (int *)malloc(sizeof(int)*(n*n));
+
+		if(a == NULL) {
+			printf("Malloc failed .. Exiting\n");
+			exit(-1);
+		}
+
 		readlife(a,n);
 	}
 	// Generate random data
@@ -46,6 +52,12 @@ int main(int argc, char **argv)
 		n = (unsigned int)atoi(argv[1]);
 		iter = (unsigned int)atoi(argv[2]);
 		a = (int *)malloc(sizeof(int)*(n*n));
+
+		if(a == NULL) {
+			printf("Malloc failed .. Exiting\n");
+			exit(-1);
+		}
+
 		genlife(a,n);
 
 		int live = countlive(a,n);
