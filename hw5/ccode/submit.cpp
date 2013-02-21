@@ -8,7 +8,7 @@ Team member 2 : Simen Andresen
 #include <string>
 #include <sstream>
 #include <fstream>
-
+#include <iostream>
 using namespace std;
 
 //Generate the life matrix any way you want. We would highly recommend that you print the generated
@@ -45,7 +45,7 @@ void genlife(int *a, unsigned int n)
 		}
 		printf("\n");
 	}
-
+}
 
 //Read the life matrix from a file
 void readlife(int *a, unsigned int n){
@@ -57,28 +57,13 @@ void readlife(int *a, unsigned int n){
 		a[0]=-1; 
 		return;
 	}
-	// decide which filename
-	switch(n){
-		case 10:
-			filename="./input/input-1.1"; break;
-		case 20:
-			filename="./input/input-1.2"; break;
-		case 100:
-			filename="./input/input-1.3"; break;
-		case 200:
-			filename="./input/input-1.4"; break;
-		default:
-			cout << "error in read from file switch"<< endl; break;
-	}
 
 	cout << "Reading from file : "<< filename << endl;
 	// read from file
 	int val;
 	string line;
-	ifstream infile;
-	infile.open(filename.c_str());
 	for(int i = 0;i<n;i++){
- 	 	getline(infile,line);
+ 	 	getline(cin,line);
 		istringstream iss(line);
 		for(int j=0;j<n;j++){
 			iss >> val;
