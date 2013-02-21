@@ -10,7 +10,38 @@ Team member 2 : Jane Doe
 //matrix into a file, so that you can share it with other teams for checking correctness.
 void genlife(int *a, unsigned int n)
 {
-		
+	//The glider
+	int i,j,k,p;
+	for(i=0;i<n;i++){
+		for (j=0;j<n;j++){
+			a[i*n + j]=0;	
+		}
+	}
+
+	k = round(n/3);
+	p = round(n/5);
+	printf("%d , %d \n",k,p);
+	
+	a[k*n + p] 	= 1; 		
+	a[k*n + p+1] 	= 1; 		
+	a[k*n + p+2] 	= 1; 		
+
+	a[(k+1)*n + p] 	 = 1; 		
+	a[(k+1)*n + p+1] = 0; 		
+	a[(k+1)*n + p+2] = 0; 		
+
+	a[(k+2)*n + p]	 = 0; 		
+	a[(k+2)*n + p+1] = 1;
+	a[(k+2)*n + p+2] = 0;
+	
+	for(i=0;i<n;i++){
+		for (j=0;j<n;j++){
+			printf("%d ",a[i*n + j]);
+		}
+		printf("\n");
+	}
+
+			
 }
 
 //Read the life matrix from a file
