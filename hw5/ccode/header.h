@@ -1,9 +1,10 @@
-#include<cilk.h>
+//#include<cilk.h>
 #include<iostream>
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<numeric>
+#include<math.h>
 
 void readlife(int *a,unsigned int n);
 void genlife(int *a,unsigned int n);

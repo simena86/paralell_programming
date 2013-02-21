@@ -12,23 +12,22 @@ function [score, time] = harness(n,niters,whichstart)
 %
 % John R. Gilbert    26 Jan 2006, updated 7 Feb 2011
 
-if nargin < 1
-    n = 100;
-end;
-if nargin < 2
-    niters = 5*n;
-end;
-if nargin < 3
-    whichstart = 1;
-end;
-
+% if nargin < 1
+%     n = 100;
+% end;
+% if nargin < 2
+%     niters = 5*n;
+% end;
+% if nargin < 3
+%     whichstart = 1;
+% end;
 fprintf('Matlab test harness for Game of Life.\n');
 fprintf('Number of processors = 1 (sequential Matlab code)\n');
 fprintf('Array dimension = %d\n', n);
 fprintf('Number of generations = %d\n', niters);
 A = gendata(n, whichstart);
 tic;
-livecounts = life(A, niters);
+livecounts = life(A, niters,1);
 time = toc;
 fprintf('Elapsed time = %d\n', time);
 fprintf('Final number of live cells = %d\n', livecounts(end));

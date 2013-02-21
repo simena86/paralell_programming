@@ -1,10 +1,7 @@
-INC=/home/beta/cilk/include/cilk++
-
 all: life validate
 
 life: life.cpp submit.cpp 
-	/home/beta/cilk/bin/cilk++ -fcilkscreen -o life life.cpp submit.cpp -I $(INC)
-
+	g++ -o life life.cpp submit.cpp -I.
 validate: validate.cpp
 	g++ -o validate validate.cpp	
 clean: 

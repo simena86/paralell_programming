@@ -37,7 +37,7 @@ east  = [2:n, 1];
 south = [2:n, 1];
 west  = [n, 1:n-1];
 
-if display, spy(A); title('Generation 0'); shg; pause(.25); end;
+if display, spy(A); title('Generation 0'); shg; pause(2.25); end;
 
 for generation = 1:niters
 
@@ -60,7 +60,6 @@ for generation = 1:niters
         spy(A);
         title(['Generation ' int2str(generation)]);
         shg;
-        pause(.2);
-    end;
-    
+        pause(.02);
+    end;  
 end;
