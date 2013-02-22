@@ -40,7 +40,7 @@ west  = [n, 1:n-1];
 if display, spy(A); title('Generation 0'); shg; pause(2.25); end;
 
 for generation = 1:niters
-
+    A
     % count how many of the eight neighbors are alive.
     neighbors = A(north,:) + A(south,:) + A(:,east) + A(:,west) + ...
         A(north,east) + A(north,west) + A(south,east) + A(south,west);

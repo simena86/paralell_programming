@@ -1,4 +1,4 @@
-function score = validate(n, whichstart, niters, livecounts)
+cdfunction score = validate(n, whichstart, niters, livecounts)
 % VALIDATE : Validate output from Matlab life simulation
 %
 % score = validate(n, whichstart, niters, livecounts);
