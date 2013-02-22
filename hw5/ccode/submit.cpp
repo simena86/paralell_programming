@@ -67,7 +67,6 @@ void readlife(int *a, unsigned int n){
 	}
 }
 
-
 void print_matrix(int * a, int n){
 	for(int i=0;i<n;i++){
 		for(int j=0;j<n;j++){
@@ -90,7 +89,6 @@ int mod (int a, int b){
    return ret;
 }
 
-
 //Life function
 void life(int *a, unsigned int n, unsigned int iter){
 	int nbr;
@@ -103,10 +101,8 @@ void life(int *a, unsigned int n, unsigned int iter){
 			a_temp[i]=a[i];	
 		}		
 		
-//		print_matrix(a,n);
 		for(int i=0;i<n;i++){	
 			for(int j=0;j<n;j++){
-					
 				nbr=0;
 				nbr+=a_temp[n*i+mod((j-1) , n)];  				//west
 				nbr+=a_temp[n*i+mod((j+1) , n)];  				//east
@@ -116,26 +112,6 @@ void life(int *a, unsigned int n, unsigned int iter){
 				nbr+=a_temp[n*mod((i+1) , n) +mod((j-1) , n)];	//south west 
 				nbr+=a_temp[n*mod((i-1) , n) +mod((j+1) , n)];	//north east
 				nbr+=a_temp[n*mod((i-1) , n) +mod((j-1) , n)];	//north west
-				
-				nbr_arr[0]=n*i+mod((j-1) , n);  				//west
-				nbr_arr[1]=n*i+mod((j+1) , n);  				//east
-				nbr_arr[2]=n*mod((i+1) , n) +j; 			//south
-				nbr_arr[3]=n*mod((i-1) , n) +j ; 			//north
-				nbr_arr[4]=n*mod((i+1) , n) +mod((j+1) , n);	//south east
-				nbr_arr[5]=n*mod((i+1) , n) +mod((j-1) , n);	//south west 
-				nbr_arr[6]=n*mod((i-1) , n) +mod((j+1) , n);	//north east
-				nbr_arr[7]=n*mod((i-1) , n) +mod((j-1) , n);	//north west
-				
-		/*		if(iters==1 && i==0 && j==0){
-					int a=mod(-1,10);
-					printf("modulo %d\n\n", a);
-					cout<<"neighbour array"<<endl;
-					for(int k=0;k<8;k++){
-						printf("%d ",nbr_arr[k]);
-					}
-					cout<<endl;
-				}	
-			*/	
 				if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
 					a[i*n+j]=1;
 				}else{
@@ -143,8 +119,6 @@ void life(int *a, unsigned int n, unsigned int iter){
 			 	}
 			}
 		}
-
-
 		#if DEBUG == 1
 			if(( (iters+1) % (iter/10))==0 && iters !=0){
 				livecount[lcnt++]= countlive(a,n);
@@ -152,11 +126,3 @@ void life(int *a, unsigned int n, unsigned int iter){
 		#endif
 	}
 }
-
-
-
-
-
-
-
-
