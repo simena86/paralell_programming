@@ -67,66 +67,96 @@ void readlife(int *a, unsigned int n){
 	}
 }
 
+
+void print_matrix(int * a, int n){
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			printf("%d ",a[i*n+j]);
+		}
+		cout<<endl;
+	}
+
+	cout<<endl;
+	cout<<endl;
+
+}
+
+int mod (int a, int b){
+   if(b < 0) //you can check for b == 0 separately and do what you want
+     return mod(-a, -b);   
+   int ret = a % b;
+   if(ret < 0)
+     ret+=b;
+   return ret;
+}
+
+
 //Life function
 void life(int *a, unsigned int n, unsigned int iter){
-	// You need to store the total number of livecounts for every 1/10th of the total iterations into the livecount array. 
-	// For example, if there are 50 iterations in your code, you need to store the livecount for iteration number 5 10 15 
-	// 20 ... 50 starting from 1. The countlive function is defined in life.cpp, which you can use. Remember that you can
-	// do the debugging if the number of iterations is a multiple of 10.
-	// Furthermore, you will need to wrap your counting code inside the wrapper #if DEBUG == 1 .. #endif to remove
-	// it during performance evaluation.
-	// For example, your code in this function could look like - 
-	//
-	//
-	//	for(each iteration)
-	//      {
-	//			
-	//		Calculate_next_life();
-	//		
-	//		#if DEBUG == 1
-	//		  if_current_iteration == debug_iteration
-	//		  total_lives = countlive();
-	//		  Store_into_livecount(total_lives);
-	//		#ENDIF
-	//		
-	//	}
-	int *a_temp;			
 	int nbr;
-	int lcnt;
+	int lcnt=0;
+	int *a_temp;
+	int nbr_arr[8];
 	a_temp = (int *)malloc(sizeof(int)*(n*n));
 	for(int iters=0;iters<iter;iters++){
-		// copy buffers	
 		for(int i=0;i<n*n;i++){
 			a_temp[i]=a[i];	
 		}		
+		
+//		print_matrix(a,n);
 		for(int i=0;i<n;i++){	
 			for(int j=0;j<n;j++){
+					
 				nbr=0;
-				nbr+=a_temp[n*i+((j-1) % n)];  				//west
-				nbr+=a_temp[n*i+((j+1) % n)];  				//east
-				nbr+=a_temp[(n*((i+1) % n)) +j ]; 			//south
-				nbr+=a_temp[(n*((i-1) % n)) +j ]; 			//north
-				nbr+=a_temp[(n*((i+1) % n)) +((j+1) % n)];	//south east
-				nbr+=a_temp[(n*((i+1) % n)) +((j-1) % n)];	//south west 
-				nbr+=a_temp[(n*((i-1) % n)) +((j+1) % n)];	//north east
-				nbr+=a_temp[(n*((i-1) % n)) +((j-1) % n)];	//north west
+				nbr+=a_temp[n*i+mod((j-1) , n)];  				//west
+				nbr+=a_temp[n*i+mod((j+1) , n)];  				//east
+				nbr+=a_temp[n*mod((i+1) , n) +j ]; 			//south
+				nbr+=a_temp[n*mod((i-1) , n) +j ]; 			//north
+				nbr+=a_temp[n*mod((i+1) , n) +mod((j+1) , n)];	//south east
+				nbr+=a_temp[n*mod((i+1) , n) +mod((j-1) , n)];	//south west 
+				nbr+=a_temp[n*mod((i-1) , n) +mod((j+1) , n)];	//north east
+				nbr+=a_temp[n*mod((i-1) , n) +mod((j-1) , n)];	//north west
+				
+				nbr_arr[0]=n*i+mod((j-1) , n);  				//west
+				nbr_arr[1]=n*i+mod((j+1) , n);  				//east
+				nbr_arr[2]=n*mod((i+1) , n) +j; 			//south
+				nbr_arr[3]=n*mod((i-1) , n) +j ; 			//north
+				nbr_arr[4]=n*mod((i+1) , n) +mod((j+1) , n);	//south east
+				nbr_arr[5]=n*mod((i+1) , n) +mod((j-1) , n);	//south west 
+				nbr_arr[6]=n*mod((i-1) , n) +mod((j+1) , n);	//north east
+				nbr_arr[7]=n*mod((i-1) , n) +mod((j-1) , n);	//north west
+				
+		/*		if(iters==1 && i==0 && j==0){
+					int a=mod(-1,10);
+					printf("modulo %d\n\n", a);
+					cout<<"neighbour array"<<endl;
+					for(int k=0;k<8;k++){
+						printf("%d ",nbr_arr[k]);
+					}
+					cout<<endl;
+				}	
+			*/	
 				if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
 					a[i*n+j]=1;
 				}else{
 					a[i*n+j]=0;
-				}
+			 	}
 			}
 		}
 
+
 		#if DEBUG == 1
-		//	if(( iters % (n/10))==0){
-		//		printf("%d", ( iters % (n/10)  ) );
-			//	cout << " debug submit" << endl;	
-			//	livecount[lcnt]=countlive(a,n);
-			//	lcnt++;
-		//	}
-//		#endif
+			if(( (iters+1) % (iter/10))==0 && iters !=0){
+				livecount[lcnt++]= countlive(a,n);
+			}
+		#endif
 	}
 }
+
+
+
+
+
+
 
 
