@@ -9,7 +9,10 @@ Team member 2 : Simen Andresen
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <math.h>
 using namespace std;
+
+extern int * livecount;
 
 //Generate the life matrix any way you want. We would highly recommend that you print the generated
 //matrix into a file, so that you can share it with other teams for checking correctness.
@@ -25,7 +28,6 @@ void genlife(int *a, unsigned int n)
 
 	k = round(n/3);
 	p = round(n/5);
-	printf("%d , %d \n",k,p);
 	
 	a[k*n + p] 	= 1; 		
 	a[k*n + p+1] 	= 1; 		
@@ -39,12 +41,6 @@ void genlife(int *a, unsigned int n)
 	a[(k+2)*n + p+1] = 1;
 	a[(k+2)*n + p+2] = 0;
 	
-	for(i=0;i<n;i++){
-		for (j=0;j<n;j++){
-			printf("%d ",a[i*n + j]);
-		}
-		printf("\n");
-	}
 }
 
 //Read the life matrix from a file
@@ -58,7 +54,6 @@ void readlife(int *a, unsigned int n){
 		return;
 	}
 
-	cout << "Reading from file : "<< filename << endl;
 	// read from file
 	int val;
 	string line;
@@ -73,8 +68,7 @@ void readlife(int *a, unsigned int n){
 }
 
 //Life function
-void life(int *a, unsigned int n, unsigned int iter)
-{
+void life(int *a, unsigned int n, unsigned int iter){
 	// You need to store the total number of livecounts for every 1/10th of the total iterations into the livecount array. 
 	// For example, if there are 50 iterations in your code, you need to store the livecount for iteration number 5 10 15 
 	// 20 ... 50 starting from 1. The countlive function is defined in life.cpp, which you can use. Remember that you can
@@ -96,6 +90,43 @@ void life(int *a, unsigned int n, unsigned int iter)
 	//		#ENDIF
 	//		
 	//	}
+	int *a_temp;			
+	int nbr;
+	int lcnt;
+	a_temp = (int *)malloc(sizeof(int)*(n*n));
+	for(int iters=0;iters<iter;iters++){
+		// copy buffers	
+		for(int i=0;i<n*n;i++){
+			a_temp[i]=a[i];	
+		}		
+		for(int i=0;i<n;i++){	
+			for(int j=0;j<n;j++){
+				nbr=0;
+				nbr+=a_temp[n*i+((j-1) % n)];  				//west
+				nbr+=a_temp[n*i+((j+1) % n)];  				//east
+				nbr+=a_temp[(n*((i+1) % n)) +j ]; 			//south
+				nbr+=a_temp[(n*((i-1) % n)) +j ]; 			//north
+				nbr+=a_temp[(n*((i+1) % n)) +((j+1) % n)];	//south east
+				nbr+=a_temp[(n*((i+1) % n)) +((j-1) % n)];	//south west 
+				nbr+=a_temp[(n*((i-1) % n)) +((j+1) % n)];	//north east
+				nbr+=a_temp[(n*((i-1) % n)) +((j-1) % n)];	//north west
+				if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
+					a[i*n+j]=1;
+				}else{
+					a[i*n+j]=0;
+				}
+			}
+		}
+
+		#if DEBUG == 1
+		//	if(( iters % (n/10))==0){
+		//		printf("%d", ( iters % (n/10)  ) );
+			//	cout << " debug submit" << endl;	
+			//	livecount[lcnt]=countlive(a,n);
+			//	lcnt++;
+		//	}
+//		#endif
+	}
 }
 
 

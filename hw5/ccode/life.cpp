@@ -8,12 +8,9 @@ Team member 2 : Jane Doe
 #include "life.h"
 
 // Debugging flag. Set to 0 during performance evaluation
-#define DEBUG 0
 int *livecount;
 
 using namespace std;
-
-//int cilk_main(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
@@ -48,7 +45,6 @@ int main(int argc, char **argv)
 	// Generate random data
 	else
 	{
-		printf("hello\n");
 		n = (unsigned int)atoi(argv[1]);
 		iter = (unsigned int)atoi(argv[2]);
 		a = (int *)malloc(sizeof(int)*(n*n));
