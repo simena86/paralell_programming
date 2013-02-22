@@ -80,6 +80,8 @@ void print_matrix(int * a, int n){
 
 }
 
+
+
 int mod (int a, int b){
    if(b < 0) //you can check for b == 0 separately and do what you want
      return mod(-a, -b);   
