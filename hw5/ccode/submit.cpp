@@ -78,6 +78,10 @@ void print_matrix(int * a, int n){
 	cout<<endl;
 }
 
+
+/*	count all the neighbours 
+ *	around row i column j of a
+ *  */
 int count_nbr(char *a, int n, int i, int j){
 	char nbr=0;
 	int i_south, i_north,j_west,j_east;
@@ -146,21 +150,26 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 		a_temp[i]=old_a[i];	
 		a[i]=old_a[i];
 	}
+
+	check_ones(a,n,row_has_ones);	
 	for(int iters=0;iters<iter;iters++){
 			temp=a;
 			a=a_temp;
 			a_temp=temp;
-			check_ones(a,n,row_has_ones);	
 			cilk_for(int i=0;i<n;i++){	
 				int nbr;
+				bool any_ones=false;
 				for(int j=0;j<n;j++){
 					if(i==0 || i==n-1 || row_has_ones[i] || row_has_ones[i-1] || row_has_ones[i+1]   ){
 						nbr=count_nbr(a_temp,n,i,j);		
 						if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
 							a[i*n+j]=1;
+							any_ones=true;
 						}else{
 							a[i*n+j]=0;
 					 	}
+						if(a[i*n+j]==1)
+						row_has_ones[i]=any_ones; 
 					}
 				}
 		}
