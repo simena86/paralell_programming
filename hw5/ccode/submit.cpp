@@ -121,6 +121,11 @@ void check_next_row(char *a, int n,int i,bool &next){
 	}
 }
 
+
+/*  go through all rows in a and check for 1-entries
+ * 	save true or false in row_has_ones which are 
+ *	a lookuptable used later
+ *                                               */
 void check_ones(char *a, int n,bool* row_has_ones){
 	cilk_for(int i=0;i<n;i++){
 		for(int j=0;j<n;j++){
