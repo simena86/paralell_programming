@@ -74,15 +74,13 @@ void print_matrix(int * a, int n){
 		}
 		cout<<endl;
 	}
-
 	cout<<endl;
 	cout<<endl;
-
 }
 
 int count_nbr(char *a, int n, int i, int j){
-	unsigned char nbr=0;
-	unsigned short i_south, i_north,j_west,j_east;
+	char nbr=0;
+	int i_south, i_north,j_west,j_east;
 	if(i==0){
 		i_north=n-1;
 		i_south=1;
@@ -113,18 +111,10 @@ int count_nbr(char *a, int n, int i, int j){
 	return nbr;
 }
 
-void check_next_row(char *a, int n,int i,bool &next){
-	for(int j=0;j<n;j++){
-		if(a[n*(i+1)+j]==1){
-			next=true;
-		}
-	}
-}
-
-
 /*  go through all rows in a and check for 1-entries
  * 	save true or false in row_has_ones which are 
- *	a lookuptable used later
+ *	a lookuptable used later to check if one can 
+ *  skip processing a line
  *                                               */
 void check_ones(char *a, int n,bool* row_has_ones){
 	cilk_for(int i=0;i<n;i++){
@@ -152,7 +142,7 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 	row_has_ones = (bool *)malloc(sizeof(bool)*(n));
 	
 	// copy over to temp buffer
-	for(int i=0;i<n*n;i++){
+	for(unsigned int i=0;i<n*n;i++){
 		a_temp[i]=old_a[i];	
 		a[i]=old_a[i];
 	}
@@ -175,12 +165,12 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 				}
 		}
 		#if DEBUG == 1
-			if(( (iters+1) % (iter/10))==0 && iters !=0){
-				for(int l=0;l<n*n;l++){
-					old_a[l]=a[l];
-				}	
-				livecount[lcnt++]= countlive(old_a,n);
-			}
+		if(( (iters+1) % (iter/10))==0 && iters !=0){
+			for(unsigned int l=0;l<n*n;l++){
+				old_a[l]=a[l];
+			}	
+			livecount[lcnt++]= countlive(old_a,n);
+		}
 		#endif
 	}
 }
