@@ -12,7 +12,7 @@ int *livecount;
 
 using namespace std;
 
-int cilk_main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	unsigned int n;
 	unsigned int iter;

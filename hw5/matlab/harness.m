@@ -27,7 +27,7 @@ fprintf('Array dimension = %d\n', n);
 fprintf('Number of generations = %d\n', niters);
 A = gendata(n, whichstart);
 tic;
-livecounts = life(A, niters,1);
+livecounts = life(A, niters,0);
 time = toc;
 fprintf('Elapsed time = %d\n', time);
 fprintf('Final number of live cells = %d\n', livecounts(end));
