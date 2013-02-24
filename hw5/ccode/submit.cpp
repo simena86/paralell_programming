@@ -150,7 +150,7 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 		a_temp[i]=old_a[i];	
 		a[i]=old_a[i];
 	}
-
+	// check all rows for 1-entries 
 	check_ones(a,n,row_has_ones);	
 	for(int iters=0;iters<iter;iters++){
 			temp=a;
