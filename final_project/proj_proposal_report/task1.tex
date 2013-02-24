@@ -1,0 +1,59 @@
+\newcommand{\figurepath}{./figures/}
+\newcommand{\figurescale}{0.6}
+\newcommand{\codepath}{../matlab/}
+\setlength\parindent{24pt}
+
+\section*{Problem Formulation}
+For the final project in CS 140 we would like to look into the problem of finding the shortest path in the configuration space of a 2 or 3 link robot manipulator as illustrated in Fig. \ref{fig:man1}. This involves checking for connectedness in a configuration space with arbitrary polygonal obstacles, constructing a graph over every possible path and running shortest a shortest path algorithm. 
+
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath man1.eps}
+ \caption{ 3 link robot manipulator \label{fig:man1}}
+ \end{figure}
+
+\section*{Overview of the problem}
+When controlling a robot manipulator, it is important to move it in a way that is both effective and do not cause it to crash into obstacles. With both the obstacles and the robot links being arbitrary polygons this can not be done analytically and one has to use a sampling based method. This project will focus on a robot manipulator with 2 or 3 rotational joints moving in a 2 dimensional workspace. The joints are modelled as a rigid body system with 2 or 3 DOF's (degrees of freedom). Since all joints are rotational the corresponding configuration space will be a 2 or 3-Torus. With a sampled workspace giving a discrete map in the configuration space, the challenge of this problem is to construct a graph of possible edges between samples as illustrated in Fig. \ref{fig:c1}, and to find shortest paths between points in the configuration space without crashing into obstacles. 
+\\
+\par 
+
+The sample based methods which are most likely to be used is either a uniform sampling of the workspace which gives equal distances between all sample points, a random sampling method or a deterministic pseudo random method called the halton sequence. With the halton sequence the samples are better distributed than the random sampling method and gives a good method of determining upper bound that determines if two samples are connected with an edge.
+
+
+
+
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath config2.eps}
+ \caption{ A sampled configuration space of a two link manipulator with edges between samples. The two axis of the figure represent the first and second angle of the links \label{fig:c1}}
+ \end{figure}
+
+
+
+\section*{Parallelization}
+When sampling the workspace of a manipulator it is very important to have a high number of samples. This is to both give effectiveness and provide safe edges that does not violate the free configuration space. In constructing a graph of edges between sample points one has to check all samples against all othe giving a quadratic time complexity:
+
+\begin{align}
+\label{eq:}
+ \frac{n(n-1)}{2}=O(n^2) 
+ \end{align}
+
+To determine if there should be edges between two samples a "Mary Go Round" strategy will be used, so that each processors determine edges based on their sample points position relative to all other sample points. Further a shortest path algorithm will be used to find the path between two arbitrary points. 
+The program that is to be constructed will have the following input/output
+
+\begin{align}
+\label{eq:}
+&\mathbf{Input: } \text{ Number of samples, number of iterations, sampling method, dimension of configuration space. } \nonumber \\
+ &\mathbf{Output: } \text{ A path between arbitrary points for each iteration.} \nonumber
+ \end{align}
+
+
+
+
+
+
+
+
+
