@@ -39,12 +39,16 @@ title('CUPS vs p, n=2000');
 % Paralell efficiency (t_1/p*t_p) vs n
 
 n = [500,1000,1500,2000,2500,3000,3500,4000,4500];
+
+
+
 t_1 = [4908.951000, 14024.559000, 27309.618000, 44778.765000, 66433.730000, 92272.367000, 122299.665000, 156510.376000, 194942.282000]./1000;
 p = 8;
 paralell_efficience = t_1 ./ (p .* run_times_n);
 
 h(3)=figure(3);
 hold on; grid on;
+
 plot(n,paralell_efficience, '-ob');
 xlabel('n');
 ylabel('Paralell efficiency');
@@ -59,6 +63,7 @@ paralell_efficience = t_1 ./ (p .* run_times_p);
 
 h(4)=figure(4);
 hold on; grid on;
+
 plot(p,paralell_efficience, '-ob');
 xlabel('n');
 ylabel('Paralell efficiency');
