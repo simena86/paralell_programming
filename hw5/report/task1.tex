@@ -1,5 +1,5 @@
 \newcommand{\figurepath}{./figures/}
-\newcommand{\figurescale}{0.6}
+\newcommand{\figurescale}{0.45}
 \newcommand{\codepath}{../matlab/}
 
 \section*{Explanation of Code}
@@ -13,5 +13,36 @@ In the harness, only the Makefile has been changed where the only change is addi
 The compilation, running and validation is otherwise the same as in the Readme.txt
 
 \section*{Performance}
-For performance testing the -O3 option was omitted. 
+For performance testing the -O3 option was omitted. From Fig. \ref{fig:p1} it can be seen that the number of CUPS increases for increasing n. This can be due to the fact that each row not containing any 1's will be skipped, since our program does not actually process rows that does not have neighbour rows with 1-entries. The parallel efficency is relatively good for 2 to 8 processors, but is slightly decreasing for an increase in number of processors. Also the parallel efficiency is varying for different size of n, which can be due to the fact that the data size is increasing quadraticly with n, and this can have effect on the cache. 
+
+\section*{Conclusion}
+
+With our strategy we acheived a suprisingly fast runtime, and the parallel efficiency was very satisfactory. It must be noted that our algorithm works best for scarse game boards (many 0s compared to 1s), since it skips all rows not neighbouring rows with 1-entries. 
+
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath plot1.eps}
+ \caption{ CUPS vs. n for 1000 iterations, running on 8 cores\label{fig:p1}}
+ \end{figure}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath plot2.eps}
+ \caption{CUPS vs. processor for 1000 iterations, and n=2000  \label{fig:p2}}
+ \end{figure}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath plot3.eps}
+ \caption{  Parallel efficiency vs. n for 1000 iterations running on 8 cores\label{fig:p3}}
+ \end{figure}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath plot4.eps}
+ \caption{ Parallel efficiency vs. processor for 1000 iterations and n=2000 \label{fig:p4}}
+ \end{figure}
+
+
 
