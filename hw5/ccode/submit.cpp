@@ -74,15 +74,16 @@ void print_matrix(int * a, int n){
 		}
 		cout<<endl;
 	}
-
 	cout<<endl;
 	cout<<endl;
-
 }
 
 
-int count_nbr(int *a, int n, int i, int j, int iters){
-	int nbr=0;
+/*	count all the neighbours 
+ *	around row i column j of a
+ *  */
+int count_nbr(char *a, int n, int i, int j){
+	char nbr=0;
 	int i_south, i_north,j_west,j_east;
 	if(i==0){
 		i_north=n-1;
@@ -111,60 +112,74 @@ int count_nbr(int *a, int n, int i, int j, int iters){
 	nbr+=a[i_north*n + j_east];
 	nbr+=a[i_south*n + j_west];
 	nbr+=a[i_south*n + j_east];
-	if(i==3 && j==2 && 1==2 ){
-		printf("%d %d %d %d %d %d %d %d \n\n",i*n+j_east, i*n + j_west, i_south*n+j, i_north*n+j,i_north*n+j_west, i_north*n+j_east, i_south*n+j_west, i_south*n+j_east );	
-		printf(" nbr: %d\n",nbr);
-	}
 	return nbr;
 }
 
+/*  go through all rows in a and check for 1-entries
+ * 	save true or false in row_has_ones which are 
+ *	a lookuptable used later to check if one can 
+ *  skip processing a line
+ *                                               */
+void check_ones(char *a, int n,bool* row_has_ones){
+	cilk_for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if(a[i*n+j]==1){
+				row_has_ones[i]=true;
+				break;
+			}	
+		}
+	}
 
-
-int mod (int a, int b){
-   if(b < 0) //you can check for b == 0 separately and do what you want
-     return mod(-a, -b);   
-   int ret = a % b;
-   if(ret < 0)
-     ret+=b;
-   return ret;
 }
 
 //Life function
-void life(int *a, unsigned int n, unsigned int iter){
-	int nbr;
+void life(int *old_a, unsigned int n, unsigned int iter){
+	bool prev, current, next;
 	int lcnt=0;
-	int *a_temp;
 	int nbr_arr[8];
-	a_temp = (int *)malloc(sizeof(int)*(n*n));
+	char * temp;
+	char *a_temp;
+	a_temp = (char*)malloc(sizeof(char)*(n*n));
+	char *a;
+	a = (char *)malloc(sizeof(char)*(n*n));
+	bool* row_has_ones;
+	row_has_ones = (bool *)malloc(sizeof(bool)*(n));
+	
+	// copy over to temp buffer
+	for(unsigned int i=0;i<n*n;i++){
+		a_temp[i]=old_a[i];	
+		a[i]=old_a[i];
+	}
+	// check all rows for 1-entries 
+	check_ones(a,n,row_has_ones);	
 	for(int iters=0;iters<iter;iters++){
-		for(int i=0;i<n*n;i++){
-			a_temp[i]=a[i];	
-		}		
-		
-		for(int i=0;i<n;i++){	
-			for(int j=0;j<n;j++){
-	//			print_matrix(a,n);
-				nbr=count_nbr(a_temp,n,i,j,iters);		
-				/*		nbr=0;
-				nbr+=a_temp[n*i+mod((j-1) , n)];  				//west
-				nbr+=a_temp[n*i+mod((j+1) , n)];  				//east
-				nbr+=a_temp[n*mod((i+1) , n) +j ]; 			//south
-				nbr+=a_temp[n*mod((i-1) , n) +j ]; 			//north
-				nbr+=a_temp[n*mod((i+1) , n) +mod((j+1) , n)];	//south east
-				nbr+=a_temp[n*mod((i+1) , n) +mod((j-1) , n)];	//south west 
-				nbr+=a_temp[n*mod((i-1) , n) +mod((j+1) , n)];	//north east
-				nbr+=a_temp[n*mod((i-1) , n) +mod((j-1) , n)];	//north west */
-				if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
-					a[i*n+j]=1;
-				}else{
-					a[i*n+j]=0;
-			 	}
-			}
+			temp=a;
+			a=a_temp;
+			a_temp=temp;
+			cilk_for(int i=0;i<n;i++){	
+				int nbr;
+				bool any_ones=false;
+				for(int j=0;j<n;j++){
+					if(i==0 || i==n-1 || row_has_ones[i] || row_has_ones[i-1] || row_has_ones[i+1]   ){
+						nbr=count_nbr(a_temp,n,i,j);		
+						if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
+							a[i*n+j]=1;
+							any_ones=true;
+						}else{
+							a[i*n+j]=0;
+					 	}
+						if(a[i*n+j]==1)
+						row_has_ones[i]=any_ones; 
+					}
+				}
 		}
 		#if DEBUG == 1
-			if(( (iters+1) % (iter/10))==0 && iters !=0){
-				livecount[lcnt++]= countlive(a,n);
-			}
+		if(( (iters+1) % (iter/10))==0 && iters !=0){
+			for(unsigned int l=0;l<n*n;l++){
+				old_a[l]=a[l];
+			}	
+			livecount[lcnt++]= countlive(old_a,n);
+		}
 		#endif
 	}
 }
