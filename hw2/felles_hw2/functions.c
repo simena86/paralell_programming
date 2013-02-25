@@ -1,6 +1,6 @@
 /* CS 140
  * Assignment 1 : Matrix Vector Multiplication and the Power Method 
- * Group members : Sverre Kvamme, Simen Andresen 
+ * Group members : <Team-member-1> , <Team-member-2>
  * */
 
 /* This file provides the placeholder function definitions, where you will be
@@ -60,12 +60,15 @@ void generatematrix(double * mat, int size){
 			}else{
 				mat[i*size + j ] = 0;
 			}
+			//mat[i*size +j]=i*j-i*i*3 +2*j;
+			//printf(" %f ",mat[i*size+j]);
 		}
+		//printf("\n");
 	}
 }
 
 
-// Subroutine to generate a vector of entries '1'
+// Subroutine to generate a random vector
 void generatevec(double * x,int size)
 {
 	int i;

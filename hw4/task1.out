@@ -1,0 +1,32 @@
+1 processors
+recursive, n= 10000 trial 1 0.000000
+Loop, n= 10000 trial 1 0.000000
+Hyperobject, n= 10000 trial 1 0.000000
+recursive, n= 100000 trial 1 0.003000
+Loop, n= 100000 trial 1 0.004000
+Hyperobject, n= 100000 trial 1 0.003000
+recursive, n= 1000000 trial 1 0.027000
+Loop, n= 1000000 trial 1 0.042000
+Hyperobject, n= 1000000 trial 1 0.029000
+recursive, n= 10000000 trial 1 0.368000
+Loop, n= 10000000 trial 1 0.521000
+Hyperobject, n= 10000000 trial 1 0.288000
+recursive, n= 100000000 trial 1 3.333000
+Loop, n= 100000000 trial 1 4.873000
+Hyperobject, n= 100000000 trial 1 2.983000
+4 processors
+recursive, n= 10000 trial 4 0.000000
+Loop, n= 10000 trial 4 0.000000
+Hyperobject, n= 10000 trial 4 0.001000
+recursive, n= 100000 trial 4 0.001000
+Loop, n= 100000 trial 4 0.001000
+Hyperobject, n= 100000 trial 4 0.000000
+recursive, n= 1000000 trial 4 0.006000
+Loop, n= 1000000 trial 4 0.013000
+Hyperobject, n= 1000000 trial 4 0.007000
+recursive, n= 10000000 trial 4 0.088000
+Loop, n= 10000000 trial 4 0.151000
+Hyperobject, n= 10000000 trial 4 0.072000
+recursive, n= 100000000 trial 4 0.813000
+Loop, n= 100000000 trial 4 1.462000
+Hyperobject, n= 100000000 trial 4 0.717000

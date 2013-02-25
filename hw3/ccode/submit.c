@@ -11,8 +11,20 @@ Team Member 2 :	Simen Andresen
 	#define PI 3.14
 #endif
 
-/* Read data from stdin using < input.txt. All data are saved in a buffer 
- * on processor 0 and distributed to all other processors, if any */
+
+// Debug function
+void print_msg(char* s, int proc, int myrank){
+	if(myrank==proc){
+		fprintf(stderr,"%s \n",s);
+	}
+}
+// debug function
+void print_msg_w_arg(char* s, int proc, int myrank, double arg){
+	if(myrank==proc){
+		fprintf(stderr,"%s , arg: %1.4e\n",s,arg );
+	}
+}
+
 void readnbody(double** s, double** v, double* m, int n) {
 	int myrank, nprocs;
 	int i,j;
@@ -23,6 +35,7 @@ void readnbody(double** s, double** v, double* m, int n) {
 	double * recv_bfr2;
 	// read data from input.txt to processor 0 
 	if (myrank == 0) {
+		
 		recv_bfr= (double **)malloc(sizeof(double) * nprocs);
 		for(i=0;i<nprocs;i++){
 			recv_bfr[i]=(double *)malloc(sizeof(double) * size*7 );
@@ -50,6 +63,8 @@ void readnbody(double** s, double** v, double* m, int n) {
 				v[i][j]=recv_bfr[0][i*7+j+3];
 			}
 		}
+	
+		print_msg("readnbody",0,myrank);
 		// send rest of data to other processors
 		for(i=1;i<nprocs;i++){
 			MPI_Send(recv_bfr[i],size*7,MPI_DOUBLE,i,i,MPI_COMM_WORLD);
@@ -233,6 +248,10 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			a_v[i][j] = 0;
 		}
 	}
+	
+
+
+
 
 	/* BUFFERS to make it easier to send and revceive, each  buffer is an 1 D array.  each buffers holds
 	*  all three position components + mass.  element 0 to size-1   is x position, size to 2*size-1
@@ -256,6 +275,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 			bf1[i+size*j] = s[i][j];
 		}
 	}
+
 	// main calculation loop
 	for(I=0; I<iter ; I++){
 		for(i=0;i<size;i++){		// reset acceleration to 0	
@@ -263,6 +283,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 				a_v[i][j]=0;
 			}
 		}
+
 		for(nMrg=0; nMrg<nprocs; nMrg++){ 		// compute new states 
 			if(nMrg % 2==0 || myrank % 2!=0 ){
 				compute_acceleration(a_v,s,m,bf1, n,nMrg);
@@ -279,7 +300,7 @@ void nbody(double** s, double** v, double* m, int n, int iter, int timestep) {
 	if(myrank % 2 ==0){
 		free(bf2);
 	}
-    //collect_data_from_all(s,v,m, size, myrank, nprocs); / used only for debugging. prints the final xyz vxys and mass to file 
+    collect_data_from_all(s,v,m, size, myrank, nprocs);
 }
 
 

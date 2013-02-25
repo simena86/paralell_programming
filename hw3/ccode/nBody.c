@@ -1,4 +1,5 @@
 #include "nBody.h"
+#include "submit.h"
 #include <unistd.h>
 #include <errno.h>
 
