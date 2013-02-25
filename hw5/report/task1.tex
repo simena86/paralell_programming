@@ -2,3 +2,16 @@
 \newcommand{\figurescale}{0.6}
 \newcommand{\codepath}{../matlab/}
 
+\section*{Explanation of Code}
+A little note on notation: whenever "rows of $a$" are used, it indicates the rows of the board stored in the array $a$. \\
+\textbf{submit.cpp::life()} - This function starts out be making a temporary buffer called a_temp, that is used for counting neighbours. in each iteration this buffer's pointer is swapped with $a$ which is the buffer written to, so that $a_temp$ is always the updated version of the cells without having to copy over to buffer each iteration.
+Also before the iterations start, all rows of $a$ are checked for any 1-entries, and this information is stored for row i into $row\_has\_ones[i]$.
+A parallized for loop - cilk_for - is used to iterate through all rows of a and if none of the previous, current or next row has any 1- entries it continues to the next row. When a 1-entry is found it iterates through all columns of the row, counts the neighbour of all cells, and decides wether to kill or to make new life. It also updates the $row\_has\_ones[i]$ accordingly.
+
+\section*{Running and Validating the code}
+In the harness, only the Makefile has been changed where the only change is adding a -O3 option to optimize the C++ code. 
+The compilation, running and validation is otherwise the same as in the Readme.txt
+
+\section*{Performance}
+For performance testing the -O3 option was omitted. 
+
