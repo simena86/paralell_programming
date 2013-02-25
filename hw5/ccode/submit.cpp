@@ -1,7 +1,7 @@
 /*
 Homework 5 : The Game of Life.
-Team member 1 : Sverre Kvamme 
-Team member 2 : Simen Andresen
+Team member 1 : Sverre Kvamme , perm number x276063
+Team member 2 : Simen Andresen, perm number x276060
 */
 
 #include "life.h"
