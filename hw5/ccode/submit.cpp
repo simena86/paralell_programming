@@ -67,21 +67,10 @@ void readlife(int *a, unsigned int n){
 	}
 }
 
-void print_matrix(int * a, int n){
-	for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
-			printf("%d ",a[i*n+j]);
-		}
-		cout<<endl;
-	}
-	cout<<endl;
-	cout<<endl;
-}
-
 
 /*	count all the neighbours 
- *	around row i column j of a
- *  */
+ *	around cell in row i column j of a
+ *  return number of neighbours		*/
 int count_nbr(char *a, int n, int i, int j){
 	char nbr=0;
 	int i_south, i_north,j_west,j_east;
@@ -129,7 +118,6 @@ void check_ones(char *a, int n,bool* row_has_ones){
 			}	
 		}
 	}
-
 }
 
 //Life function
@@ -138,6 +126,8 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 	int lcnt=0;
 	int nbr_arr[8];
 	char * temp;
+	// make a temporary a_temp to read
+	// current cells from to avoid race conditions
 	char *a_temp;
 	a_temp = (char*)malloc(sizeof(char)*(n*n));
 	char *a;
@@ -145,7 +135,7 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 	bool* row_has_ones;
 	row_has_ones = (bool *)malloc(sizeof(bool)*(n));
 	
-	// copy over to temp buffer
+	// copy over to temp buffer a_temp
 	for(unsigned int i=0;i<n*n;i++){
 		a_temp[i]=old_a[i];	
 		a[i]=old_a[i];
@@ -153,14 +143,18 @@ void life(int *old_a, unsigned int n, unsigned int iter){
 	// check all rows for 1-entries 
 	check_ones(a,n,row_has_ones);	
 	for(int iters=0;iters<iter;iters++){
+			// swap the pointers to always read
+			// from the updated a. 
 			temp=a;
 			a=a_temp;
 			a_temp=temp;
+			// iterate through rows
 			cilk_for(int i=0;i<n;i++){	
 				int nbr;
 				bool any_ones=false;
-				for(int j=0;j<n;j++){
-					if(i==0 || i==n-1 || row_has_ones[i] || row_has_ones[i-1] || row_has_ones[i+1]   ){
+				if(i==0 || i==n-1 || row_has_ones[i] || row_has_ones[i-1] || row_has_ones[i+1]   ){
+					// iterate through columns only if there's any ones in the current, previous or next row	
+					for(int j=0;j<n;j++){
 						nbr=count_nbr(a_temp,n,i,j);		
 						if(((a_temp[i*n+j]==1) && (nbr==2)) || (nbr==3)){
 							a[i*n+j]=1;
