@@ -4,7 +4,7 @@
 \setlength\parindent{24pt}
 
 \section*{Problem Formulation}
-For the final project in CS 140 we would like to look into the problem of finding the shortest path in the configuration space of a 2 or 3 link robot manipulator as illustrated in Fig. \ref{fig:man1}. This involves checking for connectedness in a configuration space with arbitrary polygonal obstacles, constructing a graph over every possible path and running a shortest path algorithm. 
+For the final project in CS 140 we would like to look into the problem of finding the  path in the configuration space of a 2 or 3 link robot manipulator as illustrated in Fig. \ref{fig:man1}. This involves checking for connectedness in a configuration space with arbitrary polygonal obstacles, constructing a graph over every possible path and running a shortest path algorithm. 
 
 
 \begin{figure}[h!] 
@@ -45,9 +45,22 @@ The program that is to be constructed will have the following input/output
 
 \begin{align}
 \label{eq:}
-&\mathbf{Input: } \text{ Number of samples, number of iterations, sampling method, dimension of configuration space. } \nonumber \\
- &\mathbf{Output: } \text{ A path between arbitrary points for each iteration.} \nonumber
+&\mathbf{Input: } \text{ Number of samples, number of iterations, sampling method. } \nonumber \\
+ &\mathbf{Output: } \text{ A path between arbitrary points for each iteration, given as angles for each joint in the manipulator.} \nonumber
  \end{align}
+
+For getting the shortest path between points in the configuration space, a shortest path like Dijkstra's algorithm for weighted edges will be used in a parallel version. 
+
+\section*{Possible expansion of project}
+
+If the there is enough time, there are some things we would like to explore. 
+
+
+
+
+
+
+
 
 
 
