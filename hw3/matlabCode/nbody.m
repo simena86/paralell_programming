@@ -25,7 +25,7 @@ G = 6.674e-11;             % gravitational constant, m^3 kg^-1 s^-2
 week = 60 * 60 * 24 * 7;   % one week, in seconds
 dt = step_size;%1 * week;             % size of a time step
 steps =  iters;               % number of time steps to simulate    
-pix = 0;                   % 1 to draw pictures, 0 not to
+pix = 1;                   % 1 to draw pictures, 0 not to
 
 if pix > 0, clf reset; plot_pix(xyz,0); end;
 
