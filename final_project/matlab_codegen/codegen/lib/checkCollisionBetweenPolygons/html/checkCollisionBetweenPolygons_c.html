@@ -1,0 +1,192 @@
+<HTML>
+<HEAD>
+<META http-equiv="content-type" content="text/html; charset=utf-8" />
+<TITLE>RTW Report - checkCollisionBetweenPolygons.c </TITLE>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);}">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///cs/student/simena/paralell_programming/final_project/matlab_codegen/codegen/lib/checkCollisionBetweenPolygons/checkCollisionBetweenPolygons.c" TARGET="rtwreport_document_frame">/cs/student/simena/paralell_programming/final_project/matlab_codegen/codegen/lib/checkCollisionBetweenPolygons/checkCollisionBetweenPolygons.c</A></H4>
+<PRE id="RTWcode">
+<A NAME="1"><FONT COLOR="#888888"><I>    1   </I></FONT></A><FONT COLOR="#117755"><I>/*</I></FONT>
+<A NAME="2"><FONT COLOR="#888888"><I>    2   </I></FONT></A><FONT COLOR="#117755"><I> * checkCollisionBetweenPolygons.c</I></FONT>
+<A NAME="3"><FONT COLOR="#888888"><I>    3   </I></FONT></A><FONT COLOR="#117755"><I> *</I></FONT>
+<A NAME="4"><FONT COLOR="#888888"><I>    4   </I></FONT></A><FONT COLOR="#117755"><I> * Code generation for function 'checkCollisionBetweenPolygons'</I></FONT>
+<A NAME="5"><FONT COLOR="#888888"><I>    5   </I></FONT></A><FONT COLOR="#117755"><I> *</I></FONT>
+<A NAME="6"><FONT COLOR="#888888"><I>    6   </I></FONT></A><FONT COLOR="#117755"><I> * C source code generated on: Fri Mar  1 11:27:49 2013</I></FONT>
+<A NAME="7"><FONT COLOR="#888888"><I>    7   </I></FONT></A><FONT COLOR="#117755"><I> *</I></FONT>
+<A NAME="8"><FONT COLOR="#888888"><I>    8   </I></FONT></A><FONT COLOR="#117755"><I> */</I></FONT>
+<A NAME="9"><FONT COLOR="#888888"><I>    9   </I></FONT></A>
+<A NAME="10"><FONT COLOR="#888888"><I>   10   </I></FONT></A><FONT COLOR="#117755"><I>/* Include files */</I></FONT>
+<A NAME="11"><FONT COLOR="#888888"><I>   11   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;rt_nonfinite.h&quot;</FONT>
+<A NAME="12"><FONT COLOR="#888888"><I>   12   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;checkCollisionBetweenPolygons.h&quot;</FONT>
+<A NAME="13"><FONT COLOR="#888888"><I>   13   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;myinpolygon.h&quot;</FONT>
+<A NAME="14"><FONT COLOR="#888888"><I>   14   </I></FONT></A>
+<A NAME="15"><FONT COLOR="#888888"><I>   15   </I></FONT></A><FONT COLOR="#117755"><I>/* Type Definitions */</I></FONT>
+<A NAME="16"><FONT COLOR="#888888"><I>   16   </I></FONT></A>
+<A NAME="17"><FONT COLOR="#888888"><I>   17   </I></FONT></A><FONT COLOR="#117755"><I>/* Named Constants */</I></FONT>
+<A NAME="18"><FONT COLOR="#888888"><I>   18   </I></FONT></A>
+<A NAME="19"><FONT COLOR="#888888"><I>   19   </I></FONT></A><FONT COLOR="#117755"><I>/* Variable Declarations */</I></FONT>
+<A NAME="20"><FONT COLOR="#888888"><I>   20   </I></FONT></A>
+<A NAME="21"><FONT COLOR="#888888"><I>   21   </I></FONT></A><FONT COLOR="#117755"><I>/* Variable Definitions */</I></FONT>
+<A NAME="22"><FONT COLOR="#888888"><I>   22   </I></FONT></A>
+<A NAME="23"><FONT COLOR="#888888"><I>   23   </I></FONT></A><FONT COLOR="#117755"><I>/* Function Declarations */</I></FONT>
+<A NAME="24"><FONT COLOR="#888888"><I>   24   </I></FONT></A>
+<A NAME="25"><FONT COLOR="#888888"><I>   25   </I></FONT></A><FONT COLOR="#117755"><I>/* Function Definitions */</I></FONT>
+<A NAME="26"><FONT COLOR="#888888"><I>   26   </I></FONT></A><A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> <A NAME="fcn_checkCollisionBetweenPolygons">checkCollisionBetweenPolygons</A>(<FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> P1[20], <FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> P2[20])
+<A NAME="27"><FONT COLOR="#888888"><I>   27   </I></FONT></A><B>{</B>
+<A NAME="28"><FONT COLOR="#888888"><I>   28   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> bCollide;
+<A NAME="29"><FONT COLOR="#888888"><I>   29   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> b_P2[10];
+<A NAME="30"><FONT COLOR="#888888"><I>   30   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> c_P2[10];
+<A NAME="31"><FONT COLOR="#888888"><I>   31   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> k;
+<A NAME="32"><FONT COLOR="#888888"><I>   32   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> in2[10];
+<A NAME="33"><FONT COLOR="#888888"><I>   33   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> y;
+<A NAME="34"><FONT COLOR="#888888"><I>   34   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> exitg4;
+<A NAME="35"><FONT COLOR="#888888"><I>   35   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> b0;
+<A NAME="36"><FONT COLOR="#888888"><I>   36   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> exitg3;
+<A NAME="37"><FONT COLOR="#888888"><I>   37   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> exitg2;
+<A NAME="38"><FONT COLOR="#888888"><I>   38   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> r;
+<A NAME="39"><FONT COLOR="#888888"><I>   39   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> j;
+<A NAME="40"><FONT COLOR="#888888"><I>   40   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> exitg1;
+<A NAME="41"><FONT COLOR="#888888"><I>   41   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> b_r;
+<A NAME="42"><FONT COLOR="#888888"><I>   42   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> den;
+<A NAME="43"><FONT COLOR="#888888"><I>   43   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> u_a;
+<A NAME="44"><FONT COLOR="#888888"><I>   44   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> guard1 = FALSE;
+<A NAME="45"><FONT COLOR="#888888"><I>   45   </I></FONT></A>
+<A NAME="46"><FONT COLOR="#888888"><I>   46   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  Returns a boolean indicating whether two arbitrary polygons collide. */</I></FONT>
+<A NAME="47"><FONT COLOR="#888888"><I>   47   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  Requires to polygons defined as n-by-2 arrays of counterclockwise points. */</I></FONT>
+<A NAME="48"><FONT COLOR="#888888"><I>   48   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  Function first tests whether any vertices of one polygon are inside the */</I></FONT>
+<A NAME="49"><FONT COLOR="#888888"><I>   49   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  other, then checks for intersection of segments. */</I></FONT>
+<A NAME="50"><FONT COLOR="#888888"><I>   50   </I></FONT></A>  <FONT COLOR="#117755"><I>/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */</I></FONT>
+<A NAME="51"><FONT COLOR="#888888"><I>   51   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  Intro to Robotics, ME170A/ECE181A, Spring 2009 */</I></FONT>
+<A NAME="52"><FONT COLOR="#888888"><I>   52   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  Joey Durham */</I></FONT>
+<A NAME="53"><FONT COLOR="#888888"><I>   53   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  April 21, 2009 */</I></FONT>
+<A NAME="54"><FONT COLOR="#888888"><I>   54   </I></FONT></A>  <FONT COLOR="#117755"><I>/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */</I></FONT>
+<A NAME="55"><FONT COLOR="#888888"><I>   55   </I></FONT></A>  bCollide = FALSE;
+<A NAME="56"><FONT COLOR="#888888"><I>   56   </I></FONT></A>
+<A NAME="57"><FONT COLOR="#888888"><I>   57   </I></FONT></A>  <FONT COLOR="#117755"><I>/*  First, check if any vertex of P1 is inside P2 */</I></FONT>
+<A NAME="58"><FONT COLOR="#888888"><I>   58   </I></FONT></A>  <FONT COLOR="#112266"><B>for</B></FONT> (k = 0; k &lt; 10; k++) <B>{</B>
+<A NAME="59"><FONT COLOR="#888888"><I>   59   </I></FONT></A>    b_P2[k] = P2[k];
+<A NAME="60"><FONT COLOR="#888888"><I>   60   </I></FONT></A>    c_P2[k] = P2[10 + k];
+<A NAME="61"><FONT COLOR="#888888"><I>   61   </I></FONT></A>  <B>}</B>
+<A NAME="62"><FONT COLOR="#888888"><I>   62   </I></FONT></A>
+<A NAME="63"><FONT COLOR="#888888"><I>   63   </I></FONT></A>  <A HREF="myinpolygon_c.html#fcn_b_myinpolygon" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_b_myinpolygon');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">b_myinpolygon</FONT></A>(*(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> (*)[10])&amp;P1[0], *(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> (*)[10])&amp;P1[10], b_P2, c_P2,
+<A NAME="64"><FONT COLOR="#888888"><I>   64   </I></FONT></A>                in2);
+<A NAME="65"><FONT COLOR="#888888"><I>   65   </I></FONT></A>  y = FALSE;
+<A NAME="66"><FONT COLOR="#888888"><I>   66   </I></FONT></A>  k = 0;
+<A NAME="67"><FONT COLOR="#888888"><I>   67   </I></FONT></A>  exitg4 = 0U;
+<A NAME="68"><FONT COLOR="#888888"><I>   68   </I></FONT></A>  <FONT COLOR="#112266"><B>while</B></FONT> ((exitg4 == 0U) &amp;&amp; (k &lt; 10)) <B>{</B>
+<A NAME="69"><FONT COLOR="#888888"><I>   69   </I></FONT></A>    <FONT COLOR="#112266"><B>if</B></FONT> (in2[k] == 0) <B>{</B>
+<A NAME="70"><FONT COLOR="#888888"><I>   70   </I></FONT></A>      b0 = TRUE;
+<A NAME="71"><FONT COLOR="#888888"><I>   71   </I></FONT></A>    <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="72"><FONT COLOR="#888888"><I>   72   </I></FONT></A>      b0 = FALSE;
+<A NAME="73"><FONT COLOR="#888888"><I>   73   </I></FONT></A>    <B>}</B>
+<A NAME="74"><FONT COLOR="#888888"><I>   74   </I></FONT></A>
+<A NAME="75"><FONT COLOR="#888888"><I>   75   </I></FONT></A>    <FONT COLOR="#112266"><B>if</B></FONT> (!b0) <B>{</B>
+<A NAME="76"><FONT COLOR="#888888"><I>   76   </I></FONT></A>      y = TRUE;
+<A NAME="77"><FONT COLOR="#888888"><I>   77   </I></FONT></A>      exitg4 = 1U;
+<A NAME="78"><FONT COLOR="#888888"><I>   78   </I></FONT></A>    <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="79"><FONT COLOR="#888888"><I>   79   </I></FONT></A>      k++;
+<A NAME="80"><FONT COLOR="#888888"><I>   80   </I></FONT></A>    <B>}</B>
+<A NAME="81"><FONT COLOR="#888888"><I>   81   </I></FONT></A>  <B>}</B>
+<A NAME="82"><FONT COLOR="#888888"><I>   82   </I></FONT></A>
+<A NAME="83"><FONT COLOR="#888888"><I>   83   </I></FONT></A>  <FONT COLOR="#112266"><B>if</B></FONT> (y) <B>{</B>
+<A NAME="84"><FONT COLOR="#888888"><I>   84   </I></FONT></A>    <FONT COLOR="#117755"><I>/* fprintf('Vertices in polygon\n'); */</I></FONT>
+<A NAME="85"><FONT COLOR="#888888"><I>   85   </I></FONT></A>    bCollide = TRUE;
+<A NAME="86"><FONT COLOR="#888888"><I>   86   </I></FONT></A>  <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="87"><FONT COLOR="#888888"><I>   87   </I></FONT></A>    <FONT COLOR="#117755"><I>/*  Next, check if any vertex of P2 is inside P1 */</I></FONT>
+<A NAME="88"><FONT COLOR="#888888"><I>   88   </I></FONT></A>    <FONT COLOR="#112266"><B>for</B></FONT> (k = 0; k &lt; 10; k++) <B>{</B>
+<A NAME="89"><FONT COLOR="#888888"><I>   89   </I></FONT></A>      b_P2[k] = P1[k];
+<A NAME="90"><FONT COLOR="#888888"><I>   90   </I></FONT></A>      c_P2[k] = P1[10 + k];
+<A NAME="91"><FONT COLOR="#888888"><I>   91   </I></FONT></A>    <B>}</B>
+<A NAME="92"><FONT COLOR="#888888"><I>   92   </I></FONT></A>
+<A NAME="93"><FONT COLOR="#888888"><I>   93   </I></FONT></A>    <A HREF="myinpolygon_c.html#fcn_b_myinpolygon" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_b_myinpolygon');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">b_myinpolygon</FONT></A>(*(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> (*)[10])&amp;P2[0], *(<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> (*)[10])&amp;P2[10], b_P2, c_P2,
+<A NAME="94"><FONT COLOR="#888888"><I>   94   </I></FONT></A>                  in2);
+<A NAME="95"><FONT COLOR="#888888"><I>   95   </I></FONT></A>    y = FALSE;
+<A NAME="96"><FONT COLOR="#888888"><I>   96   </I></FONT></A>    k = 0;
+<A NAME="97"><FONT COLOR="#888888"><I>   97   </I></FONT></A>    exitg3 = 0U;
+<A NAME="98"><FONT COLOR="#888888"><I>   98   </I></FONT></A>    <FONT COLOR="#112266"><B>while</B></FONT> ((exitg3 == 0U) &amp;&amp; (k &lt; 10)) <B>{</B>
+<A NAME="99"><FONT COLOR="#888888"><I>   99   </I></FONT></A>      <FONT COLOR="#112266"><B>if</B></FONT> (in2[k] == 0) <B>{</B>
+<A NAME="100"><FONT COLOR="#888888"><I>  100   </I></FONT></A>        b0 = TRUE;
+<A NAME="101"><FONT COLOR="#888888"><I>  101   </I></FONT></A>      <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="102"><FONT COLOR="#888888"><I>  102   </I></FONT></A>        b0 = FALSE;
+<A NAME="103"><FONT COLOR="#888888"><I>  103   </I></FONT></A>      <B>}</B>
+<A NAME="104"><FONT COLOR="#888888"><I>  104   </I></FONT></A>
+<A NAME="105"><FONT COLOR="#888888"><I>  105   </I></FONT></A>      <FONT COLOR="#112266"><B>if</B></FONT> (!b0) <B>{</B>
+<A NAME="106"><FONT COLOR="#888888"><I>  106   </I></FONT></A>        y = TRUE;
+<A NAME="107"><FONT COLOR="#888888"><I>  107   </I></FONT></A>        exitg3 = 1U;
+<A NAME="108"><FONT COLOR="#888888"><I>  108   </I></FONT></A>      <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="109"><FONT COLOR="#888888"><I>  109   </I></FONT></A>        k++;
+<A NAME="110"><FONT COLOR="#888888"><I>  110   </I></FONT></A>      <B>}</B>
+<A NAME="111"><FONT COLOR="#888888"><I>  111   </I></FONT></A>    <B>}</B>
+<A NAME="112"><FONT COLOR="#888888"><I>  112   </I></FONT></A>
+<A NAME="113"><FONT COLOR="#888888"><I>  113   </I></FONT></A>    <FONT COLOR="#112266"><B>if</B></FONT> (y) <B>{</B>
+<A NAME="114"><FONT COLOR="#888888"><I>  114   </I></FONT></A>      bCollide = TRUE;
+<A NAME="115"><FONT COLOR="#888888"><I>  115   </I></FONT></A>    <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="116"><FONT COLOR="#888888"><I>  116   </I></FONT></A>      <FONT COLOR="#117755"><I>/*  Finally, loop over all combinations of edges of segments checking for */</I></FONT>
+<A NAME="117"><FONT COLOR="#888888"><I>  117   </I></FONT></A>      <FONT COLOR="#117755"><I>/*  intersection.  s1 and s2 are the endpoints of the ith segment of P1, while t1 */</I></FONT>
+<A NAME="118"><FONT COLOR="#888888"><I>  118   </I></FONT></A>      <FONT COLOR="#117755"><I>/*  and t2 are for the jth segment of P2 */</I></FONT>
+<A NAME="119"><FONT COLOR="#888888"><I>  119   </I></FONT></A>      k = 0;
+<A NAME="120"><FONT COLOR="#888888"><I>  120   </I></FONT></A>      exitg2 = 0U;
+<A NAME="121"><FONT COLOR="#888888"><I>  121   </I></FONT></A>      <FONT COLOR="#112266"><B>while</B></FONT> ((exitg2 == 0U) &amp;&amp; (k &lt; 10)) <B>{</B>
+<A NAME="122"><FONT COLOR="#888888"><I>  122   </I></FONT></A>        r = (k - (<A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A>)floor((1.0 + (<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A>)k) / 10.0) * 10) + 1;
+<A NAME="123"><FONT COLOR="#888888"><I>  123   </I></FONT></A>        j = 0;
+<A NAME="124"><FONT COLOR="#888888"><I>  124   </I></FONT></A>        <FONT COLOR="#112266"><B>do</B></FONT> <B>{</B>
+<A NAME="125"><FONT COLOR="#888888"><I>  125   </I></FONT></A>          exitg1 = 0U;
+<A NAME="126"><FONT COLOR="#888888"><I>  126   </I></FONT></A>          <FONT COLOR="#112266"><B>if</B></FONT> (j &lt; 10) <B>{</B>
+<A NAME="127"><FONT COLOR="#888888"><I>  127   </I></FONT></A>            b_r = (j - (<A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A>)floor((1.0 + (<A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A>)j) / 10.0) * 10) + 1;
+<A NAME="128"><FONT COLOR="#888888"><I>  128   </I></FONT></A>            den = (P2[10 + b_r] - P2[10 + j]) * (P1[r] - P1[k]) - (P2[b_r] -
+<A NAME="129"><FONT COLOR="#888888"><I>  129   </I></FONT></A>              P2[j]) * (P1[10 + r] - P1[10 + k]);
+<A NAME="130"><FONT COLOR="#888888"><I>  130   </I></FONT></A>            u_a = (P2[b_r] - P2[j]) * (P1[10 + k] - P2[10 + j]) - (P2[10 + b_r]
+<A NAME="131"><FONT COLOR="#888888"><I>  131   </I></FONT></A>              - P2[10 + j]) * (P1[k] - P2[j]);
+<A NAME="132"><FONT COLOR="#888888"><I>  132   </I></FONT></A>            guard1 = FALSE;
+<A NAME="133"><FONT COLOR="#888888"><I>  133   </I></FONT></A>            <FONT COLOR="#112266"><B>if</B></FONT> (fabs(den) &lt; 0.001) <B>{</B>
+<A NAME="134"><FONT COLOR="#888888"><I>  134   </I></FONT></A>              <FONT COLOR="#112266"><B>if</B></FONT> (fabs(u_a) &lt; 0.001) <B>{</B>
+<A NAME="135"><FONT COLOR="#888888"><I>  135   </I></FONT></A>                <FONT COLOR="#117755"><I>/*  Segments are coincident */</I></FONT>
+<A NAME="136"><FONT COLOR="#888888"><I>  136   </I></FONT></A>                <FONT COLOR="#117755"><I>/* fprintf('Coincident segments\n'); */</I></FONT>
+<A NAME="137"><FONT COLOR="#888888"><I>  137   </I></FONT></A>                bCollide = TRUE;
+<A NAME="138"><FONT COLOR="#888888"><I>  138   </I></FONT></A>                exitg1 = 1U;
+<A NAME="139"><FONT COLOR="#888888"><I>  139   </I></FONT></A>              <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="140"><FONT COLOR="#888888"><I>  140   </I></FONT></A>                <FONT COLOR="#117755"><I>/*  Segments are parallel and cannot intersect */</I></FONT>
+<A NAME="141"><FONT COLOR="#888888"><I>  141   </I></FONT></A>                guard1 = TRUE;
+<A NAME="142"><FONT COLOR="#888888"><I>  142   </I></FONT></A>              <B>}</B>
+<A NAME="143"><FONT COLOR="#888888"><I>  143   </I></FONT></A>            <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="144"><FONT COLOR="#888888"><I>  144   </I></FONT></A>              u_a /= den;
+<A NAME="145"><FONT COLOR="#888888"><I>  145   </I></FONT></A>              den = ((P1[r] - P1[k]) * (P1[10 + k] - P2[10 + j]) - (P1[10 + r] -
+<A NAME="146"><FONT COLOR="#888888"><I>  146   </I></FONT></A>                      P1[10 + k]) * (P1[k] - P2[j])) / den;
+<A NAME="147"><FONT COLOR="#888888"><I>  147   </I></FONT></A>              <FONT COLOR="#112266"><B>if</B></FONT> ((u_a &gt;= 0.0) &amp;&amp; (u_a &lt;= 1.0) &amp;&amp; (den &gt;= 0.0) &amp;&amp; (den &lt;= 1.0))
+<A NAME="148"><FONT COLOR="#888888"><I>  148   </I></FONT></A>              <B>{</B>
+<A NAME="149"><FONT COLOR="#888888"><I>  149   </I></FONT></A>                <FONT COLOR="#117755"><I>/*  Segments intersect */</I></FONT>
+<A NAME="150"><FONT COLOR="#888888"><I>  150   </I></FONT></A>                <FONT COLOR="#117755"><I>/* fprintf('Intersecting segments\n'); */</I></FONT>
+<A NAME="151"><FONT COLOR="#888888"><I>  151   </I></FONT></A>                bCollide = TRUE;
+<A NAME="152"><FONT COLOR="#888888"><I>  152   </I></FONT></A>                exitg1 = 1U;
+<A NAME="153"><FONT COLOR="#888888"><I>  153   </I></FONT></A>              <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="154"><FONT COLOR="#888888"><I>  154   </I></FONT></A>                guard1 = TRUE;
+<A NAME="155"><FONT COLOR="#888888"><I>  155   </I></FONT></A>              <B>}</B>
+<A NAME="156"><FONT COLOR="#888888"><I>  156   </I></FONT></A>            <B>}</B>
+<A NAME="157"><FONT COLOR="#888888"><I>  157   </I></FONT></A>
+<A NAME="158"><FONT COLOR="#888888"><I>  158   </I></FONT></A>            <FONT COLOR="#112266"><B>if</B></FONT> (guard1 == TRUE) <B>{</B>
+<A NAME="159"><FONT COLOR="#888888"><I>  159   </I></FONT></A>              j++;
+<A NAME="160"><FONT COLOR="#888888"><I>  160   </I></FONT></A>            <B>}</B>
+<A NAME="161"><FONT COLOR="#888888"><I>  161   </I></FONT></A>          <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="162"><FONT COLOR="#888888"><I>  162   </I></FONT></A>            k++;
+<A NAME="163"><FONT COLOR="#888888"><I>  163   </I></FONT></A>            exitg1 = 2U;
+<A NAME="164"><FONT COLOR="#888888"><I>  164   </I></FONT></A>          <B>}</B>
+<A NAME="165"><FONT COLOR="#888888"><I>  165   </I></FONT></A>        <B>}</B> <FONT COLOR="#112266"><B>while</B></FONT> (exitg1 == 0U);
+<A NAME="166"><FONT COLOR="#888888"><I>  166   </I></FONT></A>
+<A NAME="167"><FONT COLOR="#888888"><I>  167   </I></FONT></A>        <FONT COLOR="#112266"><B>if</B></FONT> (exitg1 == 1U) <B>{</B>
+<A NAME="168"><FONT COLOR="#888888"><I>  168   </I></FONT></A>          exitg2 = 1U;
+<A NAME="169"><FONT COLOR="#888888"><I>  169   </I></FONT></A>        <B>}</B>
+<A NAME="170"><FONT COLOR="#888888"><I>  170   </I></FONT></A>      <B>}</B>
+<A NAME="171"><FONT COLOR="#888888"><I>  171   </I></FONT></A>    <B>}</B>
+<A NAME="172"><FONT COLOR="#888888"><I>  172   </I></FONT></A>  <B>}</B>
+<A NAME="173"><FONT COLOR="#888888"><I>  173   </I></FONT></A>
+<A NAME="174"><FONT COLOR="#888888"><I>  174   </I></FONT></A>  <FONT COLOR="#112266"><B>return</B></FONT> bCollide;
+<A NAME="175"><FONT COLOR="#888888"><I>  175   </I></FONT></A><B>}</B>
+<A NAME="176"><FONT COLOR="#888888"><I>  176   </I></FONT></A>
+<A NAME="177"><FONT COLOR="#888888"><I>  177   </I></FONT></A><FONT COLOR="#117755"><I>/* End of code generation (checkCollisionBetweenPolygons.c) */</I></FONT>
+<A NAME="178"><FONT COLOR="#888888"><I>  178   </I></FONT></A></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>

@@ -1,9 +1,10 @@
-close all; clc; clear all
+close all
+clc
 
 %% Intialize polygons
 
 % Obstacles and links are modeled as polygons
-
+clear all
 Poly1 = [-0.6,0.3;-0.4,-0.4;0.7,-0.3;0.6,0.4;0.2,0.3;-0.296057,0.596997];
 Poly2 = [-0.8,-0.4;-0.1,-0.1;0.9,-0.4;0.3,0.2;0.102922,0.598169;-0.3,0.4];
 
@@ -19,11 +20,9 @@ link2Base = [1,0];  % In relative coordinates, should be inside link1Poly
 
 %% Generate sample points
 
-
 numSamples = 2000;
-sampleList= -pi + 2*pi*rand(numSamples,2);
 
-%plot(sampleList(:,1), sampleList(:,2), '.r');
+sampleList = (2*pi)*rand(numSamples,2) - pi;
 
 %% Determine which sample points are in free config space
 
@@ -49,7 +48,8 @@ hold off
 
 %% Compute adjacency look-up table suitable for doing BFS
 
-connectRadius = (3.5*pi)/(sqrt(numSamples));
+%connectRadius = (2.2*pi)/(numSamples-1);
+connectRadius = 0.3; % New radius. Get reliably conected graph, but so smal that we not generate too many extra edges
 
 disp('Computing Adjacency Table')
 tic
@@ -66,7 +66,7 @@ for j = 1:size(freeCSpacePoints,1)
 
     alpha = freeCSpacePoints(j,1);
     beta = freeCSpacePoints(j,2);
-    plot( alpha, beta, '.b', 'LineWidth', 2 );
+    plot( alpha, beta, 'or', 'LineWidth', 2 );
 
 end
 
@@ -74,15 +74,15 @@ for j = 1:size(freeCSpacePoints,1)
 
     alpha1 = freeCSpacePoints(j,1);
     beta1 = freeCSpacePoints(j,2);
-
+    
     for k = 1:size(adjTable{j},1)
         idx2 = adjTable{j}(k,1);
         alpha2 = freeCSpacePoints(idx2,1);
         beta2 = freeCSpacePoints(idx2,2);
 
         if( max(abs(freeCSpacePoints(j,:) - freeCSpacePoints(idx2,:))) < 1.1*connectRadius )
-
-            plot( [alpha1 alpha2], [beta1 beta2], '-r', 'LineWidth', 1 );
+            
+            plot( [alpha1 alpha2], [beta1 beta2], '-b', 'LineWidth', 1 );
         end
     end
 
@@ -94,6 +94,7 @@ hold off
 testPoints = randperm(size(freeCSpacePoints,1));
 
 for i = 1:3
+
     startIdx = testPoints(2*i-1);
     goalIdx = testPoints(2*i);
 
@@ -104,7 +105,7 @@ for i = 1:3
 
     disp('Ploting results')
     % tic
-    figure
+    figure;
     axis( [-pi pi -pi pi] )
     axis square
     hold on
@@ -117,8 +118,7 @@ for i = 1:3
         plot( alpha, beta, '.b', 'LineWidth', 2 );
         
     end
-    xlabel('alpha');
-    ylabel('beta');
+
     % Plot the path produced by BFS through the free configuration space
     for row = 1:size(cSpacePath,1)
         edge = cSpacePath(row,:);
@@ -142,7 +142,7 @@ for i = 1:3
     hold off
     
     % Plot the start and goal configurations in the workspace with obstacles
-    figure;
+    figure
     hold on
     for i = 1:length(ObstacleList)
         obs = ObstacleList{i};
@@ -157,15 +157,12 @@ for i = 1:3
     goalLink2 = displaceLinkPoly( link2Poly, freeCSpacePoints(goalIdx,1) + freeCSpacePoints(goalIdx,2), newLink2Base, [0,0] );
     fill( goalLink1(:,1), goalLink1(:,2), 'r' )
     fill( goalLink2(:,1), goalLink2(:,2), 'r' )
-    xlabel('x');
-    ylabel('y');
+
     axis([-3 3 -3 3])
     axis square
     hold off
 
 end
-
-
 
 %% Produce movie for particular configurations
 
@@ -204,7 +201,7 @@ movieObj.Quality = 100;
 % If you have trouble playing the movie, try changing the compression type,
 % see help avifile for more info.
 movieObj.Compression = 'None';
-movieObj.Fps = 100.0;
+movieObj.Fps = 3.0;
 
 set(fig,'DoubleBuffer','on');
 set(gca,'xlim',[-2 2],'ylim',[-2 2],...

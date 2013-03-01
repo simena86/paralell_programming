@@ -1,20 +1,25 @@
 function [linkPoly, nextLinkBase] = displaceLinkPoly( linkPolyRef, linkAngle,linkBase, nextLinkBaseRef )
-% function [linkPoly, nextLinkBase] = displaceLinkPoly( linkPolyRef, linklinkAngle,linkBase, nextLinkBaseRef )
-% this function rotates a polygon of a robot manipulator by linklinkAngle and
-% translated by linkBase
 
-% Rotation matrix
-R=[cos(linkAngle), -sin(linkAngle); sin(linkAngle), cos(linkAngle)];
+linkPoly = zeros(length(linkPolyRef),2);
 
-% Rotate polygon and endpoint
-linkPoly=(R*linkPolyRef')';
-nextLinkBase=(R*nextLinkBaseRef')';
+% Making the 2D rotation matrix
+Rotation_matrix = [cos(linkAngle), -sin(linkAngle) ; sin(linkAngle), cos(linkAngle)];
 
-% Translate polygon
-linkPoly(:,1)=linkPoly(:,1) + linkBase(1);
-linkPoly(:,2)=linkPoly(:,2) + linkBase(2);
-nextLinkBase(1)=nextLinkBase(1)+linkBase(1);
-nextLinkBase(2)=nextLinkBase(2)+linkBase(2);
+% Rotate and translate every vertices of the polygon
+for i =1:length(linkPolyRef);
+    x = [linkPolyRef(i,1) ; linkPolyRef(i,2)];   
+    % Rotation
+    linkPoly(i,:) = Rotation_matrix * x;
+    %translation
+    linkPoly(i,1) = linkPoly(i,1) + linkBase(1);
+    linkPoly(i,2) = linkPoly(i,2) + linkBase(2); 
+    
+end
 
+% Do the rotiation and translation for the next link base
+x = [nextLinkBaseRef(1) ; nextLinkBaseRef(2)];
+nextLinkBase = Rotation_matrix * x;
+nextLinkBase(1) = nextLinkBase(1) + linkBase(1);
+nextLinkBase(2) = nextLinkBase(2) + linkBase(2);
 
 end

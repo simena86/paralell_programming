@@ -1,0 +1,120 @@
+<HTML>
+<HEAD>
+<META http-equiv="content-type" content="text/html; charset=utf-8" />
+<TITLE>RTW Report - bsxfun.c </TITLE>
+</HEAD>
+<BODY BGCOLOR="#eeeeee" TEXT="#1122aa" ONLOAD="if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window);}">
+<P>
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="100%"><TR><TD WIDTH="100%" VALIGN="top" BGCOLOR="#ffffff">
+<H4>File: <A HREF="file:///cs/student/simena/paralell_programming/final_project/matlab_codegen/codegen/lib/checkCollisionBetweenPolygons/bsxfun.c" TARGET="rtwreport_document_frame">/cs/student/simena/paralell_programming/final_project/matlab_codegen/codegen/lib/checkCollisionBetweenPolygons/bsxfun.c</A></H4>
+<PRE id="RTWcode">
+<A NAME="1"><FONT COLOR="#888888"><I>    1   </I></FONT></A><FONT COLOR="#117755"><I>/*</I></FONT>
+<A NAME="2"><FONT COLOR="#888888"><I>    2   </I></FONT></A><FONT COLOR="#117755"><I> * bsxfun.c</I></FONT>
+<A NAME="3"><FONT COLOR="#888888"><I>    3   </I></FONT></A><FONT COLOR="#117755"><I> *</I></FONT>
+<A NAME="4"><FONT COLOR="#888888"><I>    4   </I></FONT></A><FONT COLOR="#117755"><I> * Code generation for function 'bsxfun'</I></FONT>
+<A NAME="5"><FONT COLOR="#888888"><I>    5   </I></FONT></A><FONT COLOR="#117755"><I> *</I></FONT>
+<A NAME="6"><FONT COLOR="#888888"><I>    6   </I></FONT></A><FONT COLOR="#117755"><I> * C source code generated on: Fri Mar  1 11:27:49 2013</I></FONT>
+<A NAME="7"><FONT COLOR="#888888"><I>    7   </I></FONT></A><FONT COLOR="#117755"><I> *</I></FONT>
+<A NAME="8"><FONT COLOR="#888888"><I>    8   </I></FONT></A><FONT COLOR="#117755"><I> */</I></FONT>
+<A NAME="9"><FONT COLOR="#888888"><I>    9   </I></FONT></A>
+<A NAME="10"><FONT COLOR="#888888"><I>   10   </I></FONT></A><FONT COLOR="#117755"><I>/* Include files */</I></FONT>
+<A NAME="11"><FONT COLOR="#888888"><I>   11   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;rt_nonfinite.h&quot;</FONT>
+<A NAME="12"><FONT COLOR="#888888"><I>   12   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;checkCollisionBetweenPolygons.h&quot;</FONT>
+<A NAME="13"><FONT COLOR="#888888"><I>   13   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;myinpolygon.h&quot;</FONT>
+<A NAME="14"><FONT COLOR="#888888"><I>   14   </I></FONT></A><FONT COLOR="#992211">#</FONT><FONT COLOR="#992211"><B>include</B></FONT> <FONT COLOR="#992211">&quot;bsxfun.h&quot;</FONT>
+<A NAME="15"><FONT COLOR="#888888"><I>   15   </I></FONT></A>
+<A NAME="16"><FONT COLOR="#888888"><I>   16   </I></FONT></A><FONT COLOR="#117755"><I>/* Type Definitions */</I></FONT>
+<A NAME="17"><FONT COLOR="#888888"><I>   17   </I></FONT></A>
+<A NAME="18"><FONT COLOR="#888888"><I>   18   </I></FONT></A><FONT COLOR="#117755"><I>/* Named Constants */</I></FONT>
+<A NAME="19"><FONT COLOR="#888888"><I>   19   </I></FONT></A>
+<A NAME="20"><FONT COLOR="#888888"><I>   20   </I></FONT></A><FONT COLOR="#117755"><I>/* Variable Declarations */</I></FONT>
+<A NAME="21"><FONT COLOR="#888888"><I>   21   </I></FONT></A>
+<A NAME="22"><FONT COLOR="#888888"><I>   22   </I></FONT></A><FONT COLOR="#117755"><I>/* Variable Definitions */</I></FONT>
+<A NAME="23"><FONT COLOR="#888888"><I>   23   </I></FONT></A>
+<A NAME="24"><FONT COLOR="#888888"><I>   24   </I></FONT></A><FONT COLOR="#117755"><I>/* Function Declarations */</I></FONT>
+<A NAME="25"><FONT COLOR="#888888"><I>   25   </I></FONT></A>
+<A NAME="26"><FONT COLOR="#888888"><I>   26   </I></FONT></A><FONT COLOR="#117755"><I>/* Function Definitions */</I></FONT>
+<A NAME="27"><FONT COLOR="#888888"><I>   27   </I></FONT></A><FONT COLOR="#112266"><B>void</B></FONT> <A NAME="fcn_b_bsxfun">b_bsxfun</A>(<FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> a_data[380], <FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> a_sizes[2], <FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A>
+<A NAME="28"><FONT COLOR="#888888"><I>   28   </I></FONT></A>              b[19], <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> c_data[380], <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> c_sizes[2])
+<A NAME="29"><FONT COLOR="#888888"><I>   29   </I></FONT></A><B>{</B>
+<A NAME="30"><FONT COLOR="#888888"><I>   30   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int8_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int8_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int8_T</FONT></A> csz[2];
+<A NAME="31"><FONT COLOR="#888888"><I>   31   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> i6;
+<A NAME="32"><FONT COLOR="#888888"><I>   32   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> asub;
+<A NAME="33"><FONT COLOR="#888888"><I>   33   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> ak;
+<A NAME="34"><FONT COLOR="#888888"><I>   34   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> ck;
+<A NAME="35"><FONT COLOR="#888888"><I>   35   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> cv[19];
+<A NAME="36"><FONT COLOR="#888888"><I>   36   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> k;
+<A NAME="37"><FONT COLOR="#888888"><I>   37   </I></FONT></A>  <FONT COLOR="#112266"><B>for</B></FONT> (i6 = 0; i6 &lt; 2; i6++) <B>{</B>
+<A NAME="38"><FONT COLOR="#888888"><I>   38   </I></FONT></A>    csz[i6] = 0;
+<A NAME="39"><FONT COLOR="#888888"><I>   39   </I></FONT></A>  <B>}</B>
+<A NAME="40"><FONT COLOR="#888888"><I>   40   </I></FONT></A>
+<A NAME="41"><FONT COLOR="#888888"><I>   41   </I></FONT></A>  csz[0] = 19;
+<A NAME="42"><FONT COLOR="#888888"><I>   42   </I></FONT></A>  csz[1] = (<A HREF="rtwtypes_h.html#type_int8_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int8_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int8_T</FONT></A>)a_sizes[1];
+<A NAME="43"><FONT COLOR="#888888"><I>   43   </I></FONT></A>  c_sizes[0] = 19;
+<A NAME="44"><FONT COLOR="#888888"><I>   44   </I></FONT></A>  c_sizes[1] = (<A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A>)csz[1];
+<A NAME="45"><FONT COLOR="#888888"><I>   45   </I></FONT></A>  asub = 1;
+<A NAME="46"><FONT COLOR="#888888"><I>   46   </I></FONT></A>  ak = 0;
+<A NAME="47"><FONT COLOR="#888888"><I>   47   </I></FONT></A>  i6 = 19 * c_sizes[1] - 19;
+<A NAME="48"><FONT COLOR="#888888"><I>   48   </I></FONT></A>  <FONT COLOR="#112266"><B>for</B></FONT> (ck = 0; ck &lt;= i6; ck += 19) <B>{</B>
+<A NAME="49"><FONT COLOR="#888888"><I>   49   </I></FONT></A>    <FONT COLOR="#112266"><B>for</B></FONT> (k = 0; k &lt; 19; k++) <B>{</B>
+<A NAME="50"><FONT COLOR="#888888"><I>   50   </I></FONT></A>      cv[k] = (a_data[ak + k] &lt; b[k]);
+<A NAME="51"><FONT COLOR="#888888"><I>   51   </I></FONT></A>    <B>}</B>
+<A NAME="52"><FONT COLOR="#888888"><I>   52   </I></FONT></A>
+<A NAME="53"><FONT COLOR="#888888"><I>   53   </I></FONT></A>    <FONT COLOR="#112266"><B>for</B></FONT> (k = 0; k &lt; 19; k++) <B>{</B>
+<A NAME="54"><FONT COLOR="#888888"><I>   54   </I></FONT></A>      c_data[ck + k] = cv[k];
+<A NAME="55"><FONT COLOR="#888888"><I>   55   </I></FONT></A>    <B>}</B>
+<A NAME="56"><FONT COLOR="#888888"><I>   56   </I></FONT></A>
+<A NAME="57"><FONT COLOR="#888888"><I>   57   </I></FONT></A>    <FONT COLOR="#112266"><B>if</B></FONT> (asub &lt; a_sizes[1]) <B>{</B>
+<A NAME="58"><FONT COLOR="#888888"><I>   58   </I></FONT></A>      ak += 19;
+<A NAME="59"><FONT COLOR="#888888"><I>   59   </I></FONT></A>      asub++;
+<A NAME="60"><FONT COLOR="#888888"><I>   60   </I></FONT></A>    <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="61"><FONT COLOR="#888888"><I>   61   </I></FONT></A>      asub = 1;
+<A NAME="62"><FONT COLOR="#888888"><I>   62   </I></FONT></A>    <B>}</B>
+<A NAME="63"><FONT COLOR="#888888"><I>   63   </I></FONT></A>  <B>}</B>
+<A NAME="64"><FONT COLOR="#888888"><I>   64   </I></FONT></A><B>}</B>
+<A NAME="65"><FONT COLOR="#888888"><I>   65   </I></FONT></A>
+<A NAME="66"><FONT COLOR="#888888"><I>   66   </I></FONT></A><FONT COLOR="#112266"><B>void</B></FONT> <A NAME="fcn_bsxfun">bsxfun</A>(<FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> a_data[90], <FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> a_sizes[2], <FONT COLOR="#112266"><B>const</B></FONT> <A HREF="rtwtypes_h.html#type_real_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_real_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">real_T</FONT></A> b[9],
+<A NAME="67"><FONT COLOR="#888888"><I>   67   </I></FONT></A>            <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> c_data[90], <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> c_sizes[2])
+<A NAME="68"><FONT COLOR="#888888"><I>   68   </I></FONT></A><B>{</B>
+<A NAME="69"><FONT COLOR="#888888"><I>   69   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int8_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int8_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int8_T</FONT></A> csz[2];
+<A NAME="70"><FONT COLOR="#888888"><I>   70   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> i3;
+<A NAME="71"><FONT COLOR="#888888"><I>   71   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> asub;
+<A NAME="72"><FONT COLOR="#888888"><I>   72   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> ak;
+<A NAME="73"><FONT COLOR="#888888"><I>   73   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> ck;
+<A NAME="74"><FONT COLOR="#888888"><I>   74   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_boolean_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_boolean_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">boolean_T</FONT></A> cv[9];
+<A NAME="75"><FONT COLOR="#888888"><I>   75   </I></FONT></A>  <A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A> k;
+<A NAME="76"><FONT COLOR="#888888"><I>   76   </I></FONT></A>  <FONT COLOR="#112266"><B>for</B></FONT> (i3 = 0; i3 &lt; 2; i3++) <B>{</B>
+<A NAME="77"><FONT COLOR="#888888"><I>   77   </I></FONT></A>    csz[i3] = 0;
+<A NAME="78"><FONT COLOR="#888888"><I>   78   </I></FONT></A>  <B>}</B>
+<A NAME="79"><FONT COLOR="#888888"><I>   79   </I></FONT></A>
+<A NAME="80"><FONT COLOR="#888888"><I>   80   </I></FONT></A>  csz[0] = 9;
+<A NAME="81"><FONT COLOR="#888888"><I>   81   </I></FONT></A>  csz[1] = (<A HREF="rtwtypes_h.html#type_int8_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int8_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int8_T</FONT></A>)a_sizes[1];
+<A NAME="82"><FONT COLOR="#888888"><I>   82   </I></FONT></A>  c_sizes[0] = 9;
+<A NAME="83"><FONT COLOR="#888888"><I>   83   </I></FONT></A>  c_sizes[1] = (<A HREF="rtwtypes_h.html#type_int32_T" ONCLICK="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_int32_T');" TARGET="rtwreport_document_frame"><FONT COLOR="#1122aa">int32_T</FONT></A>)csz[1];
+<A NAME="84"><FONT COLOR="#888888"><I>   84   </I></FONT></A>  asub = 1;
+<A NAME="85"><FONT COLOR="#888888"><I>   85   </I></FONT></A>  ak = 0;
+<A NAME="86"><FONT COLOR="#888888"><I>   86   </I></FONT></A>  i3 = 9 * c_sizes[1] - 9;
+<A NAME="87"><FONT COLOR="#888888"><I>   87   </I></FONT></A>  <FONT COLOR="#112266"><B>for</B></FONT> (ck = 0; ck &lt;= i3; ck += 9) <B>{</B>
+<A NAME="88"><FONT COLOR="#888888"><I>   88   </I></FONT></A>    <FONT COLOR="#112266"><B>for</B></FONT> (k = 0; k &lt; 9; k++) <B>{</B>
+<A NAME="89"><FONT COLOR="#888888"><I>   89   </I></FONT></A>      cv[k] = (a_data[ak + k] &lt; b[k]);
+<A NAME="90"><FONT COLOR="#888888"><I>   90   </I></FONT></A>    <B>}</B>
+<A NAME="91"><FONT COLOR="#888888"><I>   91   </I></FONT></A>
+<A NAME="92"><FONT COLOR="#888888"><I>   92   </I></FONT></A>    <FONT COLOR="#112266"><B>for</B></FONT> (k = 0; k &lt; 9; k++) <B>{</B>
+<A NAME="93"><FONT COLOR="#888888"><I>   93   </I></FONT></A>      c_data[ck + k] = cv[k];
+<A NAME="94"><FONT COLOR="#888888"><I>   94   </I></FONT></A>    <B>}</B>
+<A NAME="95"><FONT COLOR="#888888"><I>   95   </I></FONT></A>
+<A NAME="96"><FONT COLOR="#888888"><I>   96   </I></FONT></A>    <FONT COLOR="#112266"><B>if</B></FONT> (asub &lt; a_sizes[1]) <B>{</B>
+<A NAME="97"><FONT COLOR="#888888"><I>   97   </I></FONT></A>      ak += 9;
+<A NAME="98"><FONT COLOR="#888888"><I>   98   </I></FONT></A>      asub++;
+<A NAME="99"><FONT COLOR="#888888"><I>   99   </I></FONT></A>    <B>}</B> <FONT COLOR="#112266"><B>else</B></FONT> <B>{</B>
+<A NAME="100"><FONT COLOR="#888888"><I>  100   </I></FONT></A>      asub = 1;
+<A NAME="101"><FONT COLOR="#888888"><I>  101   </I></FONT></A>    <B>}</B>
+<A NAME="102"><FONT COLOR="#888888"><I>  102   </I></FONT></A>  <B>}</B>
+<A NAME="103"><FONT COLOR="#888888"><I>  103   </I></FONT></A><B>}</B>
+<A NAME="104"><FONT COLOR="#888888"><I>  104   </I></FONT></A>
+<A NAME="105"><FONT COLOR="#888888"><I>  105   </I></FONT></A><FONT COLOR="#117755"><I>/* End of code generation (bsxfun.c) */</I></FONT>
+<A NAME="106"><FONT COLOR="#888888"><I>  106   </I></FONT></A></PRE>
+</TD></TR></TABLE>
+</P>
+</BODY>
+</HTML>
