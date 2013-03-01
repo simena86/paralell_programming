@@ -18,7 +18,7 @@ When controlling a robot manipulator, it is important to move it in a way that i
 \\
 \par 
 
-The sample based methods which are most likely to be used is either a uniform sampling of the workspace which gives equal distances between all sample points, a random sampling method or a deterministic pseudo random method called the halton sequence. With the halton sequence the samples are better distributed than the random sampling method and gives a good method of determining upper bound that determines if two samples are connected with an edge.
+The sample based methods which are most likely to be used is either a uniform sampling of the workspace which gives equal distances between all sample points, a random sampling method or a deterministic pseudo random method called the halton sequence. With the halton sequence the samples are better distributed than the random sampling method, and gives a good method of determining upper bound that determines if two samples are connected with an edge. 
 
 
 
@@ -53,7 +53,7 @@ For getting the shortest path between points in the configuration space, a short
 
 \section*{Possible expansion of project}
 
-If the there is enough time, there are some things we would like to explore. 
+If the there is enough time, there are some things we would like to explore. As of now, the manipulator will take the shortest path in the configuration space. But sometimes we would like to go in a straight line in the actual workspace, i.e. we want a given point on the outermost joint to move in a straight line, from one given point to the next. This would require some inverse kinematics to implement, but we would then be able to control more of the manipulators movement. Also, dependent on the time, we will consider how much of the program we implement in c. We already have most of a sequential code for a 2-link manipulator in Matlab. First we will only take the most time-consuming parts of the program and write it in parallel c-code, while running the other parts of the program in Matlab. The goal however is to implement the whole program in c, but simulate the result in Matlab.
 
 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  25 FEB 2013 11:29
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.1.20)  25 FEB 2013 22:58
 entering extended mode
  %&-line parsing enabled.
 **proposal.tex
@@ -1032,14 +1032,20 @@ Overfull \hbox (63.32759pt too wide) in paragraph at lines 50--50
 [] 
  []
 
-)
 
 Package Fancyhdr Warning: \headheight is too small (0.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2] (./proposal.aux) ) 
+[2])
+
+Package Fancyhdr Warning: \headheight is too small (0.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[3] (./proposal.aux) ) 
 Here is how much of TeX's memory you used:
  17656 strings out of 493849
  298869 string characters out of 1152846
@@ -1049,4 +1055,4 @@ Here is how much of TeX's memory you used:
  714 hyphenation exceptions out of 8191
  58i,11n,55p,939b,338s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on proposal.dvi (2 pages, 13832 bytes).
+Output written on proposal.dvi (3 pages, 16044 bytes).
