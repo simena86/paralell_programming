@@ -5,6 +5,16 @@ collision_detection.c:
 TYPER collision_detection.c:
 	point er definert som en strukt med x og y verdi.
 	polygon er definert som en strukt med en dynamisk liste med x og y verdier for hver vertice samt antall vertices
-	
+
+
+compute3linkFreeWorkspace.c:
+	er nesten ferdig, men mangler å teste
+
+generate_polygons.c:
+	jobber med en funksjon som leser data fra en json fil generert av et matlab script
+	for å lage data til polygonene til obstacles og linkene, samt link bases
+
+create_polygon.m
+	et matlab script som generer json data for link- og obstacle polygoner, samt basene til linkene
 	
 
