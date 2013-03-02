@@ -1,12 +1,9 @@
-#include <stdio.h>
-#define PI 3.14159265359 
-#define NUM_SAMPLES 10 
-	
+#include "functions.h"
+
 
 // Create a grid (qube) of sample points
 // Number of totale sample points = NUM_SAMPLES^3
 void createSampeList(double **sampleList){
-		
 	int i,j,k,iter;
 	double sampleInterval = 2*PI / NUM_SAMPLES;
 	double temp[NUM_SAMPLES];
@@ -28,26 +25,15 @@ void createSampeList(double **sampleList){
 	}
 }
 
-
-
-
-int main(){
-	
-	int i,j,n;
-	double ** sampleList;	//Contains all the samplepoints (x,y,z)
-	
-	//Allocate sampleList
-	n = NUM_SAMPLES*NUM_SAMPLES*NUM_SAMPLES;
-	sampleList = (double **)malloc(sizeof(double*)* n);
-	for (i=0;i<n;i++){
-		sampleList[i] = (double*)malloc(sizeof(double) * 3);
-		for(j=0;j<3;j++){
-			sampleList[i][j] = 0;
-		}
+void printSampleList(double **sampleList, int n){
+	int i;
+	for(i=0;i<n;i++){
+		printf("%f  %f  %f  \n", sampleList[i][0],sampleList[i][1],sampleList[i][2]);
 	}
-	
-	createSampeList(sampleList);
-	
+}
 
-	return 0;
+void computeAdjTableForFreeCSpacePoints(double * p, int n, double maxAdjRadius){
+	
+	//Planing to use linked list to implement the table
+
 }
