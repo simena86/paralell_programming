@@ -11,7 +11,7 @@
 #include "rt_nonfinite.h"
 #include "checkCollisionBetweenPolygons.h"
 #include "myinpolygon.h"
-
+#include <math.h>
 /* Type Definitions */
 
 /* Named Constants */
@@ -26,7 +26,9 @@
 boolean_T checkCollisionBetweenPolygons(const real_T P1[20], const real_T P2[20])
 {
   boolean_T bCollide;
+  real_T b_P1[10];
   real_T b_P2[10];
+  real_T c_P1[10];
   real_T c_P2[10];
   int32_T k;
   boolean_T in2[10];
@@ -58,6 +60,9 @@ boolean_T checkCollisionBetweenPolygons(const real_T P1[20], const real_T P2[20]
   for (k = 0; k < 10; k++) {
     b_P2[k] = P2[k];
     c_P2[k] = P2[10 + k];
+  
+    b_P1[k] = P1[k];
+    c_P1[k] = P1[10 + k];
   }
 
   b_myinpolygon(*(real_T (*)[10])&P1[0], *(real_T (*)[10])&P1[10], b_P2, c_P2,
@@ -81,7 +86,6 @@ boolean_T checkCollisionBetweenPolygons(const real_T P1[20], const real_T P2[20]
   }
 
   if (y) {
-    /* fprintf('Vertices in polygon\n'); */
     bCollide = TRUE;
   } else {
     /*  Next, check if any vertex of P2 is inside P1 */
@@ -170,7 +174,6 @@ boolean_T checkCollisionBetweenPolygons(const real_T P1[20], const real_T P2[20]
       }
     }
   }
-
   return bCollide;
 }
 
