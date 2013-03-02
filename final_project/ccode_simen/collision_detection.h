@@ -20,5 +20,5 @@
 		double y;
 	};	
 	
-	int check_if_segment_intersects(struct point p1,struct point p2,struct point p3,struct point p4);
+	int check_collision(struct polygon poly1,struct polygon poly2);
 #endif

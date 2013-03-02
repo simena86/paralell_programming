@@ -1,6 +1,6 @@
 close all
 clc
-
+clear all
 %% Intialize polygons
 
 % Obstacles and links are modeled as polygons

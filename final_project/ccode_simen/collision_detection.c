@@ -99,7 +99,7 @@ void generate_polygons(struct polygon *p1, struct polygon* p2){
 		p2->y_list[i]=cords_y[i]+1 ;
 	}
 }
-
+/*
 int main(){
 	int ret;
 	struct polygon poly1;
@@ -108,4 +108,4 @@ int main(){
 	ret=check_collision(poly1,poly2);
 	printf("collision : %d",ret);
 	return 0;
-}
+}*/
