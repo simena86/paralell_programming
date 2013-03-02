@@ -1,0 +1,10 @@
+
+collision_detection.c:
+	alle polygoner må være konnvekse, (både obstacles og robot armer)
+	mulig jeg prøver å implementere uten at det må være konvekst seinere.
+TYPER collision_detection.c:
+	point er definert som en strukt med x og y verdi.
+	polygon er definert som en strukt med en dynamisk liste med x og y verdier for hver vertice samt antall vertices
+	
+	
+
