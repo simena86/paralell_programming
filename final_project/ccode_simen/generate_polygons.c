@@ -95,7 +95,7 @@ void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* ob
 void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, 
 				struct polygon link3, struct point base1, struct point base2, struct point base3){
 	int i;
-	puts("\n Obstacles ---------\n");
+/*	puts("\n Obstacles ---------\n");
 	puts("obstacle1");
 	for(i=0;i<obstacle1.numberOfVertices;i++){
 		printf("------ (x1, y1) = %2.2f, %2.2f\n", obstacle1.x_list[i], obstacle1.y_list[i]);
@@ -104,7 +104,7 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 	for(i=0;i<obstacle2.numberOfVertices;i++){
 		printf("------ (x1, y1) = %2.2f, %2.2f\n", obstacle2.x_list[i], obstacle2.y_list[i]);
 	}
-
+*/
 	puts("\n Links ---------\n");
 	puts("link1");
 	for(i=0;i<link1.numberOfVertices;i++){
@@ -118,7 +118,7 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 	for(i=0;i<link3.numberOfVertices;i++){
 		printf("------ (x1, y1) = %2.2f, %2.2f\n", link3.x_list[i], link3.y_list[i]);
 	}
-
+	printf("base1 : (%2.2f,%2.2f), base2 : (%2.2f,%2.2f), base3 : (%2.2f,%2.2f)\n",base1.x,base1.y,base2.x,base2.y,base3.x,base3.y );
 
 }
 
