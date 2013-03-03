@@ -1,6 +1,25 @@
 #include <stdio.h>
 #include <jansson.h>
 #include "collision_detection.h"
+#include <gnuplot_i.h>
+
+void print_polygon(struct polygon aPolygon){
+	int i;
+	puts("Polygon data\n");
+	for(i=0;i<aPolygon.numberOfVertices;i++){
+		printf("Vertice number %d : (%2.2f, %2.2f)\n",i,aPolygon.x_list[i], aPolygon.y_list[i]);
+	}
+}
+
+void draw_polygons(struct polygon poly1, struct polygon poly2){
+ 	gnuplot_ctrl * g = gnuplot_init();
+      gnuplot_cmd(g, "set terminal png");
+        gnuplot_cmd(g, "set output \"sine.png\"");
+        gnuplot_plot_equation(g, "sin(x)", "Sine wave");
+        gnuplot_close(g);
+
+}
+
 
 // allocate memory for 
 void allocate_memory_polygons(struct polygon *obstacle1, struct polygon *obstacle2, struct polygon* link1, 
@@ -73,10 +92,10 @@ void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* ob
 
 	// get all lengths of vertices of polygons
 	// links
-	link1->numberOfVertices=json_integer_value( json_object_get(linkPolys,"nVertices1") );
-	link2->numberOfVertices=json_integer_value( json_object_get(linkPolys,"nVertices2") );
-	link3->numberOfVertices=json_integer_value( json_object_get(linkPolys,"nVertices3") );
-	obstacle1->numberOfVertices=json_integer_value(json_object_get(obstacles,"nVertices1")  );
+	link1->numberOfVertices=json_integer_value( json_object_get(linkPolys,"nVertices1") ) ;
+	link2->numberOfVertices=json_integer_value( json_object_get(linkPolys,"nVertices2") ) ;
+	link3->numberOfVertices=json_integer_value( json_object_get(linkPolys,"nVertices3") ) ;
+	obstacle1->numberOfVertices=json_integer_value(json_object_get(obstacles,"nVertices1"));
 	obstacle2->numberOfVertices=json_integer_value(json_object_get(obstacles,"nVertices2") );
 	allocate_memory_polygons(obstacle1, obstacle2, link1, link2,link3);
 

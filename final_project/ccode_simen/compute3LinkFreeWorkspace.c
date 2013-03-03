@@ -71,8 +71,11 @@ void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_l
 						link3Poly, link3BaseRef);	
 //		print_polygon_data(obstacleList[0],obstacleList[1],displacedLink1,displacedLink2,displacedLink3,displacedLinkEnd1,displacedLinkEnd2, 
 //					displacedLinkEnd3);
+		collision=FALSE;	
 		for(j=0; j < numberOfObstacles;j++){
 			if(check_collision(displacedLink1,obstacleList[j])){
+				print_polygon(displacedLink1);
+				return;
 				collision=TRUE;
 				break;
 			}else if(check_collision(displacedLink2,obstacleList[j])){
@@ -81,9 +84,6 @@ void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_l
 			}else if(check_collision(displacedLink3,obstacleList[j])){
 				collision=TRUE;
 				break;
-			}else{
-				collision=FALSE;	
-				puts("asdf");
 			}
 		}
 		if(collision == FALSE){
@@ -134,6 +134,7 @@ int main(){
 	createSampeList(sampleList);
 	compute3LinkFreeWorkspace(n,sampleList,&free_workspace_size,free_workspace,base1,base2,base3,
 							  link1,link2,link3,obstacle_list,number_of_obstacles);	
-	print_free_workspace(free_workspace_size, free_workspace);
+//	print_free_workspace(free_workspace_size, free_workspace);
+//	printf("free ws space %d\n ", free_workspace_size);
 	return 0;
 }

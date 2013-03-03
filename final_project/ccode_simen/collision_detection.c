@@ -68,6 +68,9 @@ int check_collision(struct polygon poly1, struct polygon poly2){
 			struct point p3={poly2.x_list[j], poly2.y_list[j]};
 			struct point p4={poly2.x_list[j+1], poly2.y_list[j+1]};
 			if(check_if_segment_intersects(p1,p2,p3,p4)){
+				puts("asdf");
+				print_polygon(poly1);
+				print_polygon(poly2);
 				return TRUE;
 			}else if(check_if_outside_convex_polygon(p1,poly1)){
 				return TRUE;
