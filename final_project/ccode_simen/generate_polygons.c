@@ -33,7 +33,7 @@ void get_obstacle_data(json_t* obstacles,struct polygon* obstacle1,struct polygo
 }
 
 
-// load link data from json 
+// load  robot-link data from json 
 void get_link_data(json_t* linkPolys,json_t* linkBases,struct polygon* link1,struct polygon* link2,struct polygon* link3,
 					struct point* base1,struct point* base2,struct point* base3){
 	int i;
@@ -56,8 +56,6 @@ void get_link_data(json_t* linkPolys,json_t* linkBases,struct polygon* link1,str
 	base3->x=json_number_value(  json_array_get( 	json_object_get(linkBases,"base3")     , 0)    );
 	base3->y=json_number_value(  json_array_get( 	json_object_get(linkBases,"base3")     , 1)    );
 }
-
-
 
 /*	Parse a json file to get data for obstacles and links
 * 															*/
@@ -100,31 +98,31 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 	puts("\n Obstacles ---------\n");
 	puts("obstacle1");
 	for(i=0;i<obstacle1.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2e, %2.2e\n", obstacle1.x_list[i], obstacle1.y_list[i]);
+		printf("------ (x1, y1) = %2.2f, %2.2f\n", obstacle1.x_list[i], obstacle1.y_list[i]);
 	}
 	puts("obstacle2");
 	for(i=0;i<obstacle2.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2e, %2.2e\n", obstacle2.x_list[i], obstacle2.y_list[i]);
+		printf("------ (x1, y1) = %2.2f, %2.2f\n", obstacle2.x_list[i], obstacle2.y_list[i]);
 	}
 
 	puts("\n Links ---------\n");
 	puts("link1");
 	for(i=0;i<link1.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2e, %2.2e\n", link1.x_list[i], link1.y_list[i]);
+		printf("------ (x1, y1) = %2.2f, %2.2f\n", link1.x_list[i], link1.y_list[i]);
 	}
 	puts("link2");
 	for(i=0;i<link2.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2e, %2.2e\n", link2.x_list[i], link2.y_list[i]);
+		printf("------ (x1, y1) = %2.2f, %2.2f\n", link2.x_list[i], link2.y_list[i]);
 	}
 	puts("link3");
 	for(i=0;i<link3.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2e, %2.2e\n", link3.x_list[i], link3.y_list[i]);
+		printf("------ (x1, y1) = %2.2f, %2.2f\n", link3.x_list[i], link3.y_list[i]);
 	}
 
 
 }
 
-
+/*
 int main(){
 	struct polygon obstacle1, obstacle2, obstacle3;
 	struct polygon link1, link2,link3;
@@ -132,6 +130,4 @@ int main(){
 	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
 	print_polygon_data(obstacle1, obstacle2 , link1, link2, link3, base1,base2, base3);
 	return 0;
-
-
-}
+}*/

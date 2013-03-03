@@ -11,8 +11,8 @@ compute3linkFreeWorkspace.c:
 	er nesten ferdig, men mangler å teste
 
 generate_polygons.c:
-	jobber med en funksjon som leser data fra en json fil generert av et matlab script
-	for å lage data til polygonene til obstacles og linkene, samt link bases
+	funksjon som leser data fra en json fil generert av et matlab scriptet create_polygon.m
+	for å lage data til obstacles og linkene, samt link basene
 
 create_polygon.m
 	et matlab script som generer json data for link- og obstacle polygoner, samt basene til linkene
