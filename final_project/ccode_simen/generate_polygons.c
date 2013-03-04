@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <jansson.h>
 #include "collision_detection.h"
-#include <gnuplot_i.h>
+#include "gnuplot_i.h"
+#include <time.h>
+#include "compute3LinkFreeWorkspace.h"
 
 void print_polygon(struct polygon aPolygon){
 	int i;
@@ -11,13 +13,32 @@ void print_polygon(struct polygon aPolygon){
 	}
 }
 
-void draw_polygons(struct polygon poly1, struct polygon poly2){
- 	gnuplot_ctrl * g = gnuplot_init();
-      gnuplot_cmd(g, "set terminal png");
-        gnuplot_cmd(g, "set output \"sine.png\"");
-        gnuplot_plot_equation(g, "sin(x)", "Sine wave");
-        gnuplot_close(g);
+void mysleep(int milisecond){
+	int i=0;
+	float a =0;
+	for(i=0;i<milisecond*50000;i++){
+		a=a+4.5;	
+	}
+}
 
+void draw_polygons(struct polygon* polygons, int number_of_polygons){
+	 	int i,j;
+		gnuplot_cmd(h, "set xrange [-3:3]");
+		gnuplot_cmd(h, "set yrange [-3:3]");
+		gnuplot_cmd(h, "set style arrow 1 nohead")	;
+		for(j=0;j<number_of_polygons;j++){
+			for(i=0;i<polygons[j].numberOfVertices-1;i++){	
+				gnuplot_resetplot(h);
+				gnuplot_cmd(h, "set arrow from %f,%f to %f,%f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
+						polygons[j].y_list[i+1]);
+				gnuplot_cmd(h, "plot NaN notitle");
+				mysleep(200);	
+			}
+			mysleep(600);
+		}
+		gnuplot_cmd(h, "plot NaN notitle");
+		mysleep(6000);
+		gnuplot_resetplot(h);
 }
 
 

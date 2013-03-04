@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "collision_detection.h"
+#include <gnuplot_i.h>
 
 /*	check if point p1 is on the inside of every line segment joining vertices in polygon
  *	using the cross product to check this. 
@@ -35,6 +36,7 @@ double ComputeDirection(double xi, double yi, double xj, double yj,double xk, do
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
+
 /* do line segment p11--p12, p21--p22 intersect */
 int check_if_segment_intersects(struct point p11, struct point p12, struct point p21, struct point p22){
 	int x1, x2, x3,x4, y1,y2,y3,y4;
@@ -63,18 +65,16 @@ int check_collision(struct polygon poly1, struct polygon poly2){
 	// check for line intersection;
 	for(i=0;i<poly1.numberOfVertices-1;i++){
 		for(j=0;j<poly2.numberOfVertices-1;j++){
-			struct point p1={poly1.x_list[i], poly1.y_list[i]};
+			struct point p1={poly1.x_list[i],   poly1.y_list[i]};
 			struct point p2={poly1.x_list[i+1], poly1.y_list[i+1]};
-			struct point p3={poly2.x_list[j], poly2.y_list[j]};
-			struct point p4={poly2.x_list[j+1], poly2.y_list[j+1]};
+			struct point p3={poly2.x_list[i],   poly2.y_list[j]};
+			struct point p4={poly2.x_list[i+1], poly2.y_list[j+1]};
 			if(check_if_segment_intersects(p1,p2,p3,p4)){
-				puts("asdf");
-				print_polygon(poly1);
-				print_polygon(poly2);
 				return TRUE;
 			}else if(check_if_outside_convex_polygon(p1,poly1)){
 				return TRUE;
 			}else if(check_if_outside_convex_polygon(p3,poly2)){
+				puts("segemnt --------");
 				return TRUE;
 			}
 		}	

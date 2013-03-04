@@ -9,5 +9,5 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 
 void print_polygon(struct polygon aPolygon);
 
-void draw_polygons(struct polygon poly1, struct polygon poly2);
+void draw_polygons(struct polygon* polygons, int number_of_polygons);
 #endif
