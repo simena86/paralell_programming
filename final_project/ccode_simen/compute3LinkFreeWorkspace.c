@@ -68,31 +68,31 @@ void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_l
 	struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
 	struct polygon displacedLink1, displacedLink2, displacedLink3;
 	initTempPolys(link1Poly,link2Poly,link2Poly, &displacedLink1 , &displacedLink2 , &displacedLink3  );
-	for(i=0;i<3+0*sample_list_length;i++){
+	for(i=0;i<2+0*sample_list_length;i++){
 		displaceLinkPoly(sample_list[i][0], &displacedLink1, &displacedLinkEnd1, link1BaseRef, link1Poly, link2BaseRef);	
 		displaceLinkPoly(sample_list[i][0]+sample_list[i][1], &displacedLink2, &displacedLinkEnd2, displacedLinkEnd1, link2Poly, link3BaseRef);	
 		displaceLinkPoly(sample_list[i][0]+sample_list[i][1]+sample_list[i][2], &displacedLink3, &displacedLinkEnd3, displacedLinkEnd2, 
 						link3Poly, link3BaseRef);	
-	
-		
 		polygons[0] = displacedLink1;
 		polygons[1] = displacedLink2;
 		polygons[2] = displacedLink3;
 		polygons[3] = obstacleList[0];
 		polygons[4] = obstacleList[1];
-		draw_polygons(polygons,5);
+		draw_polygons(polygons,5,2000);
 		collision=FALSE;	
 		for(j=0; j < numberOfObstacles;j++){
 			if(check_collision(displacedLink1,obstacleList[j])){
-				print_polygon(displacedLink1);
-				return ; // for debugging
+//				return ; // for debugging
 				collision=TRUE;
+				puts("coll1");
 				break;
 			}else if(check_collision(displacedLink2,obstacleList[j])){
 				collision=TRUE;
+				puts("coll2");
 				break;
 			}else if(check_collision(displacedLink3,obstacleList[j])){
 				collision=TRUE;
+				puts("coll3");
 				break;
 			}
 		}
@@ -117,7 +117,7 @@ void print_free_workspace(unsigned int free_workspace_size,double **free_workspa
 
 int main(){
 	h = gnuplot_init();
-	unsigned int free_workspace_size;
+	unsigned int free_workspace_size=0;
 	struct polygon obstacle1, obstacle2;
 	struct polygon link1, link2,link3;
 	struct point base1, base2, base3;
@@ -145,8 +145,8 @@ int main(){
 	createSampeList(sampleList);
 	compute3LinkFreeWorkspace(n,sampleList,&free_workspace_size,free_workspace,base1,base2,base3,
 							  link1,link2,link3,obstacle_list,number_of_obstacles);	
-//	print_free_workspace(free_workspace_size, free_workspace);
-//	printf("free ws space %d\n ", free_workspace_size);
+	print_free_workspace(free_workspace_size, free_workspace);
+	printf("free ws space %d\n ", free_workspace_size);
 	gnuplot_close(h);
 	return 0;
 }

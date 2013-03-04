@@ -21,9 +21,10 @@ void mysleep(int milisecond){
 	}
 }
 
-void draw_polygons(struct polygon* polygons, int number_of_polygons){
+void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
 	 	int i,j;
 		gnuplot_cmd(h, "set xrange [-3:3]");
+		gnuplot_cmd(h,"unset arrow");
 		gnuplot_cmd(h, "set yrange [-3:3]");
 		gnuplot_cmd(h, "set style arrow 1 nohead")	;
 		for(j=0;j<number_of_polygons;j++){
@@ -32,12 +33,10 @@ void draw_polygons(struct polygon* polygons, int number_of_polygons){
 				gnuplot_cmd(h, "set arrow from %f,%f to %f,%f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
 						polygons[j].y_list[i+1]);
 				gnuplot_cmd(h, "plot NaN notitle");
-				mysleep(200);	
 			}
-			mysleep(600);
 		}
 		gnuplot_cmd(h, "plot NaN notitle");
-		mysleep(6000);
+		mysleep(delay);
 		gnuplot_resetplot(h);
 }
 
