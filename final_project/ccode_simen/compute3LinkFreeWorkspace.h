@@ -2,7 +2,6 @@
 #define _COMPUTE_FREE_WS_
 
 #include "my_type_defs.h"
-gnuplot_ctrl *h;
 
 /* Computes the free workspace based on samples from "sample_list", returns "free_workspace"
  * which are all set of angles (on a 3-Torus) which dosnt cause the manipulator to crash into

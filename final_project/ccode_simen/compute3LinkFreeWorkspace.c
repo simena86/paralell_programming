@@ -61,7 +61,6 @@ void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_l
 								struct polygon *obstacleList,  int numberOfObstacles){
 	struct polygon* polygons;
 	polygons=(struct polygon*)malloc(5*sizeof(struct polygon));
-//	print_polygon_data(obstacleList[0],obstacleList[1],link1Poly,link2Poly,link3Poly,link1BaseRef,link2BaseRef,link3BaseRef);
 	int i,j,collision;
 	int k=0;
 	struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
@@ -77,7 +76,9 @@ void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_l
 		polygons[2] = displacedLink3;
 		polygons[3] = obstacleList[0];
 		polygons[4] = obstacleList[1];
-//		draw_polygons(polygons,5,2000);
+		if(i < 300){
+			draw_polygons(polygons,5,50);
+		}
 		collision=FALSE;	
 		
 		for(j=0; j < numberOfObstacles;j++){
@@ -113,7 +114,7 @@ void print_free_workspace(unsigned int free_workspace_size,double **free_workspa
 }
 
 int main(){
-	h = gnuplot_init();
+	h=0;	
 	unsigned int free_workspace_size=0;
 	struct polygon obstacle1, obstacle2;
 	struct polygon link1, link2,link3;

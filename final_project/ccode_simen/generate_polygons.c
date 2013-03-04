@@ -23,22 +23,28 @@ void mysleep(int milisecond){
 }
 
 void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
-	 	int i,j;
-		gnuplot_cmd(h, "set xrange [-3:3]");
-		gnuplot_cmd(h,"unset arrow");
-		gnuplot_cmd(h, "set yrange [-3:3]");
+	if(h==0){
+		h = gnuplot_init();
+		gnuplot_cmd(h, "clear");
+		gnuplot_cmd(h,"reset");
+		//gnuplot_cmd(h,"set terminal gif animate ");
+		//gnuplot_cmd(h,"set output \"animate.gif\"");
+		gnuplot_cmd(h, "set isosample 40" );
+		gnuplot_cmd(h, "set xrange [-4:4]");
+		gnuplot_cmd(h, "set yrange [-4:4]");
 		gnuplot_cmd(h, "set style arrow 1 nohead")	;
-		for(j=0;j<number_of_polygons;j++){
-			for(i=0;i<polygons[j].numberOfVertices-1;i++){	
-				gnuplot_resetplot(h);
-				gnuplot_cmd(h, "set arrow from %f,%f to %f,%f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
-						polygons[j].y_list[i+1]);
-				gnuplot_cmd(h, "plot NaN notitle");
-			}
+	}	
+	int i,j;
+	gnuplot_cmd(h,"unset arrow");
+	for(j=0;j<number_of_polygons;j++){
+		for(i=0;i<polygons[j].numberOfVertices-1;i++){	
+			gnuplot_resetplot(h);
+			gnuplot_cmd(h, "set arrow from %f,%f to %f,%f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
+					polygons[j].y_list[i+1]);
 		}
-		gnuplot_cmd(h, "plot NaN notitle");
-		mysleep(delay);
-		gnuplot_resetplot(h);
+	}
+	gnuplot_cmd(h, "plot NaN notitle");
+	mysleep(delay);
 }
 
 
@@ -97,8 +103,9 @@ void get_link_data(json_t* linkPolys,json_t* linkBases,struct polygon* link1,str
 	base3->y=json_number_value(  json_array_get( 	json_object_get(linkBases,"base3")     , 1)    );
 }
 
-/*	Parse a json file to get data for obstacles and links
-* 															*/
+/*
+ * Parse a json file to get data for obstacles and links
+ */
 void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* obstacle2, struct polygon* link1, struct polygon* link2, 
 				struct polygon* link3, struct point* base1, struct point* base2, struct point* base3){
 	json_error_t error;
@@ -135,16 +142,6 @@ void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* ob
 void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, 
 				struct polygon link3, struct point base1, struct point base2, struct point base3){
 	int i;
-/*	puts("\n Obstacles ---------\n");
-	puts("obstacle1");
-	for(i=0;i<obstacle1.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2f, %2.2f\n", obstacle1.x_list[i], obstacle1.y_list[i]);
-	}
-	puts("obstacle2");
-	for(i=0;i<obstacle2.numberOfVertices;i++){
-		printf("------ (x1, y1) = %2.2f, %2.2f\n", obstacle2.x_list[i], obstacle2.y_list[i]);
-	}
-*/
 	puts("\n Links ---------\n");
 	puts("link1");
 	for(i=0;i<link1.numberOfVertices;i++){
@@ -162,12 +159,3 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 
 }
 
-/*
-int main(){
-	struct polygon obstacle1, obstacle2, obstacle3;
-	struct polygon link1, link2,link3;
-	struct point base1, base2, base3;
-	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
-	print_polygon_data(obstacle1, obstacle2 , link1, link2, link3, base1,base2, base3);
-	return 0;
-}*/
