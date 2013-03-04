@@ -24,39 +24,21 @@ int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){
 	return FALSE;
 }
 
-int IsOnSegment(double xi, double yi, double xj, double yj,double xk,double yk){
-	return (xi <= xk || xj <= xk) && (xk <= xi || xk <= xj) &&
-		(yi <= yk || yj <= yk) && (yk <= yi || yk <= yj);
-}
-
-double ComputeDirection(double xi, double yi, double xj, double yj,double xk, double yk){
-	double a = (xk - xi) * (yj - yi);
-	double b = (xj - xi) * (yk - yi);
-	return a < b ? -1 : a > b ? 1 : 0;
-}
-
 
 /* do line segment p11--p12, p21--p22 intersect */
 int check_if_segment_intersects(struct point p11, struct point p12, struct point p21, struct point p22){
-	int x1, x2, x3,x4, y1,y2,y3,y4;
-	x1=p11.x;
-	y1=p11.y;
-	x2=p12.x;
-	y2=p12.y;
-	x3=p21.x;
-	y3=p21.y;
-	x4=p22.x;
-	y4=p22.y;
-	double d1 = ComputeDirection(x3, y3, x4, y4, x1, y1);
-	double d2 = ComputeDirection(x3, y3, x4, y4, x2, y2);
-	double d3 = ComputeDirection(x1, y1, x2, y2, x3, y3);
-	double d4 = ComputeDirection(x1, y1, x2, y2, x4, y4);
-	return (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
-         ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))) ||
-         (d1 == 0 && IsOnSegment(x3, y3, x4, y4, x1, y1)) ||
-         (d2 == 0 && IsOnSegment(x3, y3, x4, y4, x2, y2)) ||
-         (d3 == 0 && IsOnSegment(x1, y1, x2, y2, x3, y3)) ||
-         (d4 == 0 && IsOnSegment(x1, y1, x2, y2, x4, y4));
+	double den;
+	double u_a,u_b;
+	den=(p22.y-p21.y)*(p12.x-p11.x) - (p22.x-p21.x)*(p12.y-p11.y);
+	u_a=(p22.x-p21.x)*(p11.y-p21.y) - (p22.y-p21.y)*(p11.x-p21.x);
+	u_b=(p12.x-p11.x)*(p11.y-p21.y)-(p12.y-p11.y)*(p11.x-p21.x);
+	u_a=u_a/den;
+	u_b=u_b/den;
+	if( u_a >= 0 && u_a <= 1 && u_b >= 0 && u_b <= 1 ){
+		return TRUE;
+	}else{
+		return FALSE;
+	}
 }
 
 int check_collision(struct polygon poly1, struct polygon poly2){
@@ -69,13 +51,10 @@ int check_collision(struct polygon poly1, struct polygon poly2){
 			struct point p3={poly2.x_list[j],   poly2.y_list[j]};
 			struct point p4={poly2.x_list[j+1], poly2.y_list[j+1]};
 			if(check_if_segment_intersects(p1,p2,p3,p4)){
-				printf("points : (%2.2f,%2.2f,%2.2f,%2.2f,%2.2f,%2.2f,%2.2f,%2.2f) \n",p1.x,p1.y,p2.x,p2.y,p3.x,p3.y,p4.x,p4.y);
-				puts("segment \n");	
 				return TRUE;
 			}else if(!check_if_outside_convex_polygon(p3,poly1)){
 				return TRUE;
 			}else if(!check_if_outside_convex_polygon(p1,poly2)){
-				puts("not outside \n");	
 				return TRUE;
 			}
 		}	

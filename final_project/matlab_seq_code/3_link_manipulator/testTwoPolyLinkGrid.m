@@ -1,6 +1,8 @@
 close all
 clc
 clear all
+
+
 %% Intialize polygons
 
 % Obstacles and links are modeled as polygons
@@ -31,7 +33,7 @@ link3Base = [1.7,0];
 %% Generate sample points
 
 %numSamples = 30;
-numSamples = 15;
+numSamples = 10;
 angleSamples = linspace( -pi, pi - (2*pi)/numSamples, numSamples );
 %angleSamples = linspace( -pi, pi, numSamples );
 sampleList = [];
