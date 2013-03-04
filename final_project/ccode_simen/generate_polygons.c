@@ -4,6 +4,7 @@
 #include "gnuplot_i.h"
 #include <time.h>
 #include "compute3LinkFreeWorkspace.h"
+#include "generate_polygons.h"
 
 void print_polygon(struct polygon aPolygon){
 	int i;

@@ -1,24 +1,13 @@
 
 #ifndef _COLLISTION_DETECTION_
-	#define _COLLISTION_DETECTION_
+#define _COLLISTION_DETECTION_
 
-	#ifndef FALSE 
-		#define FALSE 0
-	#endif 
-	#ifndef TRUE
-		#define TRUE 1
-	#endif
+#include "my_type_defs.h"
 	
-	struct polygon{
-		double *x_list;
-		double *y_list;	
-		int numberOfVertices;
-	};
-	
-	struct point{
-		double x;
-		double y;
-	};	
-	
-	int check_collision(struct polygon poly1,struct polygon poly2);
+
+/* checks collision between 2 polygons by checking if their edges
+ * intersects or if any point of one polygon is inside another */
+int check_collision(struct polygon poly1,struct polygon poly2);
+
+
 #endif

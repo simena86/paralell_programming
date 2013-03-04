@@ -1,6 +1,7 @@
 #ifndef _COMPUTE_FREE_WS_
 #define _COMPUTE_FREE_WS_
 
+#include "my_type_defs.h"
 gnuplot_ctrl *h;
 
 /* Computes the free workspace based on samples from "sample_list", returns "free_workspace"
@@ -11,6 +12,7 @@ void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_l
 								struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,
 								struct polygon *obstacleList,  int numberOfObstacles);
 
+// prints text of points in the free configuration space
 void printFreeWorkSpace(unsigned int free_workspace_size,double **free_workspace);
 
 

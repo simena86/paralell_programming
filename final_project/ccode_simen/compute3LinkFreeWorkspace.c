@@ -5,6 +5,7 @@
 #include "functions.h"
 #include "gnuplot_i.h"
 #include "compute3LinkFreeWorkspace.h"
+#include "generate_polygons.h"
 
 /* Rotates a vector counter clockwise by angle "linkAngle" */
 void rotateVector(double linkAngle, double* x, double* y){
@@ -50,8 +51,6 @@ void initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct po
 	displacedLink3->x_list=(double*)malloc(link1Poly.numberOfVertices*sizeof(double));
 	displacedLink3->y_list=(double*)malloc(link1Poly.numberOfVertices*sizeof(double));
 }
-
-
 
 /* Computes the free workspace based on samples from "sample_list", returns "free_workspace"
  * which are all set of angles (on a 3-Torus) which dosnt cause the manipulator to crash into

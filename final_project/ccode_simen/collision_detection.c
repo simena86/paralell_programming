@@ -2,7 +2,8 @@
 #include <math.h>
 #include <stdio.h>
 #include "collision_detection.h"
-#include <gnuplot_i.h>
+#include "gnuplot_i.h"
+#include "generate_polygons.h"
 
 /*	check if point p1 is on the inside of every line segment joining vertices in polygon
  *	using the cross product to check this. 
