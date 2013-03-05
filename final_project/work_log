@@ -18,3 +18,9 @@ create_polygon.m
 	et matlab script som generer json data for link- og obstacle polygoner, samt basene til linkene
 	
 
+jansson:
+	sudo apt-get install libjansson-dev
+	mulig man må sett LD_LIBRARY_PATH til å inkludere der jansson blir installert, men jeg trengte ikke d.
+
+gnuplot:
+	sudo apt-get install gnuplot
