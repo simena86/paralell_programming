@@ -25,7 +25,6 @@ int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){
 	return FALSE;
 }
 
-
 /* do line segment p11--p12, p21--p22 intersect */
 int check_if_segment_intersects(struct point p11, struct point p12, struct point p21, struct point p22){
 	double den;

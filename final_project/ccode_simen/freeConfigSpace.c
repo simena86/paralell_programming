@@ -78,7 +78,7 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 		polygons[3] = obstacleList[0];
 		polygons[4] = obstacleList[1];
 		collision=FALSE;
-		draw_polys_configSpace(k,free_configSpace,5,polygons,0);
+//		draw_polys_configSpace(k,free_configSpace,5,polygons,0);
 		for(j=0; j < numberOfObstacles;j++){
 			if(check_collision(displacedLink1,obstacleList[j])){
 				puts("hei");
