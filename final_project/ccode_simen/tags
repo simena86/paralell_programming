@@ -4,46 +4,134 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-ComputeDirection	collision_detection.c	/^double ComputeDirection(double xi, double yi, double xj, double yj,double xk, double yk){$/;"	f
-ComputeDirection	collision_detection.c	/^double ComputeDirection(double xi, double yi, double xj, double yj,double xk, double yk){$/;"	f	signature:(double xi, double yi, double xj, double yj,double xk, double yk)
-FALSE	collision_detection.h	6;"	d
-IsOnSegment	collision_detection.c	/^int IsOnSegment(double xi, double yi, double xj, double yj,double xk,double yk){$/;"	f
-IsOnSegment	collision_detection.c	/^int IsOnSegment(double xi, double yi, double xj, double yj,double xk,double yk){$/;"	f	signature:(double xi, double yi, double xj, double yj,double xk,double yk)
-TRUE	collision_detection.h	9;"	d
+FALSE	my_type_defs.h	5;"	d
+GP_MAX_TMP_FILES	gnuplot_i.h	34;"	d
+NUM_SAMPLES	functions.h	4;"	d
+PI	functions.h	3;"	d
+TRUE	my_type_defs.h	8;"	d
 _COLLISTION_DETECTION_	collision_detection.h	3;"	d
 _COMPUTE_FREE_WS_	compute3LinkFreeWorkspace.h	2;"	d
+_GEN_POLYS_	generate_polygons.h	2;"	d
+_GNUPLOT_CTRL_	gnuplot_i.h	/^typedef struct _GNUPLOT_CTRL_ {$/;"	s
+_GNUPLOT_PIPES_H_	gnuplot_i.h	26;"	d
+_MY_TYPES_	my_type_defs.h	2;"	d
+_VISUALIZATION_	visualization.h	3;"	d
 allocate_memory_polygons	generate_polygons.c	/^void allocate_memory_polygons(struct polygon *obstacle1, struct polygon *obstacle2, struct polygon* link1, $/;"	f
 allocate_memory_polygons	generate_polygons.c	/^void allocate_memory_polygons(struct polygon *obstacle1, struct polygon *obstacle2, struct polygon* link1, $/;"	f	signature:(struct polygon *obstacle1, struct polygon *obstacle2, struct polygon* link1, struct polygon* link2,struct polygon* link3)
 check_collision	collision_detection.c	/^int check_collision(struct polygon poly1, struct polygon poly2){$/;"	f
 check_collision	collision_detection.c	/^int check_collision(struct polygon poly1, struct polygon poly2){$/;"	f	signature:(struct polygon poly1, struct polygon poly2)
-check_collision	collision_detection.h	/^	int check_collision(struct polygon poly1,struct polygon poly2);$/;"	p	signature:(struct polygon poly1,struct polygon poly2)
+check_collision	collision_detection.h	/^int check_collision(struct polygon poly1,struct polygon poly2);$/;"	p	signature:(struct polygon poly1,struct polygon poly2)
 check_if_outside_convex_polygon	collision_detection.c	/^int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){$/;"	f
 check_if_outside_convex_polygon	collision_detection.c	/^int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){$/;"	f	signature:(struct point p1, struct polygon poly1)
 check_if_segment_intersects	collision_detection.c	/^int check_if_segment_intersects(struct point p11, struct point p12, struct point p21, struct point p22){$/;"	f
 check_if_segment_intersects	collision_detection.c	/^int check_if_segment_intersects(struct point p11, struct point p12, struct point p21, struct point p22){$/;"	f	signature:(struct point p11, struct point p12, struct point p21, struct point p22)
-compute3LinkFreeWorkspace	compute3LinkFreeWorkspace.c	/^void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_list,double **free_workspace,$/;"	f
-compute3LinkFreeWorkspace	compute3LinkFreeWorkspace.c	/^void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_list,double **free_workspace,$/;"	f	signature:(unsigned int sample_list_length,double **sample_list,double **free_workspace, struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef, struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly, struct polygon *obstacleList, int numberOfObstacles)
+compute3LinkFreeWorkspace	compute3LinkFreeWorkspace.c	/^void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_list,unsigned int* free_workspace_size,double **free_workspace,$/;"	f
+compute3LinkFreeWorkspace	compute3LinkFreeWorkspace.c	/^void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_list,unsigned int* free_workspace_size,double **free_workspace,$/;"	f	signature:(unsigned int sample_list_length,double **sample_list,unsigned int* free_workspace_size,double **free_workspace, struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef, struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly, struct polygon *obstacleList, int numberOfObstacles)
+compute3LinkFreeWorkspace	compute3LinkFreeWorkspace.h	/^void compute3LinkFreeWorkspace(unsigned int sample_list_length,double **sample_list,unsigned int *free_workspace_size,double **free_workspace,$/;"	p	signature:(unsigned int sample_list_length,double **sample_list,unsigned int *free_workspace_size,double **free_workspace, struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef, struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly, struct polygon *obstacleList, int numberOfObstacles)
+createSampeList	functions.c	/^void createSampeList(double **sampleList){$/;"	f
+createSampeList	functions.c	/^void createSampeList(double **sampleList){$/;"	f	signature:(double **sampleList)
+createSampeList	functions.h	/^void createSampeList(double **sampleList);$/;"	p	signature:(double **sampleList)
 displaceLinkPoly	compute3LinkFreeWorkspace.c	/^void displaceLinkPoly(double linkAngle,struct polygon* displacedLink, struct point* displacedLinkEnd, struct point linkBase,$/;"	f
 displaceLinkPoly	compute3LinkFreeWorkspace.c	/^void displaceLinkPoly(double linkAngle,struct polygon* displacedLink, struct point* displacedLinkEnd, struct point linkBase,$/;"	f	signature:(double linkAngle,struct polygon* displacedLink, struct point* displacedLinkEnd, struct point linkBase, struct polygon linkReference, struct point linkEndPointReference )
+draw_polygons	visualization.c	/^void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){$/;"	f
+draw_polygons	visualization.c	/^void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){$/;"	f	signature:(struct polygon* polygons, int number_of_polygons,int delay)
+draw_polygons	visualization.h	/^void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay);$/;"	p	signature:(struct polygon* polygons, int number_of_polygons,int delay)
+draw_polys_workspace	visualization.c	/^void draw_polys_workspace(unsigned int workspace_size, double **workspace,int number_of_polygons, struct polygon *polygons,unsigned int delay){$/;"	f
+draw_polys_workspace	visualization.c	/^void draw_polys_workspace(unsigned int workspace_size, double **workspace,int number_of_polygons, struct polygon *polygons,unsigned int delay){$/;"	f	signature:(unsigned int workspace_size, double **workspace,int number_of_polygons, struct polygon *polygons,unsigned int delay)
+draw_polys_workspace	visualization.h	/^void draw_polys_workspace(unsigned int workspace_size, double **workspace,int number_of_polygons, struct polygon *polygons,unsigned int delay);$/;"	p	signature:(unsigned int workspace_size, double **workspace,int number_of_polygons, struct polygon *polygons,unsigned int delay)
+draw_workspace	visualization.c	/^void draw_workspace(unsigned int workspace_size,double **workspace, int delay){$/;"	f
+draw_workspace	visualization.c	/^void draw_workspace(unsigned int workspace_size,double **workspace, int delay){$/;"	f	signature:(unsigned int workspace_size,double **workspace, int delay)
+draw_workspace	visualization.h	/^void draw_workspace(unsigned int workspace_size,double **workspace,int delay);$/;"	p	signature:(unsigned int workspace_size,double **workspace,int delay)
 generate_obstacles_and_links	generate_polygons.c	/^void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* obstacle2, struct polygon* link1, struct polygon* link2, $/;"	f
 generate_obstacles_and_links	generate_polygons.c	/^void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* obstacle2, struct polygon* link1, struct polygon* link2, $/;"	f	signature:( struct polygon* obstacle1, struct polygon* obstacle2, struct polygon* link1, struct polygon* link2, struct polygon* link3, struct point* base1, struct point* base2, struct point* base3)
+generate_obstacles_and_links	generate_polygons.h	/^void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* obstacle2, struct polygon* link1, struct polygon* link2, $/;"	p	signature:( struct polygon* obstacle1, struct polygon* obstacle2, struct polygon* link1, struct polygon* link2, struct polygon* link3, struct point* base1, struct point* base2, struct point* base3)
 generate_polygons	collision_detection.c	/^void generate_polygons(struct polygon *p1, struct polygon* p2){$/;"	f
 generate_polygons	collision_detection.c	/^void generate_polygons(struct polygon *p1, struct polygon* p2){$/;"	f	signature:(struct polygon *p1, struct polygon* p2)
 get_link_data	generate_polygons.c	/^void get_link_data(json_t* linkPolys,json_t* linkBases,struct polygon* link1,struct polygon* link2,struct polygon* link3,$/;"	f
 get_link_data	generate_polygons.c	/^void get_link_data(json_t* linkPolys,json_t* linkBases,struct polygon* link1,struct polygon* link2,struct polygon* link3,$/;"	f	signature:(json_t* linkPolys,json_t* linkBases,struct polygon* link1,struct polygon* link2,struct polygon* link3, struct point* base1,struct point* base2,struct point* base3)
-get_obstacle_data	generate_polygons.c	/^void get_obstacle_data(json_t* obstacles,struct polygon* obstacle1,struct polygon* obstacle2,struct polygon* obstacle3){$/;"	f
-get_obstacle_data	generate_polygons.c	/^void get_obstacle_data(json_t* obstacles,struct polygon* obstacle1,struct polygon* obstacle2,struct polygon* obstacle3){$/;"	f	signature:(json_t* obstacles,struct polygon* obstacle1,struct polygon* obstacle2,struct polygon* obstacle3)
-initTempPolys	compute3LinkFreeWorkspace.c	/^initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,$/;"	f
-initTempPolys	compute3LinkFreeWorkspace.c	/^initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,$/;"	f	signature:(struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly, struct polygon* displacedLink1 , struct polygon* displacedLink2, struct polygon* displacedLink3 )
+get_obstacle_data	generate_polygons.c	/^void get_obstacle_data(json_t* obstacles,struct polygon* obstacle1,struct polygon* obstacle2){$/;"	f
+get_obstacle_data	generate_polygons.c	/^void get_obstacle_data(json_t* obstacles,struct polygon* obstacle1,struct polygon* obstacle2){$/;"	f	signature:(json_t* obstacles,struct polygon* obstacle1,struct polygon* obstacle2)
+gnucmd	gnuplot_i.h	/^    FILE    * gnucmd ;$/;"	m	struct:_GNUPLOT_CTRL_
+gnuplot_close	gnuplot_i.c	/^void gnuplot_close(gnuplot_ctrl * handle)$/;"	f
+gnuplot_close	gnuplot_i.c	/^void gnuplot_close(gnuplot_ctrl * handle)$/;"	f	signature:(gnuplot_ctrl * handle)
+gnuplot_close	gnuplot_i.h	/^void gnuplot_close(gnuplot_ctrl * handle);$/;"	p	signature:(gnuplot_ctrl * handle)
+gnuplot_cmd	gnuplot_i.c	/^void gnuplot_cmd(gnuplot_ctrl *  handle, char const *  cmd, ...)$/;"	f
+gnuplot_cmd	gnuplot_i.c	/^void gnuplot_cmd(gnuplot_ctrl *  handle, char const *  cmd, ...)$/;"	f	signature:(gnuplot_ctrl * handle, char const * cmd, ...)
+gnuplot_cmd	gnuplot_i.h	/^void gnuplot_cmd(gnuplot_ctrl *  handle, char const *  cmd, ...);$/;"	p	signature:(gnuplot_ctrl * handle, char const * cmd, ...)
+gnuplot_ctrl	gnuplot_i.h	/^} gnuplot_ctrl ;$/;"	t	typeref:struct:_GNUPLOT_CTRL_
+gnuplot_init	gnuplot_i.c	/^gnuplot_ctrl * gnuplot_init(void)$/;"	f
+gnuplot_init	gnuplot_i.c	/^gnuplot_ctrl * gnuplot_init(void)$/;"	f	signature:(void)
+gnuplot_init	gnuplot_i.h	/^gnuplot_ctrl * gnuplot_init(void);$/;"	p	signature:(void)
+gnuplot_plot_atmpfile	gnuplot_i.c	/^void gnuplot_plot_atmpfile(gnuplot_ctrl * handle, char const* tmp_filename, char const* title)$/;"	f
+gnuplot_plot_atmpfile	gnuplot_i.c	/^void gnuplot_plot_atmpfile(gnuplot_ctrl * handle, char const* tmp_filename, char const* title)$/;"	f	signature:(gnuplot_ctrl * handle, char const* tmp_filename, char const* title)
+gnuplot_plot_atmpfile	gnuplot_i.c	/^void gnuplot_plot_atmpfile(gnuplot_ctrl * handle, char const* tmp_filename, char const* title);$/;"	p	file:	signature:(gnuplot_ctrl * handle, char const* tmp_filename, char const* title)
+gnuplot_plot_equation	gnuplot_i.c	/^void gnuplot_plot_equation($/;"	f
+gnuplot_plot_equation	gnuplot_i.c	/^void gnuplot_plot_equation($/;"	f	signature:( gnuplot_ctrl * h, char * equation, char * title )
+gnuplot_plot_equation	gnuplot_i.h	/^void gnuplot_plot_equation(gnuplot_ctrl * h, char * equation, char * title) ;$/;"	p	signature:(gnuplot_ctrl * h, char * equation, char * title)
+gnuplot_plot_once	gnuplot_i.c	/^void gnuplot_plot_once($/;"	f
+gnuplot_plot_once	gnuplot_i.c	/^void gnuplot_plot_once($/;"	f	signature:( char * title, char * style, char * label_x, char * label_y, double * x, double * y, int n )
+gnuplot_plot_once	gnuplot_i.h	/^void gnuplot_plot_once($/;"	p	signature:( char * title, char * style, char * label_x, char * label_y, double * x, double * y, int n )
+gnuplot_plot_slope	gnuplot_i.c	/^void gnuplot_plot_slope($/;"	f
+gnuplot_plot_slope	gnuplot_i.c	/^void gnuplot_plot_slope($/;"	f	signature:( gnuplot_ctrl * handle, double a, double b, char * title )
+gnuplot_plot_slope	gnuplot_i.h	/^void gnuplot_plot_slope($/;"	p	signature:( gnuplot_ctrl * handle, double a, double b, char * title )
+gnuplot_plot_x	gnuplot_i.c	/^void gnuplot_plot_x($/;"	f
+gnuplot_plot_x	gnuplot_i.c	/^void gnuplot_plot_x($/;"	f	signature:( gnuplot_ctrl * handle, double * d, int n, char * title )
+gnuplot_plot_x	gnuplot_i.h	/^void gnuplot_plot_x(gnuplot_ctrl * handle, double * d, int n, char * title);$/;"	p	signature:(gnuplot_ctrl * handle, double * d, int n, char * title)
+gnuplot_plot_xy	gnuplot_i.c	/^void gnuplot_plot_xy($/;"	f
+gnuplot_plot_xy	gnuplot_i.c	/^void gnuplot_plot_xy($/;"	f	signature:( gnuplot_ctrl * handle, double * x, double * y, int n, char * title )
+gnuplot_plot_xy	gnuplot_i.h	/^void gnuplot_plot_xy($/;"	p	signature:( gnuplot_ctrl * handle, double * x, double * y, int n, char * title )
+gnuplot_resetplot	gnuplot_i.c	/^void gnuplot_resetplot(gnuplot_ctrl * h)$/;"	f
+gnuplot_resetplot	gnuplot_i.c	/^void gnuplot_resetplot(gnuplot_ctrl * h)$/;"	f	signature:(gnuplot_ctrl * h)
+gnuplot_resetplot	gnuplot_i.h	/^void gnuplot_resetplot(gnuplot_ctrl * h);$/;"	p	signature:(gnuplot_ctrl * h)
+gnuplot_set_xlabel	gnuplot_i.c	/^void gnuplot_set_xlabel(gnuplot_ctrl * h, char * label)$/;"	f
+gnuplot_set_xlabel	gnuplot_i.c	/^void gnuplot_set_xlabel(gnuplot_ctrl * h, char * label)$/;"	f	signature:(gnuplot_ctrl * h, char * label)
+gnuplot_set_xlabel	gnuplot_i.h	/^void gnuplot_set_xlabel(gnuplot_ctrl * h, char * label);$/;"	p	signature:(gnuplot_ctrl * h, char * label)
+gnuplot_set_ylabel	gnuplot_i.c	/^void gnuplot_set_ylabel(gnuplot_ctrl * h, char * label)$/;"	f
+gnuplot_set_ylabel	gnuplot_i.c	/^void gnuplot_set_ylabel(gnuplot_ctrl * h, char * label)$/;"	f	signature:(gnuplot_ctrl * h, char * label)
+gnuplot_set_ylabel	gnuplot_i.h	/^void gnuplot_set_ylabel(gnuplot_ctrl * h, char * label);$/;"	p	signature:(gnuplot_ctrl * h, char * label)
+gnuplot_setstyle	gnuplot_i.c	/^void gnuplot_setstyle(gnuplot_ctrl * h, char * plot_style)$/;"	f
+gnuplot_setstyle	gnuplot_i.c	/^void gnuplot_setstyle(gnuplot_ctrl * h, char * plot_style)$/;"	f	signature:(gnuplot_ctrl * h, char * plot_style)
+gnuplot_setstyle	gnuplot_i.h	/^void gnuplot_setstyle(gnuplot_ctrl * h, char * plot_style);$/;"	p	signature:(gnuplot_ctrl * h, char * plot_style)
+gnuplot_tmpfile	gnuplot_i.c	/^char const * gnuplot_tmpfile(gnuplot_ctrl * handle)$/;"	f
+gnuplot_tmpfile	gnuplot_i.c	/^char const * gnuplot_tmpfile(gnuplot_ctrl * handle)$/;"	f	signature:(gnuplot_ctrl * handle)
+gnuplot_tmpfile	gnuplot_i.c	/^char const * gnuplot_tmpfile(gnuplot_ctrl * handle);$/;"	p	file:	signature:(gnuplot_ctrl * handle)
+gnuplot_write_multi_csv	gnuplot_i.c	/^int gnuplot_write_multi_csv($/;"	f
+gnuplot_write_multi_csv	gnuplot_i.c	/^int gnuplot_write_multi_csv($/;"	f	signature:( char const * fileName, double const ** xListPtr, int n, int numColumns, char const * title)
+gnuplot_write_multi_csv	gnuplot_i.h	/^int gnuplot_write_multi_csv($/;"	p	signature:( char const * fileName, double const ** xListPtr, int n, int numColumns, char const * title)
+gnuplot_write_x_csv	gnuplot_i.c	/^int gnuplot_write_x_csv($/;"	f
+gnuplot_write_x_csv	gnuplot_i.c	/^int gnuplot_write_x_csv($/;"	f	signature:( char const * fileName, double const * d, int n, char const * title)
+gnuplot_write_x_csv	gnuplot_i.h	/^int gnuplot_write_x_csv($/;"	p	signature:( char const * fileName, double const * d, int n, char const * title)
+gnuplot_write_xy_csv	gnuplot_i.c	/^int gnuplot_write_xy_csv($/;"	f
+gnuplot_write_xy_csv	gnuplot_i.c	/^int gnuplot_write_xy_csv($/;"	f	signature:( char const * fileName, double const * x, double const * y, int n, char const * title)
+gnuplot_write_xy_csv	gnuplot_i.h	/^int gnuplot_write_xy_csv($/;"	p	signature:( char const * fileName, double const * x, double const * y, int n, char const * title)
+h	visualization.h	/^gnuplot_ctrl *h;$/;"	v
+initTempPolys	compute3LinkFreeWorkspace.c	/^void initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,$/;"	f
+initTempPolys	compute3LinkFreeWorkspace.c	/^void initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,$/;"	f	signature:(struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly, struct polygon* displacedLink1 , struct polygon* displacedLink2, struct polygon* displacedLink3 )
 main	compute3LinkFreeWorkspace.c	/^int main(){$/;"	f
-main	generate_polygons.c	/^int main(){$/;"	f
-main	runTests.c	/^int main(){$/;"	f
-numberOfVertices	collision_detection.h	/^		int numberOfVertices;$/;"	m	struct:polygon
-point	collision_detection.h	/^	struct point{$/;"	s
-polygon	collision_detection.h	/^	struct polygon{$/;"	s
+mysleep	visualization.c	/^void mysleep(int milisecond){$/;"	f
+mysleep	visualization.c	/^void mysleep(int milisecond){$/;"	f	signature:(int milisecond)
+nplots	gnuplot_i.h	/^    int       nplots ;$/;"	m	struct:_GNUPLOT_CTRL_
+ntmp	gnuplot_i.h	/^    int       ntmp ;$/;"	m	struct:_GNUPLOT_CTRL_
+numberOfVertices	my_type_defs.h	/^	int numberOfVertices;$/;"	m	struct:polygon
+point	my_type_defs.h	/^struct point{$/;"	s
+polygon	my_type_defs.h	/^struct polygon{$/;"	s
+printFreeWorkSpace	compute3LinkFreeWorkspace.h	/^void printFreeWorkSpace(unsigned int free_workspace_size,double **free_workspace);$/;"	p	signature:(unsigned int free_workspace_size,double **free_workspace)
+printSampleList	functions.c	/^void printSampleList(double **sampleList, int n){$/;"	f
+printSampleList	functions.c	/^void printSampleList(double **sampleList, int n){$/;"	f	signature:(double **sampleList, int n)
+printSampleList	functions.h	/^void printSampleList(double **sampleList, int n);$/;"	p	signature:(double **sampleList, int n)
+print_free_workspace	compute3LinkFreeWorkspace.c	/^void print_free_workspace(unsigned int free_workspace_size,double **free_workspace){$/;"	f
+print_free_workspace	compute3LinkFreeWorkspace.c	/^void print_free_workspace(unsigned int free_workspace_size,double **free_workspace){$/;"	f	signature:(unsigned int free_workspace_size,double **free_workspace)
+print_polygon	generate_polygons.c	/^void print_polygon(struct polygon aPolygon){$/;"	f
+print_polygon	generate_polygons.c	/^void print_polygon(struct polygon aPolygon){$/;"	f	signature:(struct polygon aPolygon)
+print_polygon	generate_polygons.h	/^void print_polygon(struct polygon aPolygon);$/;"	p	signature:(struct polygon aPolygon)
+print_polygon_data	generate_polygons.c	/^void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, $/;"	f
+print_polygon_data	generate_polygons.c	/^void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, $/;"	f	signature:( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, struct polygon link3, struct point base1, struct point base2, struct point base3)
+print_polygon_data	generate_polygons.h	/^void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, $/;"	p	signature:( struct polygon obstacle1, struct polygon obstacle2, struct polygon link1, struct polygon link2, struct polygon link3, struct point base1, struct point base2, struct point base3)
+pstyle	gnuplot_i.h	/^    char      pstyle[32] ;$/;"	m	struct:_GNUPLOT_CTRL_
 rotateVector	compute3LinkFreeWorkspace.c	/^void rotateVector(double linkAngle, double* x, double* y){$/;"	f
 rotateVector	compute3LinkFreeWorkspace.c	/^void rotateVector(double linkAngle, double* x, double* y){$/;"	f	signature:(double linkAngle, double* x, double* y)
-x	collision_detection.h	/^		double x;$/;"	m	struct:point
-x_list	collision_detection.h	/^		double *x_list;$/;"	m	struct:polygon
-y	collision_detection.h	/^		double y;$/;"	m	struct:point
-y_list	collision_detection.h	/^		double *y_list;	$/;"	m	struct:polygon
+tmp_filename_tbl	gnuplot_i.h	/^    char*      tmp_filename_tbl[GP_MAX_TMP_FILES] ;$/;"	m	struct:_GNUPLOT_CTRL_
+x	my_type_defs.h	/^	double x;$/;"	m	struct:point
+x_list	my_type_defs.h	/^	double *x_list;$/;"	m	struct:polygon
+y	my_type_defs.h	/^	double y;$/;"	m	struct:point
+y_list	my_type_defs.h	/^	double *y_list;	$/;"	m	struct:polygon

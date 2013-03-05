@@ -16,14 +16,7 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 void print_polygon(struct polygon aPolygon);
 
 
-/*
- *  global variable for handling gnuplot 
- */
-gnuplot_ctrl *h;
 
-/*
- * function uses gnuplot_ctrl handler h to plot to window or to animate a gif.
- * the main function should initialize h to zero and use gnuplot_close(h) before returning	
- */ 
-void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay);
+
+
 #endif

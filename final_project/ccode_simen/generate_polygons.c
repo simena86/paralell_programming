@@ -3,7 +3,6 @@
 #include "collision_detection.h"
 #include "gnuplot_i.h"
 #include <time.h>
-#include "compute3LinkFreeWorkspace.h"
 #include "generate_polygons.h"
 
 void print_polygon(struct polygon aPolygon){
@@ -12,39 +11,6 @@ void print_polygon(struct polygon aPolygon){
 	for(i=0;i<aPolygon.numberOfVertices;i++){
 		printf("Vertice number %d : (%2.2f, %2.2f)\n",i,aPolygon.x_list[i], aPolygon.y_list[i]);
 	}
-}
-
-void mysleep(int milisecond){
-	int i=0;
-	float a =0;
-	for(i=0;i<milisecond*50000;i++){
-		a=a+4.5;	
-	}
-}
-
-void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
-	if(h==0){
-		h = gnuplot_init();
-		gnuplot_cmd(h, "clear");
-		gnuplot_cmd(h,"reset");
-		//gnuplot_cmd(h,"set terminal gif animate ");
-		//gnuplot_cmd(h,"set output \"animate.gif\"");
-		gnuplot_cmd(h, "set isosample 40" );
-		gnuplot_cmd(h, "set xrange [-4:4]");
-		gnuplot_cmd(h, "set yrange [-4:4]");
-		gnuplot_cmd(h, "set style arrow 1 nohead")	;
-	}	
-	int i,j;
-	gnuplot_cmd(h,"unset arrow");
-	for(j=0;j<number_of_polygons;j++){
-		for(i=0;i<polygons[j].numberOfVertices-1;i++){	
-			gnuplot_resetplot(h);
-			gnuplot_cmd(h, "set arrow from %f,%f to %f,%f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
-					polygons[j].y_list[i+1]);
-		}
-	}
-	gnuplot_cmd(h, "plot NaN notitle");
-	mysleep(delay);
 }
 
 
