@@ -1,0 +1,54 @@
+\newcommand{\figurepath}{./figures/}
+\newcommand{\figurescale}{0.23}
+\newcommand{\codepath}{../matlab/}
+\setlength\parindent{24pt}
+
+
+\section*{What has been done so far}
+
+So far alot of modules have been made as a part of solving the 3-Link Robot Manipulator problem. None of them has so far been parallized, but has been written in sequential c-code, which has been tested against an existing matlab code with the same input. We have have so far concentrated on optimizing the sequential code with respect to run time. 
+
+\begin{figure}[h!] 
+ \center 
+ \subfloat[]{ 
+ \includegraphics[scale=\figurescale]{\figurepath prog1.eps} }
+ \subfloat[]{ 
+ \includegraphics[scale=\figurescale]{\figurepath prog2.eps} }
+ \caption{  Program with the modules created so far marked in green. (a) and the different modules which has been implemented and their member functions \label{fig:prog1}}
+ \end{figure}
+
+In Fig. \ref{fig:prog1} One can see the progress on the overall program, as well as the different modules that are implemented so far. 
+
+The sampling and collision detection procedure where much less trivial than initially expected, and writing and debugging the code has been pretty time concuming. We suspect that the rest of the code will be simpler to write, at least as sequential code. Some time has also gone to making a framework for visualizing the data, both for the purpose of presentation and for debugging. A sample of this can be seen in Fig. \ref{fig:plot1} 
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.43, angle=-90]{\figurepath plot1.ps}
+ \caption{ Sampling of configuration space by checking if manipulator collides with any of the obstacles \label{fig:plot1}}
+ \end{figure}
+
+
+\section*{Changes from initial proposal}
+
+The sampling of the configuration space where initially ment to be done as a sequential procedure , but after testing the code, we found that it was very time consuming due to the fact that  it has the complexity 
+
+\begin{align}
+\label{eq:}
+\text{complexity: } = kn^3=O(n^3) 
+ \end{align}
+
+when sampling for a 3-link robot manipulator, and because the collision detection algorithm is also very timeconsuming. We are therefor going to focus on doing the sampling procedure in parallel. The sampling procedure should be very parallizable, due to the fact that one can divide the samplelist (list of all possible angles lying on a 3 Torus) equally between processors, and each processor can then calculate their partition of the free workspace based on this. 
+
+After getting feedback from Professor Gilbert we also decided to  aime at running a sequential Dijkstra's algorithm, and do the different computations in the algorithm in parallel. 
+
+\section*{Further Work}
+
+The work ahead includes computing an adjacency table which represents the graph in the problem, and then running the shortest path algorithm on the graph. The adjacency table will be computed in parallel, while the shortest path algorithm will run sequentially, with different computations running in parallel. The sampling procedure will also be extended to run in parallel. If time allows it we will implement a very realistic scenario where the workspace is changing (the obstacles are moving around) and therefor the sample procedure has to be done once per iteration. This scenario will therefor benefit from a sampling procedure running in parallel.
+
+
+
+
+
+
+
+
