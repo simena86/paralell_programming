@@ -1,5 +1,5 @@
 \newcommand{\figurepath}{./figures/}
-\newcommand{\figurescale}{0.23}
+\newcommand{\figurescale}{0.22}
 \newcommand{\codepath}{../matlab/}
 \setlength\parindent{24pt}
 
@@ -23,21 +23,21 @@ The sampling and collision detection procedure where much less trivial than init
 
 \begin{figure}[h!] 
  \center 
- \includegraphics[scale=0.43, angle=-90]{\figurepath plot1.ps}
+ \includegraphics[scale=0.41, angle=-90]{\figurepath plot1.ps}
  \caption{ Sampling of configuration space by checking if manipulator collides with any of the obstacles \label{fig:plot1}}
  \end{figure}
 
 
 \section*{Changes from initial proposal}
 
-The sampling of the configuration space where initially ment to be done as a sequential procedure , but after testing the code, we found that it was very time consuming due to the fact that  it has the complexity 
+The sampling of the configuration space where initially ment to be done as a sequential procedure, but after testing the code, we found that it was very time consuming due to the fact that  it has the complexity 
 
 \begin{align}
 \label{eq:}
-\text{complexity: } = kn^3=O(n^3) 
+kn^3=O(n^3) 
  \end{align}
 
-when sampling for a 3-link robot manipulator, and because the collision detection algorithm is also very timeconsuming. We are therefor going to focus on doing the sampling procedure in parallel. The sampling procedure should be very parallizable, due to the fact that one can divide the samplelist (list of all possible angles lying on a 3 Torus) equally between processors, and each processor can then calculate their partition of the free workspace based on this. 
+when sampling for a 3-link robot manipulator, and because the collision detection algorithm (represented as k in the equation above) is also very time consuming. We are therefor going to focus on doing the sampling procedure in parallel. The sampling procedure should be very parallizable, due to the fact that one can divide the samplelist (list of all possible angles lying on a 3 Torus) equally between processors, and each processor can then calculate their partition of the free workspace based on this. 
 
 After getting feedback from Professor Gilbert we also decided to  aime at running a sequential Dijkstra's algorithm, and do the different computations in the algorithm in parallel. 
 

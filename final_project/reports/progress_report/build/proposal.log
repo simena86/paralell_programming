@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  5 MAR 2013 16:03
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  5 MAR 2013 16:48
 entering extended mode
  %&-line parsing enabled.
 **proposal.tex
@@ -1036,10 +1036,10 @@ Package Fancyhdr Warning: \headheight is too small (0.0pt):
 Here is how much of TeX's memory you used:
  17664 strings out of 493849
  298987 string characters out of 1152846
- 417007 words of memory out of 3000000
+ 416007 words of memory out of 3000000
  20548 multiletter control sequences out of 15000+50000
  13061 words of font info for 49 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  58i,11n,55p,688b,418s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on proposal.dvi (2 pages, 14072 bytes).
+Output written on proposal.dvi (2 pages, 14100 bytes).
