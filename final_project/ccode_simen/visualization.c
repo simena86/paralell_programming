@@ -63,6 +63,8 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 		gnuplot_cmd(h,"reset");
 		gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
 		gnuplot_cmd(h,"set output \"animate.gif\"");
+//		gnuplot_cmd(h,"set terminal postscript color");
+//		gnuplot_cmd(h,"set output \"plot1.ps\"");
 		gnuplot_cmd(h, "set isosample 40" );
 		gnuplot_cmd(h, "set xrange [-4:4]");
 		gnuplot_cmd(h, "set yrange [-4:4]");
