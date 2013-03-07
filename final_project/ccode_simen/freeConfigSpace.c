@@ -23,7 +23,7 @@ void rotateVector(double linkAngle, double* x, double* y){
 void displaceLinkPoly(double linkAngle,struct polygon* displacedLink, struct point* displacedLinkEnd, struct point linkBase,
 					struct polygon linkReference, struct point linkEndPointReference ){
 	int i;
-	double xtemp,ytemp;
+	static double xtemp,ytemp;
 	// translate and rotate all vertices of polygon	
 	for(i=0;i<linkReference.numberOfVertices;i++){
 		xtemp=linkReference.x_list[i];
@@ -60,12 +60,12 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 								struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef,
 								struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,
 								struct polygon *obstacleList,  int numberOfObstacles){
-	struct polygon* polygons;
+	static struct polygon* polygons;
 	polygons=(struct polygon*)malloc(5*sizeof(struct polygon));
 	int i,j,collision;
 	int k=0;
-	struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
-	struct polygon displacedLink1, displacedLink2, displacedLink3;
+	static struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
+	static struct polygon displacedLink1, displacedLink2, displacedLink3;
 	initTempPolys(link1Poly,link2Poly,link2Poly, &displacedLink1 , &displacedLink2 , &displacedLink3  );
 	for(i=0;i<sample_list_length;i++){
 		displaceLinkPoly(sample_list[i][0], &displacedLink1, &displacedLinkEnd1, link1BaseRef, link1Poly, link2BaseRef);	
@@ -81,7 +81,6 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 		draw_polys_configSpace(k,free_configSpace,5,polygons,0);
 		for(j=0; j < numberOfObstacles;j++){
 			if(check_collision(displacedLink1,obstacleList[j])){
-				puts("hei");
 				collision=TRUE;
 				break;
 			}else if(check_collision(displacedLink2,obstacleList[j])){
@@ -101,6 +100,13 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 	//	draw_configSpace(k,free_configSpace,20);
 	}
 	*free_cs_size=k;
+	free(polygons);
+	free(displacedLink1.x_list);
+	free(displacedLink2.x_list);
+	free(displacedLink3.x_list);
+	free(displacedLink1.y_list);
+	free(displacedLink2.y_list);
+	free(displacedLink3.y_list);
 }
 
 void print_free_configSpace(unsigned int free_cs_size,double **free_configSpace){
@@ -109,7 +115,6 @@ void print_free_configSpace(unsigned int free_cs_size,double **free_configSpace)
 	for(i=0;i<free_cs_size;i++){
 		printf("%1.3f, %1.3f, %1.3f \n",free_configSpace[i][0], free_configSpace[i][1],free_configSpace[i][2]);
 	}
-
 }
 
 int main(){

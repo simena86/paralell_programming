@@ -8,9 +8,9 @@
 /*	check if point p1 is on the inside of every line segment joining vertices in polygon
  *	using the cross product to check this. 
  *  vector from vertice i to vertice i+1 : v_i --> v_i+1
- *  vector from v1 to point p1 :			  v_i --> p1   */ 
+ *  vector from v1 to point p1 :	       v_i --> p1   */ 
 int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){
-	double vec_polygon_edge_x, vec_polygon_edge_y, vec_poly_point_x,vec_poly_point_y, cross_prod_z_component;
+	static double vec_polygon_edge_x, vec_polygon_edge_y, vec_poly_point_x,vec_poly_point_y, cross_prod_z_component;
 	int i;
 	for(i=0;i<poly1.numberOfVertices-1;i++){
 		vec_polygon_edge_x=poly1.x_list[i+1] - poly1.x_list[i];
@@ -43,13 +43,18 @@ int check_if_segment_intersects(struct point p11, struct point p12, struct point
 
 int check_collision(struct polygon poly1, struct polygon poly2){
 	int i,j;
+	static struct point p1,p2,p3,p4;
 	// check for line intersection;
 	for(i=0;i<poly1.numberOfVertices-1;i++){
 		for(j=0;j<poly2.numberOfVertices-1;j++){
-			struct point p1={poly1.x_list[i],   poly1.y_list[i]};
-			struct point p2={poly1.x_list[i+1], poly1.y_list[i+1]};
-			struct point p3={poly2.x_list[j],   poly2.y_list[j]};
-			struct point p4={poly2.x_list[j+1], poly2.y_list[j+1]};
+			p1.x=poly1.x_list[i];
+			p1.y=poly1.y_list[i];
+			p2.x=poly1.x_list[i+1];
+			p2.y=poly1.y_list[i+1];
+			p3.x=poly2.x_list[j];
+			p3.y=poly2.y_list[j];
+			p4.x=poly2.x_list[j+1];
+			p4.y=poly2.y_list[j+1];
 			if(check_if_segment_intersects(p1,p2,p3,p4)){
 				return TRUE;
 			}else if(!check_if_outside_convex_polygon(p3,poly1)){
