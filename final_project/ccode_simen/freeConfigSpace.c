@@ -8,6 +8,7 @@
 #include "generate_polygons.h"
 #include "visualization.h"
 
+asdasdf
 /* Rotates a vector counter clockwise by angle "linkAngle" */
 void rotateVector(double linkAngle, double* x, double* y){
 	double x_temp=*x;

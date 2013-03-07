@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "visualization.h"
-
+asdfasdf
 
 void mysleep(int milisecond){
 	int i=0;
@@ -61,8 +61,8 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-//		gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
-//		gnuplot_cmd(h,"set output \"animate.gif\"");
+		gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
+		gnuplot_cmd(h,"set output \"animate.gif\"");
 //		gnuplot_cmd(h,"set terminal postscript color");
 //		gnuplot_cmd(h,"set output \"plot1.ps\"");
 		gnuplot_cmd(h, "set isosample 40" );
