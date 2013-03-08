@@ -79,6 +79,10 @@ void generate_obstacles_and_links( struct polygon* obstacle1, struct polygon* ob
 	json_t* linkBases, *links, *linkPolys;
 	json_t* obstacles;
 	root=json_load_file("../matlab_generate_polygons/polygons.json",0,&error);
+	if(!root){
+		puts("\n Cannot read file - polygons.json - does not exist \n");
+		exit(1);
+	}
 	links=json_object_get(root,"links");
 	linkPolys=json_object_get(links,"linkPolys");
 	linkBases=json_object_get(links,"linkBases");
