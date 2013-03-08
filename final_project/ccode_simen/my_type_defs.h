@@ -11,7 +11,7 @@
 struct polygon{
 	double *x_list;
 	double *y_list;	
-	int numberOfVertices;
+	int	numberOfVertices;
 };
 	
 struct point{

@@ -8,6 +8,7 @@
 #include "freeConfigSpace.h"
 #include "generate_polygons.h"
 #include "visualization.h"
+#include <mpi.h>
 
 /* Rotates a vector counter clockwise by angle "linkAngle" */
 void rotateVector(double linkAngle, double* x, double* y){

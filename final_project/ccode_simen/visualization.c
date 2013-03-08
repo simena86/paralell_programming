@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include "visualization.h"
-asdfasdf
 
 void mysleep(int milisecond){
 	int i=0;
-	float a =0;
+	double a =0;
 	for(i=0;i<milisecond*50000;i++){
 		a=a+4.5;	
 	}

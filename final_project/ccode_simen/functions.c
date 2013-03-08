@@ -1,6 +1,5 @@
 #include "functions.h"
 
-
 // Create a grid (qube) of sample points
 // Number of totale sample points = NUM_SAMPLES^3
 void createSampeList(double **sampleList){

@@ -10,7 +10,7 @@
  *  vector from vertice i to vertice i+1 : v_i --> v_i+1
  *  vector from v1 to point p1 :	       v_i --> p1   */ 
 int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){
-	static double vec_polygon_edge_x, vec_polygon_edge_y, vec_poly_point_x,vec_poly_point_y, cross_prod_z_component;
+	double vec_polygon_edge_x, vec_polygon_edge_y, vec_poly_point_x,vec_poly_point_y, cross_prod_z_component;
 	int i;
 	for(i=0;i<poly1.numberOfVertices-1;i++){
 		vec_polygon_edge_x=poly1.x_list[i+1] - poly1.x_list[i];
@@ -27,14 +27,13 @@ int check_if_outside_convex_polygon(struct point p1, struct polygon poly1){
 
 /* do line segment p11--p12, p21--p22 intersect */
 int check_if_segment_intersects(struct point p11, struct point p12, struct point p21, struct point p22){
-	double den;
-	double u_a,u_b;
-	den=(p22.y-p21.y)*(p12.x-p11.x) - (p22.x-p21.x)*(p12.y-p11.y);
-	u_a=(p22.x-p21.x)*(p11.y-p21.y) - (p22.y-p21.y)*(p11.x-p21.x);
-	u_b=(p12.x-p11.x)*(p11.y-p21.y)-(p12.y-p11.y)*(p11.x-p21.x);
-	u_a=u_a/den;
-	u_b=u_b/den;
-	if( u_a >= 0 && u_a <= 1 && u_b >= 0 && u_b <= 1 ){
+	double den=(p22.y-p21.y)*(p12.x-p11.x) - (p22.x-p21.x)*(p12.y-p11.y);
+	double u_a=(p22.x-p21.x)*(p11.y-p21.y) - (p22.y-p21.y)*(p11.x-p21.x);
+	double u_b=(p12.x-p11.x)*(p11.y-p21.y)-(p12.y-p11.y)*(p11.x-p21.x);
+//	u_a=u_a/den;
+//	u_b=u_b/den;
+//	if( u_a >= 0 && u_a <= 1 && u_b >= 0 && u_b <= 1 ){
+	if( u_a >= 0 && u_b >= 0 &&  u_a <= 1*den && u_b <= 1*den ){
 		return TRUE;
 	}else{
 		return FALSE;
@@ -43,7 +42,7 @@ int check_if_segment_intersects(struct point p11, struct point p12, struct point
 
 int check_collision(struct polygon poly1, struct polygon poly2){
 	int i,j;
-	static struct point p1,p2,p3,p4;
+	struct point p1,p2,p3,p4;
 	// check for line intersection;
 	for(i=0;i<poly1.numberOfVertices-1;i++){
 		for(j=0;j<poly2.numberOfVertices-1;j++){
