@@ -2,24 +2,6 @@ close all
 clc
 clear all
 %% Intialize polygons
-% 
-% Poly1 = [-0.6,0.3;-0.4,-0.4;0.7,-0.3;0.6,0.4;0.2,0.3;-0.296057,0.596997];
-% Poly2 = [-0.8,-0.4;-0.1,-0.1;0.9,-0.4;0.3,0.2;0.102922,0.598169;-0.3,0.4];
-% Poly3 = [-0.6,0.3;-0.4,-0.4;0.7,-0.3;0.6,0.4;0.2,0.3;-0.296057,0.596997];
-% 
-% Poly1 = Poly1 + ones(size(Poly1))*[1.4 0; 0 .7];
-% Poly2 = Poly2 + ones(size(Poly2))*[-1.5 0; 0 1.6];
-% Poly3 = Poly3 + ones(size(Poly2))*[-1.5 0; 0 -1.4];
-% 
-% ObstacleList = {Poly1, Poly2, Poly3};
-% 
-% link1Poly = [-.1,-.2; .5,-.3; 1.1,-.2; 1.1,.1; .5,.3; -.1,.1];
-% link2Poly = [-.1,-.1; .5,-.2; 1.7,-.1; 1.7,.05; .5,.2; -.1,.05];
-% link3Poly = [-.1,-.1; .5,-.2; 1.7,-.1; 1.7,.05; .5,.2; -.1,.05];
-% 
-% link1Base = [0,0];  % In absolute coordinates
-% link2Base = [1,0];  % In relative coordinates, should be inside link1Poly
-% link3Base = [1.7,0];
 
 data=loadjson('../polygons.json');
 obs1=zeros(length( data.obstacles.obstacle1x(1:end-1) ), 2);
