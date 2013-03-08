@@ -143,7 +143,7 @@ int main(){
 	int n,i,j;
 	double ** sampleList;
 	double ** free_configSpace;
-	n = NUM_SAMPLES*NUM_SAMPLES*NUM_SAMPLES;
+	n=10*10*10;
 	sampleList = (double **)malloc(sizeof(double*)* n);
 	free_configSpace = (double **)malloc(sizeof(double*)* n);
 	for (i=0;i<n;i++){
@@ -154,7 +154,7 @@ int main(){
 			free_configSpace[i][j] = -1;
 		}
 	}
-	createSampeList(sampleList);
+	createSampeList(sampleList, n);
 	puts("Sample list created");
 	compute3LinkFreeConfigSpace(n,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,
 							  link1,link2,link3,obstacle_list,number_of_obstacles);	

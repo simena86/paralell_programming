@@ -2,24 +2,43 @@
 
 // Create a grid (qube) of sample points
 // Number of totale sample points = NUM_SAMPLES^3
-void createSampeList(double **sampleList){
+void createSampeList(double **sampleList,unsigned int n,unsigned int size_per_proc){
+	int myrank, nprocs;
 	int i,j,k,iter;
-	double sampleInterval = 2*PI / NUM_SAMPLES;
-	double temp[NUM_SAMPLES];
-
-	for(i=0;i<NUM_SAMPLES;i++){
-		temp[i] = -PI + sampleInterval*i;
+	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
+	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
+	int proc0extra_term = 0;
+	int n_p = floor(n/nprocs);
+	if(myrank!=0){
+		proc0extra_term = n*n*n % nprocs;	
+	}else{
+		n_p+= n % nprocs;
 	}
 	
-	iter=0;
-	for(i=0;i<NUM_SAMPLES;i++){
-		for(j=0;j<NUM_SAMPLES;j++){
-			for(k=0;k<NUM_SAMPLES;k++){
-				sampleList[iter][0] = temp[i%NUM_SAMPLES]; 
-				sampleList[iter][1] = temp[j]; 
-				sampleList[iter][2] = temp[k%NUM_SAMPLES];
-				iter++;
-			}
+	double temp[n];
+	for(i=0;i<n;i++){
+		temp[i] =-PI + 2*PI*i/n; 
+	}	
+	int number = proc0extra_term + myrank*(size_per_proc) ;
+	k = number % n;
+	number/=n;
+	j= number % n;
+	number/=n;
+	i= number % n;
+	number = proc0extra_term + myrank*(size_per_proc) ;
+	for(iter=0;iter<size_per_proc;iter++){
+		if(myrank==4)
+		printf(" rank %d i %d, j %d k %d, iter %d \n",myrank,i,j,k, iter);
+		sampleList[iter][0] = temp[i]; 
+		sampleList[iter][1] = temp[j]; 
+		sampleList[iter][2] = temp[k];
+		k++;
+		if((iter + number +1 ) % n == 0){
+			j++;
+			k=0;	
+		}if((iter +  number +1) % (n*n) == 0){
+			i++;
+			j=0;	
 		}
 	}
 }
