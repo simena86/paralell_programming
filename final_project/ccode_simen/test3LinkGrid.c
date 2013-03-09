@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	obstacle_list[1]=obstacle2;
 	// ------------ sample list ------------------//
 	int i,j, size_per_proc, n,n_cube;
-	n = 10 ;
+	n = 5;
 	n_cube=n*n*n;
 	size_per_proc = floor(n_cube/nprocs);
 	if(myrank==0){
@@ -51,8 +51,8 @@ int main(int argc, char *argv[]) {
 	double connectRadius=2.2*PI/(n-1);
 	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
 	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-//	computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
-//	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
+	computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
+	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
 	
 	
 	
