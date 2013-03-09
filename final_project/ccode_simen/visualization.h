@@ -23,4 +23,6 @@ void draw_configSpace(unsigned int cs_size,double **configSpace,int delay);
 
 
 void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int number_of_polygons, struct polygon *polygons,unsigned int delay);
+
+void draw_adjTable( unsigned int cs_size,double **ce, int* atArr,double **at, int delay);
 #endif
