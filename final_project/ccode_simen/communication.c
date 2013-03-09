@@ -5,7 +5,7 @@ void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_t
 	int myrank, nprocs;
 	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
 	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
-//	MPI_Reduce(free_cs_size,free_cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
+	
 	/* prepare a send and receive buffer*/
 	double **cs_send_bfr, *cs_rcv_bfr;
 	int* displacement,*rcvcount;
@@ -53,11 +53,11 @@ void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_t
 			}
 		}
 	}
-	free(cs_rcv_bfr);
-	for(i=0;i<3;i++){
-		free(cs_send_bfr[i]);
-	}
-	free(cs_send_bfr);
+//	free(cs_rcv_bfr);
+//	for(i=0;i<3;i++){
+//		free(cs_send_bfr[i]);
+//	}
+//	free(cs_send_bfr);
 	
 }
 	
