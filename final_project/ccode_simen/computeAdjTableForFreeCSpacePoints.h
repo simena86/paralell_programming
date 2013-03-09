@@ -5,7 +5,8 @@
 
 // Should be in main
 /*
-	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
+	double connectRadius=2.2*PI/(n-1);
+    int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
 	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
 	computeAdjTableForFreeCSpacePoints(free_cs_size, free_configSpace, adjTable, adjTableElementSize, connectRadius);
 	print_adjTable(free_cs_size,adjTable, adjTableElementSize);

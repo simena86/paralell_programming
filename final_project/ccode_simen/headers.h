@@ -1,6 +1,7 @@
-#ifndef _HEADERS_
-#define _HEADERS_
+//#ifndef _HEADERS_
+//#define _HEADERS_
 
+#include "computeAdjTableForFreeCSpacePoints.h"
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
@@ -11,6 +12,5 @@
 #include "freeConfigSpace.h"
 #include "generate_polygons.h"
 #include <mpi.h>
-#include "computeAdjTableForFreeCSpacePoints.h"
 
-#endif
+//#endif

@@ -1,9 +1,5 @@
-#include <stdio.h>
 #include <jansson.h>
-#include "collision_detection.h"
-#include "gnuplot_i.h"
-#include <time.h>
-#include "generate_polygons.h"
+#include "headers.h"
 
 void print_polygon(struct polygon aPolygon){
 	int i;
@@ -12,7 +8,6 @@ void print_polygon(struct polygon aPolygon){
 		printf("Vertice number %d : (%2.2f, %2.2f)\n",i,aPolygon.x_list[i], aPolygon.y_list[i]);
 	}
 }
-
 
 // allocate memory for 
 void allocate_memory_polygons(struct polygon *obstacle1, struct polygon *obstacle2, struct polygon* link1, 

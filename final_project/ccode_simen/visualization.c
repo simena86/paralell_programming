@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "visualization.h"
+#include "headers.h"
 
 void mysleep(int milisecond){
 	int i=0;

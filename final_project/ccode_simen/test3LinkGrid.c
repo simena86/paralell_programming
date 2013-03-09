@@ -1,14 +1,4 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include "collision_detection.h"
-#include "functions.h"
-#include "gnuplot_i.h"
-#include "freeConfigSpace.h"
-#include "generate_polygons.h"
-#include "visualization.h"
-#include <mpi.h>
+#include "headers.h"
 
 int main(int argc, char *argv[]) {
 	h=0; // handler for gnuplot	
@@ -19,7 +9,7 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
 	start = MPI_Wtime();
 	unsigned int free_cs_size=0;
-	// polygons
+	// ------------- polygons- ----------- //
 	struct polygon obstacle1, obstacle2, link1, link2,link3;
 	struct point base1, base2, base3;
 	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
@@ -30,7 +20,7 @@ int main(int argc, char *argv[]) {
 	obstacle_list[1]=obstacle2;
 	// ------------ sample list ------------------//
 	int i,j, size_per_proc, n,n_cube;
-	n = 300 ;
+	n = 10 ;
 	n_cube=n*n*n;
 	size_per_proc = floor(n_cube/nprocs);
 	if(myrank==0){
@@ -50,11 +40,24 @@ int main(int argc, char *argv[]) {
 	}
 	printf("myrank %d, size_per_proc %d \n", myrank, size_per_proc);
 	createSampeList(sampleList,n,size_per_proc);
-	if(myrank==5)
-	printSampleList(sampleList,size_per_proc);
-							  link1,link2,link3,obstacle_list,number_of_obstacles);	
-//	print_free_configSpace(free_cs_size, free_configSpace);
-//	printf("free ws space %d\n ", free_cs_size);
+	compute3LinkFreeConfigSpace(size_per_proc,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,link1,link2,link3,obstacle_list, number_of_obstacles);
+	unsigned int free_cs_size_total;
+	MPI_Reduce(&free_cs_size,&free_cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
+	if(myrank==0){
+		printf("\n total free config space %d \n ",free_cs_size_total);
+	}
+
+	// ------------ adjacency table --------//
+	double connectRadius=2.2*PI/(n-1);
+	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
+	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
+//	computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
+//	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
+	
+	
+	
+	
+	//	printf("free ws space %d\n ", free_cs_size);
 //	if(h!=NULL)
 //		gnuplot_close(h);
 //	return 0;
