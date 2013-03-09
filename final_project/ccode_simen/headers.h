@@ -12,5 +12,6 @@
 #include "freeConfigSpace_mpi.h"
 #include "generate_polygons.h"
 #include <mpi.h>
+#include "communication.h"
 
 //#endif
