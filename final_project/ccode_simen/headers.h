@@ -1,3 +1,6 @@
+#ifndef _HEADERS_
+#define _HEADERS_
+
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
@@ -10,3 +13,4 @@
 #include <mpi.h>
 #include "computeAdjTableForFreeCSpacePoints.h"
 
+#endif
