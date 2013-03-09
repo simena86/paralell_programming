@@ -9,8 +9,9 @@
 #include "gnuplot_i.h"
 #include "visualization.h"
 #include "functions.h"
-#include "freeConfigSpace.h"
+#include "freeConfigSpace_mpi.h"
 #include "generate_polygons.h"
 #include <mpi.h>
+#include "communication.h"
 
 //#endif

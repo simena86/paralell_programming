@@ -52,9 +52,6 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 								struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef,
 								struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,
 								struct polygon *obstacleList,  int numberOfObstacles){
-	int myrank, nprocs;
-	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
-	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
 	static struct polygon* polygons;
 	polygons=(struct polygon*)malloc(5*sizeof(struct polygon));
 	int i;
@@ -95,7 +92,14 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 				free_configSpace[k][j]=sample_list[i][j];
 			} 
 		}
+	//draw_polys_configSpace(k,free_configSpace,5,polygons,0);
+	//draw_configSpace(k,free_configSpace,20);
 	}
+	gettimeofday(&end, 0);
+	double dif;
+	dif=(end.tv_sec - start.tv_sec)*1000 + (end.tv_usec- start.tv_usec) / 1000;
+	dif=dif;
+	printf("timing of config sampling in milliseconds %2.2f \n",dif);
 	*free_cs_size=k;
 	free(polygons);
 	free(displacedLink1.x_list);
@@ -108,11 +112,46 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 
 void print_free_configSpace(unsigned int free_cs_size,double **free_configSpace){
 	int i;
-	puts("----asdf--Free ConfigSpace: -------------\n");
+	puts("------Free ConfigSpace: -------------\n");
 	for(i=0;i<free_cs_size;i++){
 		printf("%1.3f, %1.3f, %1.3f \n",free_configSpace[i][0], free_configSpace[i][1],free_configSpace[i][2]);
 	}
 }
 
-
-
+int main(){
+	h=0;	
+	unsigned int free_cs_size=0;
+	struct polygon obstacle1, obstacle2;
+	struct polygon link1, link2,link3;
+	struct point base1, base2, base3;
+	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
+	int number_of_obstacles=2;
+	struct polygon *obstacle_list;
+	obstacle_list=(struct polygon*)malloc(number_of_obstacles*sizeof(struct polygon));
+	obstacle_list[0]=obstacle1;
+	obstacle_list[1]=obstacle2;
+	// ------------ sample list ------------------//
+	int n,i,j;
+	double ** sampleList;
+	double ** free_configSpace;
+	n=10*10*10;
+	sampleList = (double **)malloc(sizeof(double*)* n);
+	free_configSpace = (double **)malloc(sizeof(double*)* n);
+	for (i=0;i<n;i++){
+		sampleList[i] = (double*)malloc(sizeof(double) * 3);
+		free_configSpace[i] = (double*)malloc(sizeof(double) * 3);
+		for(j=0;j<3;j++){
+			sampleList[i][j] = 0;
+			free_configSpace[i][j] = -1;
+		}
+	}
+	createSampeList(sampleList, n);
+	puts("Sample list created");
+	compute3LinkFreeConfigSpace(n,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,
+							  link1,link2,link3,obstacle_list,number_of_obstacles);	
+	print_free_configSpace(free_cs_size, free_configSpace);
+	printf("free ws space %d\n ", free_cs_size);
+	if(h!=NULL)
+		gnuplot_close(h);
+	return 0;
+}
