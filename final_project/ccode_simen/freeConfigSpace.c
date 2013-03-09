@@ -1,13 +1,4 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include "collision_detection.h"
-#include "functions.h"
-#include "gnuplot_i.h"
-#include "freeConfigSpace.h"
-#include "generate_polygons.h"
-#include "visualization.h"
+#include "headers.h"
 
 /* Rotates a vector counter clockwise by angle "linkAngle" */
 void rotateVector(double linkAngle, double* x, double* y){

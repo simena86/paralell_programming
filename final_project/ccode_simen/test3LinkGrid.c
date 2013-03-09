@@ -52,8 +52,7 @@ int main(int argc, char *argv[]) {
 	createSampeList(sampleList,n,size_per_proc);
 	if(myrank==5)
 	printSampleList(sampleList,size_per_proc);
-//	compute3LinkFreeConfigSpace(n,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,
-//							  link1,link2,link3,obstacle_list,number_of_obstacles);	
+							  link1,link2,link3,obstacle_list,number_of_obstacles);	
 //	print_free_configSpace(free_cs_size, free_configSpace);
 //	printf("free ws space %d\n ", free_cs_size);
 //	if(h!=NULL)

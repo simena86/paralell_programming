@@ -1,14 +1,4 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include "collision_detection.h"
-#include "functions.h"
-#include "gnuplot_i.h"
-#include "freeConfigSpace.h"
-#include "generate_polygons.h"
-#include "visualization.h"
-#include <mpi.h>
+#include "headers.h"
 
 /* Rotates a vector counter clockwise by angle "linkAngle" */
 void rotateVector(double linkAngle, double* x, double* y){
@@ -105,8 +95,6 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 				free_configSpace[k][j]=sample_list[i][j];
 			} 
 		}
-	//draw_polys_configSpace(k,free_configSpace,5,polygons,0);
-	//draw_configSpace(k,free_configSpace,20);
 	}
 	gettimeofday(&end, 0);
 	double dif;
