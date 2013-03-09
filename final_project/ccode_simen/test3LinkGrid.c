@@ -48,10 +48,10 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	if(myrank==0)
+	if(myrank==1)
 		start1 = MPI_Wtime();
 	createSampeList(sampleList,n,size_per_proc);
-	if(myrank==0){
+	if(myrank==1){
 		stop1 = MPI_Wtime();
 		printf("create sampleList took %2.5f seconds \n", stop1-start1);
 	}
@@ -61,13 +61,14 @@ int main(int argc, char *argv[]) {
 	// -------- compute free config space --------- //
 	if(myrank==0)
 		start1 = MPI_Wtime();
+
 	compute3LinkFreeConfigSpace(size_per_proc,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,link1,link2,link3,obstacle_list, 
 					number_of_obstacles);	
+
 	if(myrank==0){
 		stop1 = MPI_Wtime();
 		printf("compute3link took %2.5f seconds \n", stop1-start1);
 	}
-
 	
 	// free memory for sampleList 
 	free(obstacle_list);
@@ -76,7 +77,6 @@ int main(int argc, char *argv[]) {
 	}
 	free(sampleList);
 	
-
 	// allocate memory for total config space on proc 0 
 	unsigned int free_cs_size_total;
 	double** free_configSpace_total;
@@ -90,6 +90,8 @@ int main(int argc, char *argv[]) {
 			}
 		}
 	}
+
+	
 	
 	if(myrank==0)
 		start1 = MPI_Wtime();
@@ -99,13 +101,17 @@ int main(int argc, char *argv[]) {
 		printf(" gather free cs took %2.5f seconds \n", stop1-start1);
 		//	print_free_configSpace(free_cs_size_total,free_configSpace_total);
 	}
-	
-	double connectRadius=2.2*PI/(n-1);
-	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
-	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-	computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
-	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
-	draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
+
+	// adjacency table	
+	if(myrank==0){	
+		double connectRadius=2.2*PI/(n-1);
+		int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
+		int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
+		computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
+		print_adjTable(free_cs_size,adjTable, adjTableElementSize);
+		//draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
+	}
+
 	
 	if(h!=NULL)
 		gnuplot_close(h);

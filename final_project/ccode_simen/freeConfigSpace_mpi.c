@@ -63,8 +63,6 @@ void compute3LinkFreeConfigSpace(unsigned int sample_list_length,double **sample
 	static struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
 	static struct polygon displacedLink1, displacedLink2, displacedLink3;
 	// for timing 	
-	struct timeval start, end;
-	gettimeofday(&start,0);
 	initTempPolys(link1Poly,link2Poly,link2Poly, &displacedLink1 , &displacedLink2 , &displacedLink3  );
 	for(i=0;i<sample_list_length;i++){
 		displaceLinkPoly(sample_list[i][0], &displacedLink1, &displacedLinkEnd1, link1BaseRef, link1Poly, link2BaseRef);	
