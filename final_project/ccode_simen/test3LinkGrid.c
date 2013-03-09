@@ -4,7 +4,8 @@
 
 int main(int argc, char *argv[]) {
 	unsigned int free_cs_size=0;
-	h=0; 	
+	h=0; 
+	unsigned int numPointsAdjTable;	
 	double start,stop, stop1,start1;
 
 	MPI_Init(&argc,&argv);
@@ -28,7 +29,7 @@ int main(int argc, char *argv[]) {
 
 	// ------------ sample list ------------------//
 	int i,j, size_per_proc, n,n_cube;
-	n = 10 ;
+	n = 5;
 	n_cube=n*n*n;
 	size_per_proc = floor(n_cube/nprocs);
 	if(myrank==0){
@@ -107,20 +108,60 @@ int main(int argc, char *argv[]) {
 		double connectRadius=2.2*PI/(n-1);
 		int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
 		int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-		computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
-		print_adjTable(free_cs_size,adjTable, adjTableElementSize);
+		numPointsAdjTable = computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
+		//print_adjTable(free_cs_size,adjTable, adjTableElementSize);
+		//printf("numPoints: %d\n", numPointsAdjTable);
 		//draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
+		s.front = 0;
+		s.rear = 0;
+		int numInSPath = computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable);
 	}
+// new ********************************************
+// example:
+/*
+	s.front = 0;
+	s.rear = 0;
+	int free_cs_size3 = 5;
+	int free_cs_size2 = 3;
 	
-		
+	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size3);
+	for (i=0;i<free_cs_size3;i++){
+		adjTable[i] = (int *)malloc(sizeof(int)* free_cs_size2);
+	} 
+	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size3);
+
+	adjTable[0][0] = 1;
+	adjTable[1][0] = 0;
+	adjTable[1][1] = 2;
+	adjTable[1][2] = 3;
+	adjTable[2][0] = 1;
+	adjTable[2][1] = 4;
+	adjTable[2][2] = 3;
+	adjTable[3][0] = 1;
+	adjTable[3][1] = 2;
+	adjTable[4][0] = 2;
+
+	adjTableElementSize[0] = 1;
+	adjTableElementSize[1] = 3;
+	adjTableElementSize[2] = 3;
+	adjTableElementSize[3] = 2;
+	adjTableElementSize[4] = 1;
+
+	int numInSPath = computeBFSPath(0, 4, adjTable, free_cs_size3, adjTableElementSize, 20);
+*/
+
+// ****************************************************************
+	
+
+
 	if(h!=NULL)
 		gnuplot_close(h);
-
+/*
 	if(myrank==0){
 		stop = MPI_Wtime();
 		printf("run time: %2.5f \n ", stop-start);
 	}
-	
+*/	
 	MPI_Finalize();
 	return 0;
 }

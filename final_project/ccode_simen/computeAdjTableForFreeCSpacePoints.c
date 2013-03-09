@@ -8,10 +8,12 @@ double min(double a, double b){
 	}
 }
 
-void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius){
+int computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius){
+	// Retuen number of points in adjTable
 	//printf("compute adjTable %d\n", free_cs_size);
 	//printf("max r = %f\n",maxAdjRadius);
 	int i,j,k,sizeTempAdjTable;
+	int numPoints = 0;
 	double xi,yi,zi,xj,yj,zj,distx,disty,distz,distTot;
 	sizeTempAdjTable = 10;
 	int tempTable [sizeTempAdjTable];
@@ -55,6 +57,7 @@ void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_
 				// Add to temp adjTable
 				tempTable[k] = j;
 				k++;
+				numPoints++;
 			}
 		}
 
@@ -67,6 +70,7 @@ void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_
 		//Store the number of neighbors for the current vertex 
 		adjTableElementSize[i] = k;
 	}
+	return numPoints;
 }
 
 void print_adjTable(unsigned int free_cs_size, int **adjTable, int * adjTableElementSize){

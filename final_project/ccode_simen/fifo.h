@@ -1,6 +1,9 @@
-#include<stdio.h>
+#ifndef _FIFO_
+#define _FIFO_
+
+#include "headers.h"
 #include<string.h>
-#define MAXSIZE 5
+#define MAXSIZE 100000000
 
 struct st
 {
@@ -19,3 +22,4 @@ void add(int x);
 void delete();
 void display();
 
+#endif

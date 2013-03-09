@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "fifo.h"
+#include "bfs.h"
 
 
 // PORBLEM!!!! -> maxsize in fifo queue
@@ -70,9 +69,10 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	// Compute the BFS-Edges of the graph
 	int numBFSEdges = computeBFSEdges(start,adjTable,n,adjTableElementSize, edgeTable);
 	// Print the edgeTable
-	for(i=0;i<maxNumEdges;i++){
+	for(i=0;i<numBFSEdges;i++){
 		printf("%d, %d\n", edgeTable[i][0], edgeTable[i][1]);
 	}
+	
 
 	// Set up the path table
 	int ** path = (int **)malloc(sizeof(int*)* numBFSEdges);
@@ -100,6 +100,7 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 		}
 	}
 	// Print the path
+	printf("\n\n***********the reversed path: *************\n\n");
 	for(i=0;i<iter;i++){
 		printf("%d, %d\n", path[i][0], path[i][1]);
 	}
@@ -107,38 +108,3 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	return iter; 
 }
 
-void main()
-{
-	
-	int i;
-
-	s.front = 0;
-	s.rear = 0;
-	int free_cs_size = 5;
-	int free_cs_size2 = 3;
-	
-	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
-	for (i=0;i<free_cs_size;i++){
-		adjTable[i] = (int *)malloc(sizeof(int)* free_cs_size2);
-	} 
-	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-
-	adjTable[0][0] = 1;
-	adjTable[1][0] = 0;
-	adjTable[1][1] = 2;
-	adjTable[1][2] = 3;
-	adjTable[2][0] = 1;
-	adjTable[2][1] = 4;
-	adjTable[2][2] = 3;
-	adjTable[3][0] = 1;
-	adjTable[3][1] = 2;
-	adjTable[4][0] = 2;
-
-	adjTableElementSize[0] = 1;
-	adjTableElementSize[1] = 3;
-	adjTableElementSize[2] = 3;
-	adjTableElementSize[3] = 2;
-	adjTableElementSize[4] = 1;
-
-	int numInSPath = computeBFSPath(0, 4, adjTable, free_cs_size, adjTableElementSize, 20);
-}

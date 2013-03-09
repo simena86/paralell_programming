@@ -13,5 +13,7 @@
 #include "generate_polygons.h"
 #include <mpi.h>
 #include "communication.h"
+#include "fifo.h"
+#include "bfs.h"
 
 //#endif
