@@ -49,8 +49,8 @@ int main(int argc, char *argv[]) {
 	unsigned int free_cs_size_total;
 	double** free_configSpace_total;
 	/* allocate memory for total config space on proc 0 */
-/*	if(myrank==0){
-		MPI_Reduce(&free_cs_size,&free_cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
+	MPI_Reduce(&free_cs_size,&free_cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
+	if(myrank==0){
 		free_configSpace_total=(double **)malloc(free_cs_size_total*sizeof(double *));
 		for(i=0;i<free_cs_size_total;i++){
 			free_configSpace_total[i]=(double *)malloc(3*sizeof(double *));
@@ -71,7 +71,6 @@ int main(int argc, char *argv[]) {
 	}	
 	
 
-*/	// ------------ adjacency table --------//
 //	double connectRadius=2.2*PI/(n-1);
 //	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
 //	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
