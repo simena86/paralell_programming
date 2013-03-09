@@ -1,5 +1,7 @@
-#include <stdio.h>
-#include <math.h>
+#ifndef _compAdj_
+#define _compAdj_
+
+#include "headers.h"
 
 // Should be in main
 /*
@@ -11,3 +13,5 @@
 
 void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius);
 void print_adjTable(unsigned int free_cs_size, int **adjTable, int * adjTableElementSize);
+
+#endif

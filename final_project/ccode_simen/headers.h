@@ -8,3 +8,5 @@
 #include "freeConfigSpace.h"
 #include "generate_polygons.h"
 #include <mpi.h>
+#include "computeAdjTableForFreeCSpacePoints.h"
+
