@@ -8,10 +8,12 @@ double min(double a, double b){
 	}
 }
 
-void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius){
+void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size_total, double **free_configSpace_total,
+										unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius){
+
 	//printf("compute adjTable %d\n", free_cs_size);
 	//printf("max r = %f\n",maxAdjRadius);
-	int i,j,k,sizeTempAdjTable;
+	unsigned int i,j,k,sizeTempAdjTable;
 	double xi,yi,zi,xj,yj,zj,distx,disty,distz,distTot;
 	sizeTempAdjTable = 10;
 	int tempTable [sizeTempAdjTable];
@@ -27,11 +29,11 @@ void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_
 		yi = free_configSpace[i][1];
 		zi = free_configSpace[i][2];
 
-		for(j=0;j<free_cs_size;j++){
+		for(j=0;j<free_cs_size_total;j++){
 		
-			xj = free_configSpace[j][0];
-			yj = free_configSpace[j][1];
-			zj = free_configSpace[j][2];
+			xj = free_configSpace_total[j][0];
+			yj = free_configSpace_total[j][1];
+			zj = free_configSpace_total[j][2];
 			
 			// distance in x, y and z direction
 			distx = fabs(xj - xi);

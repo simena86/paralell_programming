@@ -12,7 +12,8 @@
 	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
 */
 
-void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius);
+void computeAdjTableForFreeCSpacePoints(unsigned int free_cs_size_total, double **free_configSpace_total,
+										unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius);
 void print_adjTable(unsigned int free_cs_size, int **adjTable, int * adjTableElementSize);
 
 #endif

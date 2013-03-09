@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 		start = MPI_Wtime();
 
 
-	// ------------- polygons- ----------- //
+	// polygons
 	struct polygon obstacle1, obstacle2, link1, link2,link3;
 	struct point base1, base2, base3;
 	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 	obstacle_list[1]=obstacle2;
 
 
-	// ------------ sample list ------------------//
+	// sample list
 	int i,j, size_per_proc, n,n_cube;
 	n = 10 ;
 	n_cube=n*n*n;
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
 
 
 
-	// -------- compute free config space --------- //
+	// compute free config space
 	if(myrank==0)
 		start1 = MPI_Wtime();
 
@@ -81,35 +81,33 @@ int main(int argc, char *argv[]) {
 	unsigned int free_cs_size_total;
 	double** free_configSpace_total;
 	MPI_Reduce(&free_cs_size,&free_cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
-	if(myrank==0){
-		free_configSpace_total=(double **)malloc(free_cs_size_total*sizeof(double *));
-		for(i=0;i<free_cs_size_total;i++){
-			free_configSpace_total[i]=(double *)malloc(3*sizeof(double));
-			for(j=0;j<3;j++){
-				free_configSpace_total[i][j]=0;
-			}
+	MPI_Bcast(&free_cs_size_total,1,MPI_INT,0,MPI_COMM_WORLD);
+
+	free_configSpace_total=(double **)malloc(free_cs_size_total*sizeof(double *));
+	for(i=0;i<free_cs_size_total;i++){
+		free_configSpace_total[i]=(double *)malloc(3*sizeof(double));
+		for(j=0;j<3;j++){
+			free_configSpace_total[i][j]=0;
 		}
 	}
 
 	
-	
-	if(myrank==0)
+	if(myrank==1)
 		start1 = MPI_Wtime();
 	gather_free_cs(&free_cs_size_total, free_configSpace_total,&free_cs_size, free_configSpace);
-	if(myrank==0){
+	if(myrank==1){
 		stop1 = MPI_Wtime();
 		printf(" gather free cs took %2.5f seconds \n", stop1-start1);
-		//	print_free_configSpace(free_cs_size_total,free_configSpace_total);
+		printSampleList(free_configSpace_total,free_cs_size_total);	
 	}
 
 	// adjacency table	
-	if(myrank==0){	
 		double connectRadius=2.2*PI/(n-1);
 		int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
 		int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-		computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
+		computeAdjTableForFreeCSpacePoints(free_cs_size_total,free_configSpace_total,free_cs_size,free_configSpace,adjTable,adjTableElementSize,connectRadius);
+	if(myrank==0){	
 		print_adjTable(free_cs_size,adjTable, adjTableElementSize);
-		//draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
 	}
 
 	
