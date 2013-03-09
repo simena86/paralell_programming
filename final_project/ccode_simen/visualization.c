@@ -1,10 +1,10 @@
 #include "headers.h"
 
-void mysleep(int milisecond){
-	int i=0;
-	double a =0;
-	for(i=0;i<milisecond*50000;i++){
-		a=a+4.5;	
+void mysleep(long int milisecond){
+	long int i=0;
+	double a=14;
+	for(i=0;i<milisecond*100;i++){
+		a=i*a/4.5;	
 	}
 }
 
@@ -93,14 +93,17 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 
 
 
-void draw_adjTable( unsigned int cs_size,double **ce, int* atArr,double **at, int delay){
+void draw_adjTable( unsigned int cs_size,double **cs, int* atArr,int **at,long int delay){
 	int i,j;
 	if(h==0){
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-		//gnuplot_cmd(h,"set terminal gif animate ");
-		//gnuplot_cmd(h,"set output \"animate.gif\"");
+//		gnuplot_cmd(h,"set terminal gif small animate delay 10 optimize");
+//		gnuplot_cmd(h,"set output \"animate.gif\"");
+		gnuplot_cmd(h, "set isosample 40" );
+//		gnuplot_cmd(h,"set terminal postscript color");
+//		gnuplot_cmd(h,"set output \"plot1.ps\"");
 		gnuplot_cmd(h, "set xrange [-4:4]");
 		gnuplot_cmd(h, "set yrange [-4:4]");
 		gnuplot_cmd(h, "set zrange [-4:4]");
@@ -108,23 +111,28 @@ void draw_adjTable( unsigned int cs_size,double **ce, int* atArr,double **at, in
 		gnuplot_cmd(h, "set ylabel \"theta_2\" ");
 		gnuplot_cmd(h, "set zlabel \"theta_3\" ");
 	}
-	gnuplot_cmd(h,"splot \"-\" using 1:2:3 with points pointtype 26 ps 0.3 lt palette");
-	for(i=0;i<cs_size;i++){
-		gnuplot_cmd(h,"%f %f %f", cs[i][0], cs[i][1], cs[i][2]);	
-	}
-	gnuplot_cmd(h,"e");
-	
-	gnuplot_cmd(h,"splot \"-\" using 1:2:3 with lines linecolor rgb \"blue\" ");
+	gnuplot_cmd(h,"set multiplot");
+	gnuplot_resetplot(h);	
 	int temp;
+	double tol=0.1;
 	for(i=0;i<cs_size;i++){
 		for(j=0;j<atArr[i];j++){
-			temp=at[i][j];	
-			gnuplot_cmd(h,"%f %f %f", cs[i][0], cs[i][1], cs[i][2]);	
-			gnuplot_cmd(h,"%f %f %f", cs[temp][0], cs[temp][1], cs[temp][2]);	
-			
+			temp=at[i][j];
+			if( cs[i][0]<(-PI+tol) || cs[i][1]<(-PI+tol) || cs[i][2]<(-PI+tol) || 
+				cs[i][0]>(PI-tol) || cs[i][1]>(PI-tol) || cs[i][2]>(PI-tol) ||
+				(cs[temp][0]<(-PI+tol) || cs[temp][1]<(-PI+tol) || cs[temp][2]<(-PI+tol) ||
+				 cs[temp][0]>(PI-tol)  || cs[temp][1]>(PI-tol) || cs[temp][2]>(PI-tol)) ){
+				// do nothing
+			}else{
+				gnuplot_cmd(h,"splot \"-\" using 1:2:3 with lines linecolor rgb \"blue\" ");
+				gnuplot_cmd(h,"%f %f %f", cs[i][0], cs[i][1], cs[i][2]);	
+				gnuplot_cmd(h,"%f %f %f", cs[temp][0], cs[temp][1], cs[temp][2]);	
+				gnuplot_cmd(h,"e");
+			}	
 		}
 	}
 	mysleep(delay);
+	gnuplot_cmd(h,"unset multiplot");
 }
 
 

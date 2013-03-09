@@ -12,23 +12,20 @@ void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_t
 	displacement=(int *)malloc(nprocs*sizeof(int));
 	rcvcount=(int *)malloc(nprocs*sizeof(int));
 
-	if(myrank==0){
-		for(i=0;i<nprocs;i++){
-			displacement[i]=0;
-			printf("displacement %d\n", displacement[i]);
-		}
-	}
+	
 	int size_i=0,temp_size;
 	MPI_Gather(free_cs_size,1,MPI_INT,displacement,1,MPI_INT,0,MPI_COMM_WORLD);
-//	if(myrank==0){	
+
+	if(myrank==0){	
 		for(i=0;i<nprocs;i++){
 			rcvcount[i]=displacement[i];
 			displacement[i]=size_i;
 			size_i+=rcvcount[i];
 		}
-//	}
+	}
+
 	cs_send_bfr=(double** )malloc(3*sizeof(double* ));
-	cs_rcv_bfr=(double*)malloc(*free_cs_size_total*sizeof(double* ));
+	cs_rcv_bfr=(double*)malloc(*free_cs_size_total*sizeof(double));
 	for(i=0;i<3;i++){
 		cs_send_bfr[i]=(double* )malloc(*free_cs_size*sizeof(double));
 		for(j=0;j<*free_cs_size;j++){
@@ -53,11 +50,13 @@ void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_t
 			}
 		}
 	}
-//	free(cs_rcv_bfr);
-//	for(i=0;i<3;i++){
-//		free(cs_send_bfr[i]);
-//	}
-//	free(cs_send_bfr);
+	free(displacement);
+	free(rcvcount);
+	free(cs_rcv_bfr);
+	for(i=0;i<3;i++){
+		free(cs_send_bfr[i]);
+	}
+	free(cs_send_bfr);
 	
 }
 	

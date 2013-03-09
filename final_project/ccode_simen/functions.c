@@ -16,8 +16,9 @@ void createSampeList(double **sampleList,unsigned int n,unsigned int size_per_pr
 	}
 	
 	double temp[n];
+	double interval = 2*PI/n;
 	for(i=0;i<n;i++){
-		temp[i] =-PI + 2*PI*i/n; 
+		temp[i] =-PI + i*interval; 
 	}	
 	int number = proc0extra_term + myrank*(size_per_proc) ;
 	k = number % n;
@@ -27,8 +28,6 @@ void createSampeList(double **sampleList,unsigned int n,unsigned int size_per_pr
 	i= number % n;
 	number = proc0extra_term + myrank*(size_per_proc) ;
 	for(iter=0;iter<size_per_proc;iter++){
-		if(myrank==4)
-		printf(" rank %d i %d, j %d k %d, iter %d \n",myrank,i,j,k, iter);
 		sampleList[iter][0] = temp[i]; 
 		sampleList[iter][1] = temp[j]; 
 		sampleList[iter][2] = temp[k];

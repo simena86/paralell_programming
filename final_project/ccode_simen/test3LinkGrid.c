@@ -3,14 +3,17 @@
 
 
 int main(int argc, char *argv[]) {
-	h=0; // handler for gnuplot	
-	double start,stop;
+	unsigned int free_cs_size=0;
+	h=0; 	
+	double start,stop, stop1,start1;
+
 	MPI_Init(&argc,&argv);
 	int myrank, nprocs;
 	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
 	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
-	start = MPI_Wtime();
-	unsigned int free_cs_size=0;
+	if(myrank==0)
+		start = MPI_Wtime();
+
 
 	// ------------- polygons- ----------- //
 	struct polygon obstacle1, obstacle2, link1, link2,link3;
@@ -22,6 +25,7 @@ int main(int argc, char *argv[]) {
 	obstacle_list[0]=obstacle1;
 	obstacle_list[1]=obstacle2;
 
+
 	// ------------ sample list ------------------//
 	int i,j, size_per_proc, n,n_cube;
 	n = 10 ;
@@ -30,6 +34,7 @@ int main(int argc, char *argv[]) {
 	if(myrank==0){
 		size_per_proc+=n_cube % nprocs;
 	}
+	
 	double ** sampleList;
 	double ** free_configSpace;
 	sampleList = (double **)malloc(sizeof(double*)* size_per_proc);
@@ -38,55 +43,78 @@ int main(int argc, char *argv[]) {
 		sampleList[i] = (double*)malloc(sizeof(double) * 3);
 		free_configSpace[i] = (double*)malloc(sizeof(double) * 3);
 		for(j=0;j<3;j++){
-			free_configSpace[i][j] = -1;
 			sampleList[i][j] = 0;
+			free_configSpace[i][j] = 0;
 		}
 	}
-	createSampeList(sampleList,n,size_per_proc);
 
-	/* -------- compute free config space --------- */
-	compute3LinkFreeConfigSpace(size_per_proc,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,link1,link2,link3,obstacle_list, number_of_obstacles);
+	if(myrank==0)
+		start1 = MPI_Wtime();
+	createSampeList(sampleList,n,size_per_proc);
+	if(myrank==0){
+		stop1 = MPI_Wtime();
+		printf("create sampleList took %2.5f seconds \n", stop1-start1);
+	}
+
+
+
+	// -------- compute free config space --------- //
+	if(myrank==0)
+		start1 = MPI_Wtime();
+	compute3LinkFreeConfigSpace(size_per_proc,sampleList,&free_cs_size,free_configSpace,base1,base2,base3,link1,link2,link3,obstacle_list, 
+					number_of_obstacles);	
+	if(myrank==0){
+		stop1 = MPI_Wtime();
+		printf("compute3link took %2.5f seconds \n", stop1-start1);
+	}
+
+	
+	// free memory for sampleList 
+	free(obstacle_list);
+	for(i=0;i<size_per_proc;i++){
+		free(sampleList[i]);
+	}
+	free(sampleList);
+	
+
+	// allocate memory for total config space on proc 0 
 	unsigned int free_cs_size_total;
 	double** free_configSpace_total;
-	/* allocate memory for total config space on proc 0 */
 	MPI_Reduce(&free_cs_size,&free_cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
 	if(myrank==0){
 		free_configSpace_total=(double **)malloc(free_cs_size_total*sizeof(double *));
 		for(i=0;i<free_cs_size_total;i++){
-			free_configSpace_total[i]=(double *)malloc(3*sizeof(double *));
+			free_configSpace_total[i]=(double *)malloc(3*sizeof(double));
+			for(j=0;j<3;j++){
+				free_configSpace_total[i][j]=0;
+			}
 		}
 	}
-		
-	MPI_Barrier(MPI_COMM_WORLD);	
+	
+	if(myrank==0)
+		start1 = MPI_Wtime();
 	gather_free_cs(&free_cs_size_total, free_configSpace_total,&free_cs_size, free_configSpace);
-	if(myrank==5){
-		printf("size %d \n", free_cs_size_total);
-		for(i=0;i<free_cs_size_total;i++){
-			for(j=0;j<3;j++){
-				printf(" %2.2f ", free_configSpace_total[i][j]);
-			}
-			puts(" ");
-		}
-	//		printf("size free cs = %d \n",free_cs_size_total);
-	}	
+	if(myrank==0){
+		stop1 = MPI_Wtime();
+		printf(" gather free cs took %2.5f seconds \n", stop1-start1);
+		//	print_free_configSpace(free_cs_size_total,free_configSpace_total);
+	}
 	
+	double connectRadius=2.2*PI/(n-1);
+	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
+	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
+	computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
+	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
+	draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
+	
+	if(h!=NULL)
+		gnuplot_close(h);
 
-//	double connectRadius=2.2*PI/(n-1);
-//	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
-//	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-//	computeAdjTableForFreeCSpacePoints(free_cs_size, sampleList, adjTable, adjTableElementSize, connectRadius);
-//	print_adjTable(free_cs_size,adjTable, adjTableElementSize);
-	
-	
-	
-	
-	//	printf("free ws space %d\n ", free_cs_size);
-//	if(h!=NULL)
-//		gnuplot_close(h);
-//	return 0;
 	if(myrank==0){
 		stop = MPI_Wtime();
 		printf("run time: %2.5f \n ", stop-start);
 	}
+	
 	MPI_Finalize();
+	return 0;
 }

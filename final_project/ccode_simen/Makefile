@@ -6,7 +6,7 @@ clean:
 	rm *.out
 
 mpi: computeAdjTableForFreeCSpacePoints.c test3LinkGrid.c  collision_detection.c freeConfigSpace_mpi.c generate_polygons.c functions.c communication.c 
-	mpicc -O3 -o x.out test3LinkGrid.c collision_detection.c computeAdjTableForFreeCSpacePoints.c freeConfigSpace_mpi.c generate_polygons.c communication.c visualization.c gnuplot_i.c functions.c -ljansson -lm 
+	mpicc  -o x.out test3LinkGrid.c collision_detection.c computeAdjTableForFreeCSpacePoints.c freeConfigSpace_mpi.c generate_polygons.c communication.c visualization.c gnuplot_i.c functions.c -ljansson -lm 
 
 run:
-	mpirun -np 3 ./x.out
+	mpirun -np 2 ./x.out

@@ -121,6 +121,5 @@ void print_polygon_data( struct polygon obstacle1, struct polygon obstacle2, str
 		printf("------ (x1, y1) = %2.2f, %2.2f\n", link3.x_list[i], link3.y_list[i]);
 	}
 	printf("base1 : (%2.2f,%2.2f), base2 : (%2.2f,%2.2f), base3 : (%2.2f,%2.2f)\n",base1.x,base1.y,base2.x,base2.y,base3.x,base3.y );
-
 }
 
