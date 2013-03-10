@@ -1,7 +1,7 @@
 #include "bfs.h"
 
 
-// PORBLEM!!!! -> we are allocating to much memory for the edgeTable
+// PORBLEM!!!! -> maxsize in fifo queue
 
 
 int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize, int ** edgeTable){
@@ -18,16 +18,15 @@ int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize
 	marked[start] = 0;
 	
 	// prepare list of vertices to visit and BFS edges
-	init_fifo();
-	put_last(start);
-
+	add(start);
+	
 	// loop while the list of vertices to visit is nonempty
-	while((a = queue_empty()) == 0){
+	while((a = empty()) == 0){
  		// pick first vertex and remove it from list
-		v = get_data_first_element();
-		pop_first();
+		v = s.queue[s.front];
 		//printf("v: %d, size: %d\n", v, adjTableElementSize[v]);
 
+		delete();
  		// find all neighbors of vertex that are unmarked
 		for(i=0;i<adjTableElementSize[v];i++){
 			//printf("halla2\n");
@@ -37,7 +36,7 @@ int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize
 			      	// and add it to list of vertices to explore from
 			        // and save the useful edge
 				marked[idx] = marked[v] + 1;
-				put_last(idx);	// add to fifo queue
+				add(idx);	// add to fifo queue
 				edgeTable[iter][0] = v;
 				edgeTable[iter][1] = idx;
 				iter++;
@@ -54,7 +53,7 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	int i,j,tmp, bContinue; 
 	int iter = 0;
 	
-	// Set up edgeTable, maxNumEdges is the totale number of edges in the adjTable. So we are allocating to much spac in edgeTable. Fix this
+	// Set up edgeTable
 	int ** edgeTable = (int **)malloc(sizeof(int*)* maxNumEdges);
 	for (i=0;i<maxNumEdges;i++){
 		edgeTable[i] = (int *)malloc(sizeof(int)* 2);
@@ -69,21 +68,22 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	
 	// Compute the BFS-Edges of the graph
 	int numBFSEdges = computeBFSEdges(start,adjTable,n,adjTableElementSize, edgeTable);
-	
 	// Print the edgeTable
-	/*
 	for(i=0;i<numBFSEdges;i++){
 		printf("%d, %d\n", edgeTable[i][0], edgeTable[i][1]);
 	}
-	printf("\n\n");
-	*/
 	
-	// Set up the path table. Again we are allocating to much memory.
-	int * path = (int *)malloc(sizeof(int)* numBFSEdges);
-	for(i=0;i<numBFSEdges;i++){
-		path[i] = -1;
+
+	// Set up the path table
+	int ** path = (int **)malloc(sizeof(int*)* numBFSEdges);
+	for (i=0;i<numBFSEdges;i++){
+		path[i] = (int *)malloc(sizeof(int)* 2);
 	} 
-	
+	for(i=0;i<numBFSEdges;i++){
+		for(j=0;j<2;j++){
+			path[i][j] = -1;
+		}
+	}
 	tmp = goal;
 	bContinue = 1;
 	while(bContinue){
@@ -91,21 +91,18 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 		for(i=0;i<numBFSEdges;i++){
 			if(edgeTable[i][1] == tmp){
 				tmp = edgeTable[i][0];
-				path[iter] = edgeTable[i][1];
+				path[iter][0]= edgeTable[i][0];
+				path[iter][1]= edgeTable[i][1];
 				iter++;
 				bContinue = 1;
 				break;
 			}
 		}
 	}
-	// Also we add the start node to the end of the list
-	path[iter] = start;
-	iter++;
-
 	// Print the path
-	printf("The edges in the shortest path. (turn off print in bfs.c in computeBFSPath) \n");
+	printf("\n\n***********the reversed path: *************\n\n");
 	for(i=0;i<iter;i++){
-		printf("%d\n", path[i]);
+		printf("%d, %d\n", path[i][0], path[i][1]);
 	}
 	
 	return iter; 

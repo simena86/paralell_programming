@@ -1,6 +1,5 @@
-#ifndef _bfs_
-#define _bfs_
-
+#ifndef _BFS_
+#define _BFS_
 
 #include "headers.h"
 

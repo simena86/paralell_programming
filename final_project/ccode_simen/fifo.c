@@ -1,74 +1,73 @@
-/*
- * fifo.c
- *
- *  Created on: Dec 1, 2012
- *      Author: sverre
- */
-
-
-/******** C Program For Impelmetation Of Queue ***********/
-
-
 #include "fifo.h"
 
-int full()
-{
-	if (s.rear == MAXSIZE)
-		return(1);
-	else
-		return(0);
-}
-int empty()
-{
-	if (s.front == s.rear + 1)
-		return(1);
-	else
-		return(0);
+
+void init_fifo(){
+	
+	first = (node*)malloc(sizeof(node));
+	last = (node*)malloc(sizeof(node));
+	first->next = NULL;
+	first->prev = NULL;
+	last->next = NULL;
+	last->prev = NULL;
 }
 
-void add(int x)
-{
-
-	if(full() == 1)
-	{
-		printf("\n\nQueue Full\n");
+void pop_first(){
+	
+	if(first->next == NULL){
+		puts("ERROR: Queue is empty");
+		return;
 	}
-	else
-	{
-		s.rear = s.rear + 1;
-		s.queue[s.rear] = x;
-		if(s.rear == 1)
-			s.front ++;
+	curr = first->next;
+	first->next = curr->next;
+ 	free(curr);
+}
+
+void put_last(int data){
+
+	last->next = (node *)malloc(sizeof(node));
+	
+	curr = last->next;
+	curr->prev = last;
+	last = last->next;
+	last->data = data;
+	last->next = NULL;
+
+	if(first->next == NULL)
+		first->next = last; 
+}
+
+int get_data_first_element(){
+
+	curr = first->next;
+	return curr->data;
+}
+
+int queue_empty(){
+	
+	if(first->next == NULL){
+		return 1;
+	}
+	else{
+		return 0;
 	}
 }
 
-void delete()
-{
-char ch;
-	{
-	if(empty() == 1)
-	{
-	//printf("\n\nQueue Empty\n");
-	}
-	else
-	{
-	//	printf("% d Has Been Deleted!\n",s.queue[s.front]);
-		s.front = s.front +1;
-	}
-	}
+void print_queue(){
+	
+	if(first->next == NULL){
+                puts("Can't print queue. Queue is empty");
+		return;
+        }
+        print(first->next);
 }
 
-void display()
-{
-	int i;
-	//clrscr();
-	if(empty () == 1)
-	printf("\nQueue Empty!!");
-	else
-	{
-		printf("\nDisplaying Queue\n");
-		for(i = s.front;i<=s.rear;i++){
-			printf("%d\n",s.queue[i]);
-		}
-	}
+void print(node *pointer){
+
+        if(pointer == NULL){
+                return;
+        }
+        printf("%d \n",pointer->data);
+        print(pointer->next);
 }
+
+

@@ -5,21 +5,24 @@
 #include<string.h>
 #define MAXSIZE 100000000
 
-struct st
-{
-	int front;
-	int rear;
-	int queue[MAXSIZE];
-};
+#include "headers.h"
 
-struct st s;
+typedef struct node{
+    /// members
+	int data;
+	struct node *next;
+	struct node *prev;
+}node;
+
+node *curr, *first, *last;
+
+void init_fifo();
+void put_last(int data);
+void pop_first();
+int get_data_first_element();
+int queue_empty();
+void print_queue();
+void print(node *pointer);	//This function is used by the public function print_queue()
 
 
-
-int empty();
-int full();
-void add(int x);
-void delete();
-void display();
-
-#endif
+#endif /* QUEUE_H_ */
