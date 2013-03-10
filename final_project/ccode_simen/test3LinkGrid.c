@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 
 	// sample list
 	int i,j, size_per_proc, n,n_cube;
-	n = 20;
+	n = 10;
 	n_cube=n*n*n;
 	size_per_proc = floor(n_cube/nprocs);
 	if(myrank==0){
@@ -92,35 +92,38 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	
 	if(myrank==1)
 		start1 = MPI_Wtime();
 	gather_free_cs(&free_cs_size_total, free_configSpace_total,&free_cs_size, free_configSpace);
 	if(myrank==1){
 		stop1 = MPI_Wtime();
-		printf(" gather free cs took %2.5f seconds \n", stop1-start1);
-		printSampleList(free_configSpace_total,free_cs_size_total);	
+		printf("gather free cs took %2.5f seconds \n", stop1-start1);
 	}
+
+	// get where in the total free config space this process is
+	unsigned int offset=get_cs_offset(myrank,nprocs,free_cs_size);
+	printf("myrank %d nprocs %d, offset %d total free %d \n", myrank,nprocs,offset,free_cs_size_total);
 
 	// adjacency table	
 	double connectRadius=2.2*PI/(n-1);
-	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
-	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
+	int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size_total);
+	int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size_total);
 		
-	numPointsAdjTable=computeAdjTableForFreeCSpacePoints(free_cs_size_total,free_configSpace_total,free_cs_size,free_configSpace,
-						adjTable,adjTableElementSize,connectRadius);
+	numPointsAdjTable=computeAdjTableForFreeCSpacePoints(offset,free_cs_size_total,free_configSpace_total,free_cs_size,free_configSpace,
+														adjTable,adjTableElementSize,connectRadius);
+
+	sum_numPoints_allProcs(&numPointsAdjTable);
 	
+
 	// Shortest Path 
-	int numInSPath = computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable);
-
-
+	// int numInSPath = computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable);
 
 	if(h!=NULL)
 		gnuplot_close(h);
 	if(myrank==0){
 		stop = MPI_Wtime();
 		printf("run time: %2.5f \n ", stop-start);
-	}
+	} 
 	MPI_Finalize();
 	return 0;
 }

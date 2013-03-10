@@ -1,17 +1,29 @@
 #include "headers.h"
 
-int get_cs_offset(int myrank, int nprocs,int free_cs_size){
-	int myOffset, nextOffset;
-	if(myrank==0){
-		MPI_Send(&free_cs_size,1,MPI_INT,myrank+1,0,MPI_COMM_WORLD);	
-	}else{
-		MPI_Recv(&myOffset,1,MPI_INT,myrank-1,myrank,MPI_COMM_WORLD,NULL);
-		nextoffset=myOffset+free_cs_size;
-		if(myrank!=nprocs-1){
-			MPI_Send(&nextOffset,1,MPI_INT,myrank+1,myrank,MPI_COMM_WORLD);
-		}
-	}	
 
+void sum_numPoints_allProcs(unsigned int *numPointsAdjTable){
+	unsigned int sum;
+	MPI_Reduce(numPointsAdjTable,&sum,1,MPI_UNSIGNED,MPI_SUM,0,MPI_COMM_WORLD);
+	MPI_Bcast(&sum,1,MPI_UNSIGNED,0,MPI_COMM_WORLD);
+	*numPointsAdjTable=sum;
+}
+
+
+unsigned int get_cs_offset(int myrank, int nprocs,unsigned int free_cs_size){
+	unsigned int myOffset, nextOffset;
+	myOffset=0;
+	if(nprocs > 1){
+		if(myrank==0){
+			MPI_Send(&free_cs_size,1,MPI_INT,myrank+1,0,MPI_COMM_WORLD);	
+		}else{
+			MPI_Recv(&myOffset,1,MPI_UNSIGNED,myrank-1,0,MPI_COMM_WORLD,NULL);
+			nextOffset=myOffset+free_cs_size;
+			if(myrank!=nprocs-1){
+				MPI_Send(&nextOffset,1,MPI_UNSIGNED,myrank+1,0,MPI_COMM_WORLD);
+			}
+		}	
+	}
+	return myOffset;
 }
 
 void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_total,
@@ -26,11 +38,10 @@ void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_t
 	int* displacement,*rcvcount;
 	displacement=(int *)malloc(nprocs*sizeof(int));
 	rcvcount=(int *)malloc(nprocs*sizeof(int));
-
 	
 	int size_i=0,temp_size;
 	MPI_Gather(free_cs_size,1,MPI_INT,displacement,1,MPI_INT,0,MPI_COMM_WORLD);
-
+	
 	if(myrank==0){	
 		for(i=0;i<nprocs;i++){
 			rcvcount[i]=displacement[i];
