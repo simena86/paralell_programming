@@ -54,7 +54,7 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	int i,j,tmp, bContinue; 
 	int iter = 0;
 	
-	// Set up edgeTable
+	// Set up edgeTable, maxNumEdges is the totale number of edges in the adjTable. So we are allocating to much spac in edgeTable. Fix this
 	int ** edgeTable = (int **)malloc(sizeof(int*)* maxNumEdges);
 	for (i=0;i<maxNumEdges;i++){
 		edgeTable[i] = (int *)malloc(sizeof(int)* 2);
@@ -78,16 +78,12 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	printf("\n\n");
 	*/
 	
-	// Set up the path table
-	int ** path = (int **)malloc(sizeof(int*)* numBFSEdges);
+	// Set up the path table. Again we are allocating to much memory.
+	int * path = (int *)malloc(sizeof(int)* numBFSEdges);
 	for(i=0;i<numBFSEdges;i++){
-		path[i] = (int *)malloc(sizeof(int)* 2);
+		path[i] = -1;
 	} 
-	for(i=0;i<numBFSEdges;i++){
-		for(j=0;j<2;j++){
-			path[i][j] = -1;
-		}
-	}
+	
 	tmp = goal;
 	bContinue = 1;
 	while(bContinue){
@@ -95,18 +91,21 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 		for(i=0;i<numBFSEdges;i++){
 			if(edgeTable[i][1] == tmp){
 				tmp = edgeTable[i][0];
-				path[iter][0]= edgeTable[i][0];
-				path[iter][1]= edgeTable[i][1];
+				path[iter] = edgeTable[i][1];
 				iter++;
 				bContinue = 1;
 				break;
 			}
 		}
 	}
+	// Also we add the start node to the end of the list
+	path[iter] = start;
+	iter++;
+
 	// Print the path
 	printf("The edges in the shortest path. (turn off print in bfs.c in computeBFSPath) \n");
 	for(i=0;i<iter;i++){
-		printf("%d, %d\n", path[i][0], path[i][1]);
+		printf("%d\n", path[i]);
 	}
 	
 	return iter; 

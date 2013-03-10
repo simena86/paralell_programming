@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 
 	// ------------ sample list ------------------//
 	int i,j, size_per_proc, n,n_cube;
-	n = 30;
+	n = 20;
 	n_cube=n*n*n;
 	size_per_proc = floor(n_cube/nprocs);
 	if(myrank==0){
@@ -113,7 +113,8 @@ int main(int argc, char *argv[]) {
 		//printf("numPoints: %d\n", numPointsAdjTable);
 		//draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
 	
-		//------- Shortest Path -----------------------
+		//------- Shortest Path ----------------------
+		
 		int numInSPath = computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable);
 	}
 
