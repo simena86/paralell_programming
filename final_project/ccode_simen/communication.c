@@ -1,6 +1,21 @@
 #include "headers.h"
 
-void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_total,unsigned int* free_cs_size, double** free_configSpace){
+int get_cs_offset(int myrank, int nprocs,int free_cs_size){
+	int myOffset, nextOffset;
+	if(myrank==0){
+		MPI_Send(&free_cs_size,1,MPI_INT,myrank+1,0,MPI_COMM_WORLD);	
+	}else{
+		MPI_Recv(&myOffset,1,MPI_INT,myrank-1,myrank,MPI_COMM_WORLD,NULL);
+		nextoffset=myOffset+free_cs_size;
+		if(myrank!=nprocs-1){
+			MPI_Send(&nextOffset,1,MPI_INT,myrank+1,myrank,MPI_COMM_WORLD);
+		}
+	}	
+
+}
+
+void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_total,
+					unsigned int* free_cs_size, double** free_configSpace){
 	int i,j;
 	int myrank, nprocs;
 	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
@@ -42,14 +57,18 @@ void gather_free_cs(unsigned int* free_cs_size_total,double** free_configSpace_t
 		
 	
 	}
+	/* gather all partitions of free config space
+	 * in proc 0, and then distribute total free config
+	 * to all processors 								
+	 */
 	for(i=0;i<3;i++){
 		MPI_Gatherv(cs_send_bfr[i],*free_cs_size,MPI_DOUBLE,cs_rcv_bfr,rcvcount,displacement,MPI_DOUBLE,0,MPI_COMM_WORLD);
-		if(myrank==0){
-			for(j=0;j<*free_cs_size_total;j++){
-				free_configSpace_total[j][i]=cs_rcv_bfr[j];
-			}
+		MPI_Bcast(cs_rcv_bfr,*free_cs_size_total,MPI_DOUBLE,0,MPI_COMM_WORLD);
+		for(j=0;j<*free_cs_size_total;j++){
+			free_configSpace_total[j][i]=cs_rcv_bfr[j];
 		}
 	}
+	
 	free(displacement);
 	free(rcvcount);
 	free(cs_rcv_bfr);
