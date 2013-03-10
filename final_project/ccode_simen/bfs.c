@@ -1,7 +1,7 @@
 #include "bfs.h"
 
 
-// PORBLEM!!!! -> maxsize in fifo queue
+// PORBLEM!!!! -> we are allocating to much memory for the edgeTable
 
 
 int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize, int ** edgeTable){
@@ -18,15 +18,16 @@ int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize
 	marked[start] = 0;
 	
 	// prepare list of vertices to visit and BFS edges
-	add(start);
-	
+	init_fifo();
+	put_last(start);
+
 	// loop while the list of vertices to visit is nonempty
-	while((a = empty()) == 0){
+	while((a = queue_empty()) == 0){
  		// pick first vertex and remove it from list
-		v = s.queue[s.front];
+		v = get_data_first_element();
+		pop_first();
 		//printf("v: %d, size: %d\n", v, adjTableElementSize[v]);
 
-		delete();
  		// find all neighbors of vertex that are unmarked
 		for(i=0;i<adjTableElementSize[v];i++){
 			//printf("halla2\n");
@@ -36,7 +37,7 @@ int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize
 			      	// and add it to list of vertices to explore from
 			        // and save the useful edge
 				marked[idx] = marked[v] + 1;
-				add(idx);	// add to fifo queue
+				put_last(idx);	// add to fifo queue
 				edgeTable[iter][0] = v;
 				edgeTable[iter][1] = idx;
 				iter++;
@@ -68,15 +69,18 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	
 	// Compute the BFS-Edges of the graph
 	int numBFSEdges = computeBFSEdges(start,adjTable,n,adjTableElementSize, edgeTable);
+	
 	// Print the edgeTable
+	/*
 	for(i=0;i<numBFSEdges;i++){
 		printf("%d, %d\n", edgeTable[i][0], edgeTable[i][1]);
 	}
+	printf("\n\n");
+	*/
 	
-
 	// Set up the path table
 	int ** path = (int **)malloc(sizeof(int*)* numBFSEdges);
-	for (i=0;i<numBFSEdges;i++){
+	for(i=0;i<numBFSEdges;i++){
 		path[i] = (int *)malloc(sizeof(int)* 2);
 	} 
 	for(i=0;i<numBFSEdges;i++){
@@ -100,7 +104,7 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 		}
 	}
 	// Print the path
-	printf("\n\n***********the reversed path: *************\n\n");
+	printf("The edges in the shortest path. (turn off print in bfs.c in computeBFSPath) \n");
 	for(i=0;i<iter;i++){
 		printf("%d, %d\n", path[i][0], path[i][1]);
 	}
