@@ -105,7 +105,8 @@ int main(int argc, char *argv[]) {
 		double connectRadius=2.2*PI/(n-1);
 		int ** adjTable = (int **)malloc(sizeof(int*)* free_cs_size);
 		int * adjTableElementSize = (int*)malloc(sizeof(int)* free_cs_size);
-		computeAdjTableForFreeCSpacePoints(free_cs_size_total,free_configSpace_total,free_cs_size,free_configSpace,adjTable,adjTableElementSize,connectRadius);
+		computeAdjTableForFreeCSpacePoints(free_cs_size_total,free_configSpace_total,free_cs_size,free_configSpace,
+						adjTable,adjTableElementSize,connectRadius);
 	if(myrank==0){	
 		print_adjTable(free_cs_size,adjTable, adjTableElementSize);
 	}

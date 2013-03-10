@@ -99,8 +99,8 @@ void draw_adjTable( unsigned int cs_size,double **cs, int* atArr,int **at,long i
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-//		gnuplot_cmd(h,"set terminal gif small animate delay 10 optimize");
-//		gnuplot_cmd(h,"set output \"animate.gif\"");
+		gnuplot_cmd(h,"set terminal gif small animate delay 10 optimize");
+		gnuplot_cmd(h,"set output \"animate.gif\"");
 		gnuplot_cmd(h, "set isosample 40" );
 //		gnuplot_cmd(h,"set terminal postscript color");
 //		gnuplot_cmd(h,"set output \"plot1.ps\"");
@@ -110,11 +110,12 @@ void draw_adjTable( unsigned int cs_size,double **cs, int* atArr,int **at,long i
 		gnuplot_cmd(h, "set xlabel \"theta_1\" ");
 		gnuplot_cmd(h, "set ylabel \"theta_2\" ");
 		gnuplot_cmd(h, "set zlabel \"theta_3\" ");
+		gnuplot_cmd(h, "set style arrow 1 nohead")	;
 	}
-	gnuplot_cmd(h,"set multiplot");
 	gnuplot_resetplot(h);	
+	gnuplot_cmd(h,"set multiplot");
 	int temp;
-	double tol=0.1;
+	double tol=0.01;
 	for(i=0;i<cs_size;i++){
 		for(j=0;j<atArr[i];j++){
 			temp=at[i][j];
@@ -124,13 +125,11 @@ void draw_adjTable( unsigned int cs_size,double **cs, int* atArr,int **at,long i
 				 cs[temp][0]>(PI-tol)  || cs[temp][1]>(PI-tol) || cs[temp][2]>(PI-tol)) ){
 				// do nothing
 			}else{
-				gnuplot_cmd(h,"splot \"-\" using 1:2:3 with lines linecolor rgb \"blue\" ");
-				gnuplot_cmd(h,"%f %f %f", cs[i][0], cs[i][1], cs[i][2]);	
-				gnuplot_cmd(h,"%f %f %f", cs[temp][0], cs[temp][1], cs[temp][2]);	
-				gnuplot_cmd(h,"e");
+				gnuplot_cmd(h, "set arrow from %f,%f,%f to %f,%f,%f as 1",cs[i][0],cs[i][1], cs[i][2],cs[temp][0],cs[temp][1], cs[temp][2]);   
 			}	
 		}
 	}
+	gnuplot_cmd(h,"splot[-3.2:3.2][-3.2:3.2][-3.2:3.2] NaN title \"Adjacency Table \" ");
 	mysleep(delay);
 	gnuplot_cmd(h,"unset multiplot");
 }
