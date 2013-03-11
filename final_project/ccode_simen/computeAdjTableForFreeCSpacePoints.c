@@ -75,14 +75,29 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 	return numPoints;
 }
 
-void print_adjTable(struct Status s){
+void print_adjTable_total(struct Status s){
 	int i,j;
-	int offset=s.offsets[s.myrank];
-	puts("------Free ConfigSpace: -------------\n");
-	for(i=offset;i<s.cs_size_partition;i++){
+	printf("------Free ConfigSpace: proc %d -------------\n", s.myrank);
+	for(i=0 ;i< s.cs_size_total;i++){
 		printf("\n%d: ", i);	
 		for(j=0; j<s.adjTableElementSize[i];j++){
 			printf("%d,",s.adjTable[i][j]);
 		}
 	}
+	printf("\n------End Free ConfigSpace: proc %d -------------\n", s.myrank);
+
+
+}
+
+
+void print_adjTable(struct Status s){
+	int i,j;
+	printf("------Free ConfigSpace: proc %d -------------\n", s.myrank);
+	for(i=s.offsets[s.myrank] ;i<s.offsets[s.myrank] + s.cs_size_partition ;i++){
+		printf("\n%d: ", i);	
+		for(j=0; j<s.adjTableElementSize[i];j++){
+			printf("%d,",s.adjTable[i][j]);
+		}
+	}
+	printf("\n------End Free ConfigSpace: proc %d -------------\n", s.myrank);
 }

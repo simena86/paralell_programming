@@ -18,4 +18,8 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius);
 // prints the partition of the total adjcency table, beginning from "offset"
 void print_adjTable(struct Status s);
 
+void print_adjTable_total(struct Status s);
+
+
+
 #endif

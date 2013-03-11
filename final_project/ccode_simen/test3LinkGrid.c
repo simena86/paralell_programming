@@ -1,6 +1,22 @@
 #include "headers.h"
 
 
+void mydebug(struct Status s,int rank){
+	int i,j;
+	int n;
+//	n=s.nprocs;
+	n=s.cs_size_total;
+	if(s.myrank == rank){
+		puts("Debug -------------\n");
+		for(i=0;i<n;i++){
+		//	printf("myrank %d, offsets %d, size per part %d, s.cs_size_partition %d \n",
+		//					s.myrank, s.offsets[i], s.cs_size_per_partition[i], s.cs_size_partition );	
+			printf("node %d nbr cnt  %d \n",i, s.adjTableElementSize[i]);	
+		}
+		//print_free_configSpace(s.cs_size_total,s.cs_total);
+	}
+
+}
 
 int main(int argc, char *argv[]) {
 
@@ -68,19 +84,21 @@ int main(int argc, char *argv[]) {
 		s.offsets[i]=0;
 		s.cs_size_per_partition[i]=0;
 	}
-	get_offsets(&s);
-	gather_free_cs(&s);
+	
+	get_size_partition_and_offsets(s.cs_size_partition, s.cs_size_per_partition,s.offsets,s.nprocs,s.myrank);
+	distribute_total_free_cs(&s);
+	
+	
 
 	// adjacency table - modules - computeAdjTableForFreeCSpacePoints.c, communication.c	
 	double connectRadius=2.2*PI/(s.sample_size_per_dim-1);
 	s.adjTable = (int **)malloc(sizeof(int*)* s.cs_size_total);
 	s.adjTableElementSize = (int*)malloc(sizeof(int)* s.cs_size_total);
 	s.numberOfPoints_adjTab=computeAdjTableForFreeCSpacePoints(&s,connectRadius);
-	
-	if(s.myrank==0){
-	
-	}
-	
+	get_total_elementSize(&s);	
+	distribute_total_adjTab(&s);
+	//print_adjTable_total(s);
+
 	/*	
 	
 	// Shortest Path 

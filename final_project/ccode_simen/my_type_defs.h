@@ -20,11 +20,12 @@ struct Status {
 	int* adjTableElementSize;
 	int cs_size_partition;
 	int cs_size_total;
-	int* offsets;
-	int* cs_size_per_partition;
+	unsigned int* offsets;
+	unsigned int* cs_size_per_partition;
 	int myrank;
 	int nprocs;
 	unsigned int numberOfPoints_adjTab;
+	unsigned int numberOfPoints_adjTab_total;
 };
 
 
