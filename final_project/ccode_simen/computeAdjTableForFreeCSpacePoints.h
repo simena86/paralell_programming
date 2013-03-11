@@ -13,11 +13,9 @@
 */
 
 // computes partition of adjacency table for index "offset" to "offset + free_cs_size_total"
-int computeAdjTableForFreeCSpacePoints(unsigned int offset, unsigned int free_cs_size_total, double **free_configSpace_total,
-						unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius);
-
+int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius);
 
 // prints the partition of the total adjcency table, beginning from "offset"
-void print_adjTable(unsigned int offset,unsigned int free_cs_size, int **adjTable, int * adjTableElementSize);
+void print_adjTable(struct Status s);
 
 #endif

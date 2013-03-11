@@ -8,36 +8,34 @@ double min(double a, double b){
 	}
 }
 
-int computeAdjTableForFreeCSpacePoints(unsigned int offset, unsigned int free_cs_size_total, double **free_configSpace_total,
-					unsigned int free_cs_size,double **free_configSpace, int ** adjTable, int * adjTableElementSize, double maxAdjRadius){
-
+int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 
 	// Retuen number of points in adjTable
 	//printf("compute adjTable %d\n", free_cs_size);
 	//printf("max r = %f\n",maxAdjRadius);
 	int i,j,k,sizeTempAdjTable;
 	int numPoints = 0;
-
+	int offset=s->offsets[s->myrank];
 	double xi,yi,zi,xj,yj,zj,distx,disty,distz,distTot;
 	sizeTempAdjTable = 10;
 	int tempTable [sizeTempAdjTable];
 
-	for(i=0;i<free_cs_size;i++){
+	for(i=0;i<s->cs_size_partition;i++){
 		
 		k=0;
 		for(j=0;j<sizeTempAdjTable;j++){
 			tempTable[j] = -1;
 		}
+		
+		xi = s->cs_partition[i][0];
+		yi = s->cs_partition[i][1];
+		zi = s->cs_partition[i][2];
 
-		xi = free_configSpace[i][0];
-		yi = free_configSpace[i][1];
-		zi = free_configSpace[i][2];
-
-		for(j=0;j<free_cs_size_total;j++){
+		for(j=0;j<s->cs_size_total;j++){
 			//printf("i,j %d %d \n",i,j);	
-			xj = free_configSpace_total[j][0];
-			yj = free_configSpace_total[j][1];
-			zj = free_configSpace_total[j][2];
+			xj = s->cs_total[j][0];
+			yj = s->cs_total[j][1];
+			zj = s->cs_total[j][2];
 			
 			// distance in x, y and z direction
 			distx = fabs(xj - xi);
@@ -66,24 +64,25 @@ int computeAdjTableForFreeCSpacePoints(unsigned int offset, unsigned int free_cs
 		}
 
 		// Add temp to adjTable
-		adjTable[i+offset] = (int*)malloc(sizeof(int) * k);
+		s->adjTable[i+offset] = (int*)malloc(sizeof(int) * k);
 		for(j=0;j<k;j++){
-			adjTable[i + offset][j] = tempTable[j];
+			s->adjTable[i + offset][j] = tempTable[j];
 		}
 		
 		//Store the number of neighbors for the current vertex 
-		adjTableElementSize[i + offset] = k;
+		s->adjTableElementSize[i + offset] = k;
 	}
 	return numPoints;
 }
 
-void print_adjTable(unsigned int offset ,unsigned int free_cs_size, int **adjTable, int * adjTableElementSize){
+void print_adjTable(struct Status s){
 	int i,j;
+	int offset=s.offsets[s.myrank];
 	puts("------Free ConfigSpace: -------------\n");
-	for(i=offset;i<free_cs_size;i++){
+	for(i=offset;i<s.cs_size_partition;i++){
 		printf("\n%d: ", i);	
-		for(j=0; j<adjTableElementSize[i];j++){
-			printf("%d,",adjTable[i][j]);
+		for(j=0; j<s.adjTableElementSize[i];j++){
+			printf("%d,",s.adjTable[i][j]);
 		}
 	}
 }
