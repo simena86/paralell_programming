@@ -135,5 +135,12 @@ void draw_adjTable( unsigned int cs_size,double **cs, int* atArr,int **at,long i
 }
 
 
+void draw_shortest_path(struct Status s){
+	
+
+
+
+}
+
 
 

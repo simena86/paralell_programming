@@ -10,17 +10,17 @@ double min(double a, double b){
 
 int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 
-	// Retuen number of points in adjTable
+	// Return number of points in adjTable
 	//printf("compute adjTable %d\n", free_cs_size);
 	//printf("max r = %f\n",maxAdjRadius);
 	int i,j,k,sizeTempAdjTable;
 	int numPoints = 0;
 	int offset=s->offsets[s->myrank];
 	double xi,yi,zi,xj,yj,zj,distx,disty,distz,distTot;
-	sizeTempAdjTable = 10;
+	sizeTempAdjTable = 15;
 	int tempTable [sizeTempAdjTable];
 
-	for(i=0;i<s->cs_size_partition;i++){
+	for(i=0;i < s->cs_size_partition ;i++){
 		
 		k=0;
 		for(j=0;j<sizeTempAdjTable;j++){
@@ -55,7 +55,7 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 			// Calculate total distance
 			distTot = sqrt((distx*distx) + (disty*disty) + (distz*distz));
 
-			if (distTot < maxAdjRadius && i!=j){
+			if (distTot < maxAdjRadius && (i + offset)!=j){
 				// Add to temp adjTable
 				tempTable[k] = j;
 				k++;
@@ -64,7 +64,7 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 		}
 
 		// Add temp to adjTable
-		s->adjTable[i+offset] = (int*)malloc(sizeof(int) * k);
+		s->adjTable[i+offset] = (unsigned int*)malloc(sizeof(unsigned int) * k);
 		for(j=0;j<k;j++){
 			s->adjTable[i + offset][j] = tempTable[j];
 		}

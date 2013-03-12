@@ -1,6 +1,9 @@
 #include "headers.h"
 
 
+/* Get the index of each processors start position in the total configuration space and put in an array <- offsets
+ * and get the size of each processors cs partition <- size_per_partition 
+ * used both for adjacency table and configuration space */
 void get_size_partition_and_offsets(unsigned int size_partition,  unsigned int* size_per_partition,unsigned int* offsets, int nprocs,int myrank){
 	int i,temp;
 	temp=0;
@@ -16,11 +19,26 @@ void get_size_partition_and_offsets(unsigned int size_partition,  unsigned int* 
 }
 
 
+/* Allocate memory for the total adjTab, based on total adjTableElementSize. */
+void allocate_total_adjTab(struct Status* s){
+	int i,j;
+	for(i=0 ; i < s->offsets[s->myrank] ; i++){
+		s->adjTable[i]=(int *)malloc(sizeof(int)*s->adjTableElementSize[i]);
+	}
+	for(j=i+s->cs_size_partition ; j < s->cs_size_total ; j++){
+		s->adjTable[j]=(int *)malloc(sizeof(int)*s->adjTableElementSize[j]);
+	}
+}
+
+
+/* gather and distribute total adjTableElementSize, and allocate 
+ * memory in the total adjTable accordingly                   */
 void get_total_elementSize(struct Status *s){
 	int i,j,k;
 	k=0;
 	unsigned int *elementSize_local;
 	elementSize_local=(int*)malloc(sizeof(int)* s->cs_size_partition);
+	
 	for(i=s->offsets[s->myrank]; i < s->offsets[s->myrank] + s->cs_size_partition ; i++){
 		elementSize_local[k]=s->adjTableElementSize[i];
 		k++;	
@@ -29,19 +47,23 @@ void get_total_elementSize(struct Status *s){
 				s->cs_size_per_partition,s->offsets,MPI_UNSIGNED,0,MPI_COMM_WORLD);
 	MPI_Bcast(s->adjTableElementSize,s->cs_size_total,MPI_UNSIGNED,0,MPI_COMM_WORLD);
 	free(elementSize_local);
+	allocate_total_adjTab(s);
 }
 
+/* get total size of configuration space (cs) */
 void get_total_cs_size(struct Status* s){
 	MPI_Reduce(&s->cs_size_partition,&s->cs_size_total,1,MPI_INT,MPI_SUM ,0,MPI_COMM_WORLD);
 	MPI_Bcast(&s->cs_size_total,1,MPI_INT,0,MPI_COMM_WORLD);
 }
 
-
+/* get toatal number entries in the adjacency table and broadcast to all processors */
 void get_total_numberOfPoints(struct Status* s){
 	MPI_Reduce(&s->numberOfPoints_adjTab,&s->numberOfPoints_adjTab_total,1,MPI_UNSIGNED,MPI_SUM,0,MPI_COMM_WORLD);
 	MPI_Bcast(&s->numberOfPoints_adjTab_total,1,MPI_INT,0,MPI_COMM_WORLD);
 }
 
+
+/* convert 2 dimensional array to a 1 dimensional array */
 void adjTab_to_1d(struct Status *s,int* adjTab1d){
 	int i,j,k;
 	k=0;
@@ -53,25 +75,21 @@ void adjTab_to_1d(struct Status *s,int* adjTab1d){
 	}
 }
 
-
-void adjTab1d_to_2d(struct Status *s,int* adjTab1d){
+/*  convert 1 dimensional array to a 2 dimensional array */
+void adjTab1d_to_2d(struct Status *s,unsigned int* adjTab1d){
 	int i,j,k,l,m;
 	l=0;
-	m=0;
-	for(i=0;i<s->nprocs;i++){
-		for(j=0;j<s->cs_size_per_partition[i];j++){
-			for(k=0;k < s->adjTableElementSize[m] ; k++){
-				if(s->myrank==1)
-					printf("m %d adjTab %d adjTableElementSize %d \n",m,adjTab1d[l],s->adjTableElementSize[m]);
-				s->adjTable[m][k] = adjTab1d[l];
-				l++;
-			}
-			m++;
+
+	for(i=0;i<s->cs_size_total;i++){
+		for(j=0;j<s->adjTableElementSize[i];j++){
+			s->adjTable[i][j]=adjTab1d[l];
+			l++;
 		}
 	}
-	printf("rank %d, l %d totnyn %d \n",s->myrank,l, s->numberOfPoints_adjTab_total);
 }
 
+/* gather all local adjTable to node 0, and distribute
+ * the total to all processors */
 void distribute_total_adjTab(struct Status *s){
 	int i,j;
 	get_total_numberOfPoints(s);
@@ -80,6 +98,9 @@ void distribute_total_adjTab(struct Status *s){
 	displacements=(int*)malloc(sizeof(int)*s->nprocs);
 	adjTab1d =(unsigned int*)malloc(sizeof(int)*s->numberOfPoints_adjTab);
 	adjTab1d_total =(unsigned int*)malloc(sizeof(int)*s->numberOfPoints_adjTab_total);
+	for(i=0;i< s->numberOfPoints_adjTab_total ; i++){
+		adjTab1d_total[i]=0;
+	}
 	adjTab_to_1d(s,adjTab1d);	
 	get_size_partition_and_offsets(s->numberOfPoints_adjTab,rcv_cnt_arr,displacements,s->nprocs,s->myrank);
 	
@@ -87,11 +108,14 @@ void distribute_total_adjTab(struct Status *s){
 	MPI_Gatherv(adjTab1d,s->numberOfPoints_adjTab,MPI_UNSIGNED,
 				adjTab1d_total,rcv_cnt_arr,displacements,MPI_UNSIGNED,0,MPI_COMM_WORLD);
 
-	MPI_Bcast(adjTab1d,s->numberOfPoints_adjTab_total,MPI_UNSIGNED,0,MPI_COMM_WORLD);
+	MPI_Bcast(adjTab1d_total,s->numberOfPoints_adjTab_total,MPI_UNSIGNED,0,MPI_COMM_WORLD);
 	adjTab1d_to_2d(s,adjTab1d_total);
+	free(adjTab1d);
+	free(adjTab1d_total);
+	free(rcv_cnt_arr);
+	free(displacements);
+
 }
-
-
 
 
 void distribute_total_free_cs(struct Status* s){

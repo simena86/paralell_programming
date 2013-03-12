@@ -16,7 +16,7 @@ struct Status {
 	double** sample_list;
 	double** cs_partition;
 	double** cs_total;
-	int** adjTable;
+	unsigned int** adjTable;
 	int* adjTableElementSize;
 	int cs_size_partition;
 	int cs_size_total;
@@ -26,6 +26,7 @@ struct Status {
 	int nprocs;
 	unsigned int numberOfPoints_adjTab;
 	unsigned int numberOfPoints_adjTab_total;
+	
 };
 
 

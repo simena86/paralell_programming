@@ -51,9 +51,6 @@ void initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct po
 void compute3LinkFreeConfigSpace(struct Status* s,struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef,
 								struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,
 								struct polygon *obstacleList,  int numberOfObstacles){
-	int myrank, nprocs;
-	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
-	MPI_Comm_size(MPI_COMM_WORLD,&nprocs);
 	static struct polygon* polygons;
 	polygons=(struct polygon*)malloc(5*sizeof(struct polygon));
 	int i;
@@ -61,7 +58,6 @@ void compute3LinkFreeConfigSpace(struct Status* s,struct point link1BaseRef,stru
 	int k=0;
 	static struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
 	static struct polygon displacedLink1, displacedLink2, displacedLink3;
-	// for timing 	
 	initTempPolys(link1Poly,link2Poly,link2Poly, &displacedLink1 , &displacedLink2 , &displacedLink3  );
 	for(i=0;i<s->sample_size_per_proc;i++){
 		displaceLinkPoly(s->sample_list[i][0], &displacedLink1, &displacedLinkEnd1, link1BaseRef, link1Poly, link2BaseRef);	
@@ -87,10 +83,10 @@ void compute3LinkFreeConfigSpace(struct Status* s,struct point link1BaseRef,stru
 			}
 		}
 		if(collision == FALSE){
-			k++;
 			for(j = 0; j<3 ; j++){
 				s->cs_partition[k][j]=s->sample_list[i][j];
 			} 
+			k++;
 		}
 	}
 	s->cs_size_partition=k;

@@ -15,5 +15,7 @@ void compute3LinkFreeConfigSpace(struct Status* s,
 void printFreeWorkSpace(unsigned int free_cs_size,double **freeconfigSpace);
 
 
+void displaceLinkPoly(double linkAngle,struct polygon* displacedLink, struct point* displacedLinkEnd, struct point linkBase,
+					struct polygon linkReference, struct point linkEndPointReference );
 
 #endif
