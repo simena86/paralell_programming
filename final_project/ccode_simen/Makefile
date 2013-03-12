@@ -10,3 +10,4 @@ mpi: computeAdjTableForFreeCSpacePoints.c test3LinkGrid.c  collision_detection.c
 
 run:
 	mpirun -np 2 ./x.out
+

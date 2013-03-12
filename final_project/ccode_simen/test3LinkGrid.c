@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 	obstacle_list[1]=obstacle2;
 */	
 	// sample list . modules: function.c
-	s.sample_size_per_dim = 20;
+	s.sample_size_per_dim = 40;
 	s.sample_size_all_dims = pow(s.sample_size_per_dim,3);
 	s.sample_size_per_proc = floor( s.sample_size_all_dims /s.nprocs);
 	if(s.myrank==0){
@@ -48,7 +48,6 @@ int main(int argc, char *argv[]) {
 
 	// get free configSpace (cs)  - modules:  freeConfigSpace_mpi.c
 	compute3LinkFreeConfigSpace(&s);// ,base1,base2,base3,link1,link2,link3,obstacle_list,number_of_obstacles);	
-	puts("hei\n");
 	get_total_cs_size(&s);
 	
 	// allocate memory for total config space on proc 0 
@@ -86,7 +85,7 @@ int main(int argc, char *argv[]) {
 	
 	// Shortest Path 
 	if(s.myrank==0){
-		int numInSPath = computeBFSPath(3, 60,s.adjTable,s.cs_size_total,s.adjTableElementSize, s.numberOfPoints_adjTab_total);
+	//	int numInSPath = computeBFSPath(3, 60,s.adjTable,s.cs_size_total,s.adjTableElementSize, s.numberOfPoints_adjTab_total);
 	}
 	
 	if(h!=NULL)

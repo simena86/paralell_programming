@@ -5,6 +5,7 @@ void mysleep(long int milisecond){
 	double a=14;
 	for(i=0;i<milisecond*100;i++){
 		a=i*a/4.5;	
+		a=sqrt(a*a + sqrt(44444));
 	}
 }
 
@@ -15,6 +16,8 @@ void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
 		gnuplot_cmd(h,"reset");
 		//gnuplot_cmd(h,"set terminal gif animate ");
 		//gnuplot_cmd(h,"set output \"animate.gif\"");
+		gnuplot_cmd(h,"set terminal gif small animate delay 7 optimize");
+		gnuplot_cmd(h,"set output \"animate.gif\"");
 		gnuplot_cmd(h, "set isosample 40" );
 		gnuplot_cmd(h, "set xrange [-4:4]");
 		gnuplot_cmd(h, "set yrange [-4:4]");
@@ -59,7 +62,7 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-		gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
+		gnuplot_cmd(h,"set terminal gif small animate delay 100 optimize");
 		gnuplot_cmd(h,"set output \"animate.gif\"");
 //		gnuplot_cmd(h,"set terminal postscript color");
 //		gnuplot_cmd(h,"set output \"plot1.ps\"");
@@ -173,6 +176,8 @@ void draw_shortest_path(struct Status s,unsigned int path_length,unsigned int* p
 		polygons[2] = displacedLink3;
 		polygons[3] = obstacleList[0];
 		polygons[4] = obstacleList[1];
+		draw_polygons(polygons,5,1000);
+
 	}	
 	free(polygons);
 	free(displacedLink1.x_list);
