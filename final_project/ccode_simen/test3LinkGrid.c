@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
 	unsigned int free_cs_size=0;
-	h=0; 	
+//	h=0; 	
 	double start,stop, stop1,start1;
 
 	MPI_Init(&argc,&argv);
@@ -112,8 +112,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	
-	if(h!=NULL)
-		gnuplot_close(h);
+//	if(h!=NULL)
+//		gnuplot_close(h);
 
 	if(myrank==0){
 		stop = MPI_Wtime();
