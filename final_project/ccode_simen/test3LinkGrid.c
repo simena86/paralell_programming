@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	if(s.myrank==0)
 		start = MPI_Wtime();
 
-	// polygons
+/*	// polygons
 	struct polygon obstacle1, obstacle2, link1, link2,link3;
 	struct point base1, base2, base3;
 	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
 	obstacle_list=(struct polygon*)malloc(number_of_obstacles*sizeof(struct polygon));
 	obstacle_list[0]=obstacle1;
 	obstacle_list[1]=obstacle2;
-	
+*/	
 	// sample list . modules: function.c
-	s.sample_size_per_dim = 40;
+	s.sample_size_per_dim = 20;
 	s.sample_size_all_dims = pow(s.sample_size_per_dim,3);
 	s.sample_size_per_proc = floor( s.sample_size_all_dims /s.nprocs);
 	if(s.myrank==0){
@@ -46,10 +46,9 @@ int main(int argc, char *argv[]) {
 	}
 	createSampeList(s.sample_list,s.sample_size_per_dim,s.sample_size_per_proc);
 
-
 	// get free configSpace (cs)  - modules:  freeConfigSpace_mpi.c
-	compute3LinkFreeConfigSpace(&s ,base1,base2,base3,link1,link2,link3,obstacle_list,number_of_obstacles);	
-	free(obstacle_list);
+	compute3LinkFreeConfigSpace(&s);// ,base1,base2,base3,link1,link2,link3,obstacle_list,number_of_obstacles);	
+	puts("hei\n");
 	get_total_cs_size(&s);
 	
 	// allocate memory for total config space on proc 0 
@@ -81,14 +80,15 @@ int main(int argc, char *argv[]) {
 		s.adjTableElementSize[i]=0;
 	}
 	s.numberOfPoints_adjTab=computeAdjTableForFreeCSpacePoints(&s,connectRadius);
+	
 	get_total_elementSize(&s);	
 	distribute_total_adjTab(&s);
 	
-
-	
 	// Shortest Path 
-	// int numInSPath = computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable);
-
+	if(s.myrank==0){
+		int numInSPath = computeBFSPath(3, 60,s.adjTable,s.cs_size_total,s.adjTableElementSize, s.numberOfPoints_adjTab_total);
+	}
+	
 	if(h!=NULL)
 		gnuplot_close(h);
 	if(s.myrank==0){

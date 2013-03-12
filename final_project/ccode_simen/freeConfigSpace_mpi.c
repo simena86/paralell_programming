@@ -48,16 +48,28 @@ void initTempPolys(struct polygon link1Poly, struct polygon link2Poly, struct po
 /* Computes the free configspace based on samples from "sample_list", returns "free_configspace"
  * which are all set of angles (on a 3-Torus) which dosnt cause the manipulator to crash into
  * obstacles 																				*/
-void compute3LinkFreeConfigSpace(struct Status* s,struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef,
-								struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,
-								struct polygon *obstacleList,  int numberOfObstacles){
+void compute3LinkFreeConfigSpace(struct Status* s){//,struct point link1BaseRef,struct point link2BaseRef,struct point link3BaseRef,
+							//	struct polygon link1Poly, struct polygon link2Poly, struct polygon link3Poly,
+							//	struct polygon *obstacleList,  int numberOfObstacles){
+
+	int i,k;
+	char j,collision;
+	k=0;	
+	// reference polygons
+	struct polygon obstacle1, obstacle2, link1Poly,link2Poly,link3Poly;
+	struct point link1BaseRef,link2BaseRef,link3BaseRef;;
+	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1Poly, &link2Poly, &link3Poly , &link1BaseRef , &link2BaseRef , &link3BaseRef);
+	int numberOfObstacles=2;
+	struct polygon *obstacleList;
+	obstacleList=(struct polygon*)malloc(numberOfObstacles*sizeof(struct polygon));
+	obstacleList[0]=obstacle1;
+	obstacleList[1]=obstacle2;
+	
+	// list of all polygons used for drawing 
 	static struct polygon* polygons;
 	polygons=(struct polygon*)malloc(5*sizeof(struct polygon));
-	int i;
-	char j,collision;
-	int k=0;
-	static struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
-	static struct polygon displacedLink1, displacedLink2, displacedLink3;
+	struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
+	struct polygon displacedLink1, displacedLink2, displacedLink3;
 	initTempPolys(link1Poly,link2Poly,link2Poly, &displacedLink1 , &displacedLink2 , &displacedLink3  );
 	for(i=0;i<s->sample_size_per_proc;i++){
 		displaceLinkPoly(s->sample_list[i][0], &displacedLink1, &displacedLinkEnd1, link1BaseRef, link1Poly, link2BaseRef);	

@@ -4,8 +4,8 @@
 
 #include "headers.h"
 
-int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize, int ** edgeTable);
+int computeBFSEdges(int start, unsigned int ** adjTable, int n,unsigned int * adjTableElementSize, int ** edgeTable);
 
-int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableElementSize, int maxNumEdges);
+int computeBFSPath(int start, int goal, unsigned int ** adjTable, int n,unsigned int * adjTableElementSize, int maxNumEdges);
 
 #endif

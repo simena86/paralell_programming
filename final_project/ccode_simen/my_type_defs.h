@@ -17,7 +17,7 @@ struct Status {
 	double** cs_partition;
 	double** cs_total;
 	unsigned int** adjTable;
-	int* adjTableElementSize;
+	unsigned int* adjTableElementSize;
 	int cs_size_partition;
 	int cs_size_total;
 	unsigned int* offsets;

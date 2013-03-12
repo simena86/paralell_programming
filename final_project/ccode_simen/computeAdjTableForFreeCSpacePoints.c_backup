@@ -43,13 +43,13 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 			distz = fabs(zj - zi);
 
 			if(distx > PI){
-				distx = fmin(fabs(PI - xj),fabs(-PI-xj))   +   fmin(fabs(PI - xi),fabs(-PI-xi)); 
+				distx = min(fabs(PI - xj),fabs(-PI-xj))   +   min(fabs(PI - xi),fabs(-PI-xi)); 
 			}
 			if(disty > PI){
-				disty = fmin(fabs(PI - yj),fabs(-PI-yj))   +   fmin(fabs(PI - yi),fabs(-PI-yi)); 
+				disty = min(fabs(PI - yj),fabs(-PI-yj))   +   min(fabs(PI - yi),fabs(-PI-yi)); 
 			}
 			if(distz > PI){
-				distz = fmin(fabs(PI - zj),fabs(-PI-zj))   +   fmin(fabs(PI - zi),fabs(-PI-zi)); 
+				distz = min(fabs(PI - zj),fabs(-PI-zj))   +   min(fabs(PI - zi),fabs(-PI-zi)); 
 			}
 		
 			// Calculate total distance

@@ -135,11 +135,52 @@ void draw_adjTable( unsigned int cs_size,double **cs, int* atArr,int **at,long i
 }
 
 
-void draw_shortest_path(struct Status s){
+void draw_shortest_path(struct Status s,unsigned int path_length,unsigned int* path){
+	int i,k;
+	char j,collision;
+		
+	// reference polygons
+	struct polygon obstacle1, obstacle2, link1Poly,link2Poly,link3Poly;
+	struct point link1BaseRef,link2BaseRef,link3BaseRef;;
+	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1Poly, &link2Poly, &link3Poly , &link1BaseRef , &link2BaseRef , &link3BaseRef);
+	int numberOfObstacles=2;
+	struct polygon *obstacleList;
+	obstacleList=(struct polygon*)malloc(numberOfObstacles*sizeof(struct polygon));
+	obstacleList[0]=obstacle1;
+	obstacleList[1]=obstacle2;
 	
+	// list of all polygons used for drawing 
+	static struct polygon* polygons;
+	polygons=(struct polygon*)malloc(5*sizeof(struct polygon));
+	static struct point displacedLinkEnd1, displacedLinkEnd2, displacedLinkEnd3;
+	static struct polygon displacedLink1, displacedLink2, displacedLink3;
+	initTempPolys(link1Poly,link2Poly,link2Poly, &displacedLink1 , &displacedLink2 , &displacedLink3  );
+
+	// iterate through sample_list and check for collision wit obstacles
+	double temp[3];
+	for(i=0;i< path_length ;i++){
+		temp[0]=s.cs_total[ path[i] ][0];
+		temp[1]=s.cs_total[ path[i] ][1];
+		temp[2]=s.cs_total[ path[i] ][2];
 
 
-
+		displaceLinkPoly(temp[0], &displacedLink1, &displacedLinkEnd1, link1BaseRef, link1Poly, link2BaseRef);	
+		displaceLinkPoly(temp[0]+temp[1],&displacedLink2,&displacedLinkEnd2,displacedLinkEnd1,link2Poly,link3BaseRef);	
+		displaceLinkPoly(temp[0]+temp[1]+temp[2],&displacedLink3,&displacedLinkEnd3,displacedLinkEnd2, 
+						link3Poly, link3BaseRef);	
+		polygons[0] = displacedLink1;
+		polygons[1] = displacedLink2;
+		polygons[2] = displacedLink3;
+		polygons[3] = obstacleList[0];
+		polygons[4] = obstacleList[1];
+	}	
+	free(polygons);
+	free(displacedLink1.x_list);
+	free(displacedLink2.x_list);
+	free(displacedLink3.x_list);
+	free(displacedLink1.y_list);
+	free(displacedLink2.y_list);
+	free(displacedLink3.y_list);
 }
 
 
