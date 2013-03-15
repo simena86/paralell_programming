@@ -1,0 +1,9 @@
+
+for å kompilere latex koden må følgende gjøres:
+
+kjør
+
+./install_verbments.sh 
+for å installere verbments og python-pygments (kilde kode highlighing)
+
+og gå til bytt ut my_tex_typesetting.sh med den versjonen som er i denne mappa

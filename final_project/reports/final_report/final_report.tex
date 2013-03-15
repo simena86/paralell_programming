@@ -1,0 +1,44 @@
+\input{header_full.tex}
+
+%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%%
+
+\title{My title}
+\author{Simen Andresen}
+\date{\ \\ \ \\ \today}
+
+%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%
+\begin{document}
+
+\pagestyle{empty}
+\titleAT
+
+\cleardoublepage
+
+
+
+ %%%%%%%%%%%%% BODY %%%%%%%%%%%%%%
+
+\include{abstract}
+
+\pagestyle{empty}
+\cleardoublepage
+\pagenumbering{gobble}
+\tableofcontents
+
+\cleardoublepage
+
+\pagestyle{fancy}
+\chead{}
+\setcounter{page}{1}
+
+\lfoot{\thepage}
+
+\input{task1.tex}
+
+
+\newpage
+\bibliographystyle{plainnat}	% (uses file "plain.bst")
+\bibliography{myrefs}		% expects file "myrefs.bib"
+
+%\input{appendix.tex}
+\end{document}

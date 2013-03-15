@@ -1,0 +1,46 @@
+
+\newcommand{\figurepath}{./figures/}
+\newcommand{\figurescale}{0.6}
+\newcommand{\codepath}{../matlab/}
+
+\section{Introduction}
+
+In the field of robotics, motion planning is an important topic with many interesting challenges. One of which are the problem of deciding where a robot can move without violating constraints such as colliding with obstacles in the environment of the robot. This cannot be done in analytically in closed form, and sampling of the environment must be done to check where a robot can move in order to comply with these constraints. When it is decided where the robot can move, one can use a shortest path algorithms to decide how to move from one point to another. This procedure can be very computational intensive, and using parallel computation would therefore increase the running time, allowing for more samples, and thus higher accuracy and efficiency of the robot motion.
+\\  \par
+This paper addresses this problem for a specific scenario of a 3 link robot manipulator shown in Fig. \ref{fig:robot1} where the procedure of sampling, collision detection and shortest path are written in the C programming language using Message Passing Interface (MPI) for parallelizing. 
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath robotarm1.eps}
+ \caption{ Illustration of a 3 link robot manipulator moving in a two dimensional space \label{fig:robot1}}
+ \end{figure}
+
+
+\section{Notation and Preliminaries}
+
+Further some specifications and notes on notation can be found useful. 
+\begin{itemize} 
+
+ \item The \textbf{Workspace W} is the set of all $\bf x = \begin{bmatrix} x_1 & x_2  \end{bmatrix}^T$ coordinates in the physical environment of the robot, and is defined as
+\begin{align}
+\label{eq:}
+ W \in \mathbb{R}^2
+ \end{align}
+
+\item The \textbf{Configuration Space C} is the set of all  coordinates $\boldsymbol{ \theta } =  \begin{bmatrix} \theta_1 & \theta_2 & \theta_3  \end{bmatrix}^T$  and belongs to the three dimensional space 
+\begin{align}
+\label{eq:}
+ C \in \mathbb{S}^1 \times \mathbb{S}^1 \times\mathbb{S}^1 = \mathbb{T}^3 
+ \end{align}
+
+Where $ \mathbb{T}^3 $ denotes that the configuration space lies on a 3-torus. Since a 3 torus is difficult to visualize, the configuration space will be visualized as a cube throughout this paper.
+
+\item The \textbf{Free Configuration Space $ \mathbf C_f$} is the set of all points in C where the given configuration does not cause collision between any link of the robot and an obstacle
+
+\item The links and obstacles $O_1 $ and $O_2$ are modelled as convex polygons, where the property of convexity makes the collision detection easier.
+
+ \end{itemize}
+
+
+
+
