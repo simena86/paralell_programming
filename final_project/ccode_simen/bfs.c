@@ -47,7 +47,7 @@ int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize
 	return iter;
 }
 
-int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableElementSize, int maxNumEdges){
+void computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableElementSize, int maxNumEdges, int * pathTable, int * pathSize){
 	// Return the number of edges en the shortest path
 	// IMPORTAINT: The shortest path is reversed i.e. it starts at the goal
 	
@@ -101,13 +101,22 @@ int computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableEl
 	// Also we add the start node to the end of the list
 	path[iter] = start;
 	iter++;
+	*pathSize = iter; 
+	
+	//Copy the path to pathTable
+	
+	*pathTable = (int)malloc(sizeof(int) * iter);
+
+	for(i=0;i<iter;i++){
+		pathTable[i] = path[i];
+	} 
+	
 
 	// Print the path
-	printf("The edges in the shortest path. (turn off print in bfs.c in computeBFSPath) \n");
-	for(i=0;i<iter;i++){
-		printf("%d\n", path[i]);
-	}
+	//printf("The edges in the shortest path. (turn off print in bfs.c in computeBFSPath) \n");
+	//for(i=0;i<iter;i++){
+	//	printf("%d\n", path[i]);
+	//}
 	
-	return iter; 
 }
 

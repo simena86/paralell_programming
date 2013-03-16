@@ -114,8 +114,18 @@ int main(int argc, char *argv[]) {
 		//draw_adjTable(free_cs_size_total,free_configSpace_total,adjTableElementSize,adjTable,1000000000);	
 	
 		//------- Shortest Path ----------------------
-		
-		int numInSPath = computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable);
+	
+		int * pathTable= (int*)malloc(sizeof(int));
+		int pathSize;
+	//	pathTable = (int*)malloc(sizeof(int) * 2);
+	
+
+		computeBFSPath(3, 60, adjTable, free_cs_size, adjTableElementSize, numPointsAdjTable, pathTable, &pathSize);
+		printf("length: %d \n", pathSize);
+		for(i=0;i<pathSize;i++){
+			printf("%d\n", pathTable[i]);
+		} 
+
 	}
 
 
