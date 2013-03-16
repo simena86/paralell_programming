@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 	obstacle_list[1]=obstacle2;
 */	
 	// sample list . modules: function.c
-	s.sample_size_per_dim = 40;
+	s.sample_size_per_dim = 80;
 	s.sample_size_all_dims = pow(s.sample_size_per_dim,3);
 	s.sample_size_per_proc = floor( s.sample_size_all_dims /s.nprocs);
 	if(s.myrank==0){
