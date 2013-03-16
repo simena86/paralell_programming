@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  14 MAR 2013 18:45
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  15 MAR 2013 13:09
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -902,40 +902,56 @@ File: ./figures/ucsbseal1.eps Graphic file (type eps)
 
 
 ] (./task1.tex
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
 
 File: ./figures/robotarm1.eps Graphic file (type eps)
 <./figures/robotarm1.eps>
-LaTeX Font Info:    Try loading font information for U+msa on input line 24.
+LaTeX Font Info:    Try loading font information for U+msa on input line 31.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+LaTeX Font Info:    Try loading font information for U+msb on input line 31.
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 24.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 31.
 
 (/usr/share/texmf-texlive/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [1
 
-]) [2]
+]
+File: ./figures/configspace1.eps Graphic file (type eps)
+
+<./figures/configspace1.eps>
+File: ./figures/class1.eps Graphic file (type eps)
+ <./figures/class1.eps>
+File: ./figures/float1.eps Graphic file (type eps)
+ <./figures/float1.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./figures/wherethedata1.eps Graphic file (type eps)
+<./figures/wherethedata1.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) [2]
 No file final_report.bbl.
-(./final_report.aux (./abstract.aux))
+[3] (./final_report.aux (./abstract.aux))
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17748 strings out of 493849
- 302166 string characters out of 1152846
+ 17762 strings out of 493849
+ 302373 string characters out of 1152846
  401708 words of memory out of 3000000
- 20611 multiletter control sequences out of 15000+50000
+ 20621 multiletter control sequences out of 15000+50000
  14007 words of font info for 52 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 58i,11n,73p,813b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 58i,11n,73p,837b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on final_report.dvi (5 pages, 16644 bytes).
+Output written on final_report.dvi (6 pages, 21356 bytes).

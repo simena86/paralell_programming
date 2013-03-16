@@ -3,9 +3,14 @@
 \newcommand{\figurescale}{0.6}
 \newcommand{\codepath}{../matlab/}
 
+
+
+%%%%%%%%%% INTRO %%%%%%%%%%%
+
+
 \section{Introduction}
 
-In the field of robotics, motion planning is an important topic with many interesting challenges. One of which are the problem of deciding where a robot can move without violating constraints such as colliding with obstacles in the environment of the robot. This cannot be done in analytically in closed form, and sampling of the environment must be done to check where a robot can move in order to comply with these constraints. When it is decided where the robot can move, one can use a shortest path algorithms to decide how to move from one point to another. This procedure can be very computational intensive, and using parallel computation would therefore increase the running time, allowing for more samples, and thus higher accuracy and efficiency of the robot motion.
+In the field of robotics, motion planning is an important topic with many interesting challenges. One of which are the problem of deciding where a robot can move without violating constraints such as colliding with obstacles in the environment of the robot. This cannot be done analytically in closed form, and sampling of the environment must be done to check where the robot can move in order to comply with these constraints. When it is decided where the robot can move, one can use a shortest path algorithms to decide how to move from a desired start point to a desired goal point. This procedure can be very computational intensive, and using parallel computation would therefore increase the running time, allowing for more samples, and thus higher accuracy and efficiency of the robot motion.
 \\  \par
 This paper addresses this problem for a specific scenario of a 3 link robot manipulator shown in Fig. \ref{fig:robot1} where the procedure of sampling, collision detection and shortest path are written in the C programming language using Message Passing Interface (MPI) for parallelizing. 
 
@@ -16,9 +21,11 @@ This paper addresses this problem for a specific scenario of a 3 link robot mani
  \end{figure}
 
 
+
+%%%%%%%% NOTATION %%%%%%%%%%%%%%%%
 \section{Notation and Preliminaries}
 
-Further some specifications and notes on notation can be found useful. 
+Further some specifications and notes on notation can be useful. 
 \begin{itemize} 
 
  \item The \textbf{Workspace W} is the set of all $\bf x = \begin{bmatrix} x_1 & x_2  \end{bmatrix}^T$ coordinates in the physical environment of the robot, and is defined as
@@ -33,13 +40,64 @@ Further some specifications and notes on notation can be found useful.
  C \in \mathbb{S}^1 \times \mathbb{S}^1 \times\mathbb{S}^1 = \mathbb{T}^3 
  \end{align}
 
-Where $ \mathbb{T}^3 $ denotes that the configuration space lies on a 3-torus. Since a 3 torus is difficult to visualize, the configuration space will be visualized as a cube throughout this paper.
+Where $ \mathbb{T}^3 $ denotes that the configuration space lies on a 3-torus. Since a 3 torus is difficult to visualize, the configuration space will be visualized as a cube as illustrated in Fig. \ref{fig:cs1}. It should further be noted that since $\theta_i  \in \mathbb{S} = [ -\pi , \pi )$ and $-\pi=\pi$ each side of the cube is the same as it's opposite side.
 
-\item The \textbf{Free Configuration Space $ \mathbf C_f$} is the set of all points in C where the given configuration does not cause collision between any link of the robot and an obstacle
+\item The \textbf{Free Configuration Space $ \mathbf C_f$} is the subset of points in C which  does not cause collision between any link of the robot and an obstacle in the workspace.
 
-\item The links and obstacles $O_1 $ and $O_2$ are modelled as convex polygons, where the property of convexity makes the collision detection easier.
+\item The links and obstacles $O_1 $ and $O_2$ are modelled as convex polygons, where the property of convexity facilitates the collision detection.
 
  \end{itemize}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath configspace1.eps}
+ \caption{ Illustration of the configuration space of the 3-link robot visualized as a cube. \label{fig:cs1}}
+ \end{figure}
+
+
+%%%%%%%%%%%%% OVERVIEW %%%%%%%%%%%%%%%%%%%%%%
+\section{Overview of the Program}
+
+The program is divided into 7 modules each with it's own purpose. The modules and their respective member functions are illustrated in Fig. \ref{fig:class1}. Having a look at the program running on one processor, one can divide the program into 4 steps as illustrated in Fig. \ref{fig:float1} and the program will be explained in this top-to-bottom order. 
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.3]{\figurepath class1.eps}
+ \caption{ Diagram showing the different modules and dependencies \label{fig:class1}}
+ \end{figure}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.3]{\figurepath float1.eps}
+ \caption{ Float chart showing the sequential run of the program \label{fig:float1}}
+ \end{figure}
+
+%%%%%%%%%%%%%%                           %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Program  }
+
+In this section each of the different main procedures will be explained.
+
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=\figurescale]{\figurepath wherethedata1.eps}
+ \caption{  \label{fig:}}
+ \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
