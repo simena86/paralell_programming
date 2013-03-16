@@ -15,18 +15,8 @@ int main(int argc, char *argv[]) {
 	if(s.myrank==0)
 		start = MPI_Wtime();
 
-/*	// polygons
-	struct polygon obstacle1, obstacle2, link1, link2,link3;
-	struct point base1, base2, base3;
-	generate_obstacles_and_links(&obstacle1, &obstacle2, &link1, &link2, &link3 , &base1 , &base2 , &base3);
-	int number_of_obstacles=2;
-	struct polygon *obstacle_list;
-	obstacle_list=(struct polygon*)malloc(number_of_obstacles*sizeof(struct polygon));
-	obstacle_list[0]=obstacle1;
-	obstacle_list[1]=obstacle2;
-*/	
 	// sample list . modules: function.c
-	s.sample_size_per_dim = 40;
+	s.sample_size_per_dim = 10;
 	s.sample_size_all_dims = pow(s.sample_size_per_dim,3);
 	s.sample_size_per_proc = floor( s.sample_size_all_dims /s.nprocs);
 	if(s.myrank==0){
@@ -83,6 +73,8 @@ int main(int argc, char *argv[]) {
 	get_total_elementSize(&s);	
 	distribute_total_adjTab(&s);
 	
+	draw_adjTable(s.cs_size_partition,s.cs_partition,s.adjTableElementSize,s.adjTable,10000);
+
 	// Shortest Path 
 	if(s.myrank==0){
 	//	int numInSPath = computeBFSPath(3, 60,s.adjTable,s.cs_size_total,s.adjTableElementSize, s.numberOfPoints_adjTab_total);

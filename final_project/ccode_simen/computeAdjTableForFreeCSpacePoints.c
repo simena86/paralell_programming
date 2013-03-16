@@ -20,6 +20,7 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 	sizeTempAdjTable = 15;
 	int tempTable [sizeTempAdjTable];
 
+	
 	for(i=0;i < s->cs_size_partition ;i++){
 		
 		k=0;
@@ -32,6 +33,7 @@ int computeAdjTableForFreeCSpacePoints(struct Status *s, double maxAdjRadius){
 		zi = s->cs_partition[i][2];
 
 		for(j=0;j<s->cs_size_total;j++){
+
 			//printf("i,j %d %d \n",i,j);	
 			xj = s->cs_total[j][0];
 			yj = s->cs_total[j][1];
