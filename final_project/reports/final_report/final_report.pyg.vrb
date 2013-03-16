@@ -1,6 +1,3 @@
 \begin{Verbatim}[commandchars=\\\{\}]
- \PY{n+nb}{i} \PY{p}{=} 0\PY{p}{;}
-\PY{c}{\PYZpc{}\PYZpc{} NOE nytt}
-\PY{n}{b} \PY{p}{=} \PY{p}{[}1\PY{p}{,}2\PY{p}{,}3\PY{p}{];}
-\PY{n}{inv}\PY{p}{(}\PY{n}{b}\PY{p}{);}
+ \PY{k+kt}{int} \PY{n}{a}\PY{o}{=}\PY{n}{b}\PY{o}{;}
 \end{Verbatim}
