@@ -4,7 +4,7 @@
 // PORBLEM!!!! -> we are allocating to much memory for the edgeTable
 
 
-int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize, int ** edgeTable){
+int computeBFSEdges(int start,unsigned int ** adjTable, int n,unsigned int * adjTableElementSize, int ** edgeTable){
 	// Returns the number of edges in the BFS-tree
 	printf("computeBFSEdges\n");
 	int i,v,idx, iter,a;
@@ -47,7 +47,7 @@ int computeBFSEdges(int start, int ** adjTable, int n, int * adjTableElementSize
 	return iter;
 }
 
-void computeBFSPath(int start, int goal, int ** adjTable, int n, int * adjTableElementSize, int maxNumEdges, int * pathTable, int * pathSize){
+void computeBFSPath(int start, int goal,unsigned int ** adjTable, int n,unsigned int * adjTableElementSize, int maxNumEdges, int * pathTable, int * pathSize){
 	// Return the number of edges en the shortest path
 	// IMPORTAINT: The shortest path is reversed i.e. it starts at the goal
 	
