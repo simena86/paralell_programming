@@ -19,8 +19,8 @@ void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
 		gnuplot_cmd(h,"set terminal gif small animate delay 7");
 		gnuplot_cmd(h,"set output \"animate.gif\"");
 		gnuplot_cmd(h, "set isosample 40" );
-		gnuplot_cmd(h, "set xrange [-4:4]");
-		gnuplot_cmd(h, "set yrange [-4:4]");
+		gnuplot_cmd(h, "set xrange [-5:5]");
+		gnuplot_cmd(h, "set yrange [-5:5]");
 		puts("Initiating polygon drawing\n");
 	}	
 	int i,j;
@@ -33,7 +33,8 @@ void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
 					polygons[j].y_list[i+1]);
 		}
 	}
-	gnuplot_cmd(h, "plot NaN notitle");
+	gnuplot_cmd(h, "plot[-5:5][-5:5] NaN notitle");
+	gnuplot_cmd(h,"set size square");
 	mysleep(delay);
 }
 

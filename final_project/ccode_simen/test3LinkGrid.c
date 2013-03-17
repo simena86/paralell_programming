@@ -76,7 +76,15 @@ int main(int argc, char *argv[]) {
 	
 	get_total_elementSize(&s);	
 	distribute_total_adjTab(&s);
-	
+
+	if(s.myrank==0){
+		printf(" rank %d tot nmber %d size part %d size per proc %d \n",s.myrank, s.numberOfPoints_adjTab_total, s.cs_size_partition, s.sample_size_per_proc);
+	}
+	MPI_Barrier(MPI_COMM_WORLD);
+	if(s.myrank==1){
+		printf(" rank %d tot nmber %d size part %d size per proc %d \n",s.myrank, s.numberOfPoints_adjTab_total, s.cs_size_partition, s.sample_size_per_proc);
+	}
+	MPI_Barrier(MPI_COMM_WORLD);
 
 	// Shortest Path 
 	if(s.myrank==0){
@@ -85,10 +93,10 @@ int main(int argc, char *argv[]) {
 		bfsPath=(int*)malloc(sizeof(int));
 		int start_point = computeNearestPoint(&s,PI/2,0,0);
 		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
-		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_partition,s.adjTableElementSize,s.numberOfPoints_adjTab,bfsPath,&bfsSize);	
-	//	draw_shortest_path(s,bfsSize,bfsPath);
+		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_total,s.adjTableElementSize,s.numberOfPoints_adjTab_total,bfsPath,&bfsSize);	
+	    draw_shortest_path(s,bfsSize,bfsPath);
 		for(i=0;i<bfsSize;i++){
-			printf("node i %d, %d \n",i,bfsPath[i]);
+		//	printf("node i %d, %d \n",i,bfsPath[i]);
 		}
 	}
 
