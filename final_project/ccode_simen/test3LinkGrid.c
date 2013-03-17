@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 		start = MPI_Wtime();
 
 	// sample list . modules: function.c
-	s.sample_size_per_dim = 50;
+	s.sample_size_per_dim = atoi(argv[1]);
 	s.sample_size_all_dims = pow(s.sample_size_per_dim,3);
 	s.sample_size_per_proc = floor( s.sample_size_all_dims /s.nprocs);
 	if(s.myrank==0){
