@@ -11,3 +11,5 @@ mpi: computeAdjTableForFreeCSpacePoints.c test3LinkGrid.c  collision_detection.c
 run:
 	mpirun -np 2 ./x.out
 
+halton: computeAdjTableForFreeCSpacePoints.c test3LinkGrid.c  collision_detection.c freeConfigSpace_mpi.c generate_polygons.c halton_sequence.c communication.c 
+	mpicc  -O3 -Ofast -o x.out test3LinkGrid.c collision_detection.c computeAdjTableForFreeCSpacePoints.c freeConfigSpace_mpi.c generate_polygons.c communication.c visualization.c gnuplot_i.c halton_sequence.c bfs.c fifo.c -ljansson -lm 

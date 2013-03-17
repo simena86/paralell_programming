@@ -8,7 +8,10 @@
 #include "collision_detection.h"
 #include "gnuplot_i.h"
 #include "visualization.h"
-#include "functions.h"
+
+//#include "functions.h"
+#include "halton_sequence.h"
+
 #include "freeConfigSpace_mpi.h"
 #include "generate_polygons.h"
 #include <mpi.h>

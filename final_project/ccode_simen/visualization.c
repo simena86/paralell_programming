@@ -16,15 +16,16 @@ void draw_polygons(struct polygon* polygons, int number_of_polygons,int delay){
 		gnuplot_cmd(h,"reset");
 		//gnuplot_cmd(h,"set terminal gif animate ");
 		//gnuplot_cmd(h,"set output \"animate.gif\"");
-		gnuplot_cmd(h,"set terminal gif small animate delay 7 optimize");
+		gnuplot_cmd(h,"set terminal gif small animate delay 7");
 		gnuplot_cmd(h,"set output \"animate.gif\"");
 		gnuplot_cmd(h, "set isosample 40" );
 		gnuplot_cmd(h, "set xrange [-4:4]");
 		gnuplot_cmd(h, "set yrange [-4:4]");
-		gnuplot_cmd(h, "set style arrow 1 nohead")	;
+		puts("Initiating polygon drawing\n");
 	}	
 	int i,j;
 	gnuplot_cmd(h,"unset arrow");
+	gnuplot_cmd(h, "set style arrow 1 nohead")	;
 	for(j=0;j<number_of_polygons;j++){
 		for(i=0;i<polygons[j].numberOfVertices-1;i++){	
 			gnuplot_resetplot(h);
@@ -42,11 +43,12 @@ void draw_configSpace(unsigned int cs_size,double **configSpace, int delay){
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-		//gnuplot_cmd(h,"set terminal gif animate ");
-		//gnuplot_cmd(h,"set output \"animate.gif\"");
+		gnuplot_cmd(h,"set terminal gif animate animate delay 1 ");
+		gnuplot_cmd(h,"set output \"animate.gif\"");
 		gnuplot_cmd(h, "set xrange [-4:4]");
 		gnuplot_cmd(h, "set yrange [-4:4]");
 		gnuplot_cmd(h, "set zrange [-4:4]");
+		printf("initializing draw cs \n");
 	}
 	gnuplot_cmd(h,"splot \"-\" using 1:2:3 with points pointtype 26 ps 0.3 lt palette");
 	for(i=0;i<cs_size;i++){
@@ -62,7 +64,7 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-		gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
+		gnuplot_cmd(h,"set terminal gif small animate delay 2 optimize");
 		gnuplot_cmd(h,"set output \"animate.gif\"");
 //		gnuplot_cmd(h,"set terminal postscript color");
 //		gnuplot_cmd(h,"set output \"plot1.ps\"");
@@ -75,7 +77,7 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 	gnuplot_cmd(h, "set style arrow 1 nohead")	;
 	for(j=0;j<number_of_polygons;j++){
 		for(i=0;i<polygons[j].numberOfVertices-1;i++){	
-			gnuplot_cmd(h, "set arrow from %f,%f to %f,%f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
+			gnuplot_cmd(h, "set arrow from %2.4f,%2.4f to %2.4f,%2.4f as 1",polygons[j].x_list[i], polygons[j].y_list[i],polygons[j].x_list[i+1], 
 					polygons[j].y_list[i+1]);
 		}
 	}
@@ -85,7 +87,7 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 	// plot configSpace
 	gnuplot_cmd(h,"splot [-3.1:3.1][-3.1:3.1][-3.1:3.1] \"-\" using 1:2:3 with points pointtype 26 ps 0.3 title \"Configuration Space\" ");
 	for(i=0;i<cs_size;i++){
-		gnuplot_cmd(h,"%f %f %f", configSpace[i][0], configSpace[i][1], configSpace[i][2]);	
+			gnuplot_cmd(h,"%f %f %f", configSpace[i][0], configSpace[i][1], configSpace[i][2]);	
 	}
 	gnuplot_cmd(h,"e");
 	gnuplot_cmd(h,"unset multiplot");	
@@ -96,36 +98,34 @@ void draw_polys_configSpace(unsigned int cs_size, double **configSpace,int numbe
 
 
 
-void draw_adjTable( unsigned int cs_size,double **cs,unsigned int* atArr,unsigned int **at,long int delay){
+void draw_adjTable( unsigned int cs_size,double **cs,unsigned int* atArr,unsigned int **at,double connectRad,long int delay){
 	int i,j;
 	if(h==0){
 		h = gnuplot_init();
 		gnuplot_cmd(h, "clear");
 		gnuplot_cmd(h,"reset");
-		gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
-		gnuplot_cmd(h,"set output \"animate.gif\"");
-		gnuplot_cmd(h, "set isosample 40" );
-//		gnuplot_cmd(h,"set terminal postscript color");
-//		gnuplot_cmd(h,"set output \"plot1.ps\"");
+	//	gnuplot_cmd(h,"set terminal gif small animate delay 1 optimize");
+	//	gnuplot_cmd(h,"set output \"animate.gif\"");
+//		gnuplot_cmd(h,"set terminal postscript eps enhanced color font 'Helvetica,10'");
+//		gnuplot_cmd(h,"set output \"plot1.eps\"");
+		gnuplot_cmd(h,"set terminal epslatex size 3.5,2.62 color colortext");
+		gnuplot_cmd(h,"set output 'introduction.tex'");
+		
 //		gnuplot_cmd(h, "set xrange [-4:4]");
 //		gnuplot_cmd(h, "set yrange [-4:4]");
 //		gnuplot_cmd(h, "set zrange [-4:4]");
 //		gnuplot_cmd(h, "set xlabel \"theta_1\" ");
 //		gnuplot_cmd(h, "set ylabel \"theta_2\" ");
 //		gnuplot_cmd(h, "set zlabel \"theta_3\" ");
+		gnuplot_cmd(h, "set isosample 40" );
 	}
 	gnuplot_resetplot(h);	
 	gnuplot_cmd(h,"set multiplot");
 
-	double tol=0.001;
+	double tol=connectRad ;
 	gnuplot_cmd(h,"splot [-3.2:3.2][-3.2:3.2][-3.2:3.2] \"-\" using 1:2:3 with points pointtype 26 ps 0.6 notitle ");
 	for(i=0;i<cs_size;i++){
-		if( cs[i][0]<(-PI+tol) || cs[i][1]<(-PI+tol) || cs[i][2]<(-PI+tol) || 
-			cs[i][0]>(PI-tol) || cs[i][1]>(PI-tol) || cs[i][2]>(PI-tol) ){
-			// do nothing
-		}else{
 			gnuplot_cmd(h,"%f %f %f", cs[i][0], cs[i][1], cs[i][2]);	
-		}
 	}
 	gnuplot_cmd(h,"e");
 
@@ -134,16 +134,12 @@ void draw_adjTable( unsigned int cs_size,double **cs,unsigned int* atArr,unsigne
 	gnuplot_cmd(h, "set zlabel \"theta_3\" ")	;
 	gnuplot_cmd(h, "set style arrow 1 nohead")	;
 	
-	gnuplot_cmd(h, "set label 1 \" Free Configuration Space \" at 1,2 ")	;
 	int temp;
 	for(i=0;i<cs_size;i++){
 		for(j=0;j<atArr[i];j++){
 			temp=at[i][j];
-			if( cs[i][0]<(-PI+tol) || cs[i][1]<(-PI+tol) || cs[i][2]<(-PI+tol) || 
-				cs[i][0]>(PI-tol) || cs[i][1]>(PI-tol) || cs[i][2]>(PI-tol) ||
-				(cs[temp][0]<(-PI+tol) || cs[temp][1]<(-PI+tol) || cs[temp][2]<(-PI+tol) ||
-				 cs[temp][0]>(PI-tol)  || cs[temp][1]>(PI-tol) || cs[temp][2]>(PI-tol)) ){
-				// do nothing
+			if( fabs(cs[i][0]-cs[temp][0])>tol ||fabs(cs[i][1]-cs[temp][1])>tol ||fabs(cs[i][2]-cs[temp][2])>tol){							
+							// do nothing
 			}else{
 				gnuplot_cmd(h, "set arrow from %f,%f,%f to %f,%f,%f as 1",cs[i][0],cs[i][1], cs[i][2],cs[temp][0],cs[temp][1], cs[temp][2]);   
 				mysleep(delay);
@@ -151,8 +147,6 @@ void draw_adjTable( unsigned int cs_size,double **cs,unsigned int* atArr,unsigne
 			}	
 		}
 	}
-	gnuplot_cmd(h,"set label 2 \"Adjacency table\" at 2,2 ")	;
-	gnuplot_cmd(h,"show label ")	;
 	mysleep(delay);
 //	gnuplot_cmd(h,"unset multiplot");
 }
@@ -199,6 +193,10 @@ void draw_shortest_path(struct Status s,unsigned int path_length,unsigned int* p
 		draw_polygons(polygons,5,1000);
 
 	}	
+	for(i=0;i<20;i++){
+		draw_polygons(polygons,5,100000);
+	}
+	
 	free(polygons);
 	free(displacedLink1.x_list);
 	free(displacedLink2.x_list);

@@ -18,8 +18,8 @@ struct Status {
 	double** cs_total;
 	unsigned int** adjTable;
 	unsigned int* adjTableElementSize;
-	int cs_size_partition;
-	int cs_size_total;
+	unsigned int cs_size_partition;
+	unsigned int cs_size_total;
 	unsigned int* offsets;
 	unsigned int* cs_size_per_partition;
 	int myrank;
