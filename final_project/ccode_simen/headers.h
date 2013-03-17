@@ -15,5 +15,6 @@
 #include "communication.h"
 #include "fifo.h"
 #include "bfs.h"
+#include "computeNearestPoint.h"
 
 //#endif

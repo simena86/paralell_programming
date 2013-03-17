@@ -80,7 +80,12 @@ int main(int argc, char *argv[]) {
 		int bfsSize;
 		int* bfsPath;
 		bfsPath=(int*)malloc(sizeof(int));
-		computeBFSPath(510,15000,s.adjTable,s.cs_size_partition,s.adjTableElementSize,s.numberOfPoints_adjTab,bfsPath,&bfsSize);	
+
+		int start_point = computeNearestPoint(&s,PI/2,0,0);
+		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
+
+
+		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_partition,s.adjTableElementSize,s.numberOfPoints_adjTab,bfsPath,&bfsSize);	
 		draw_shortest_path(s,bfsSize,bfsPath);
 		for(i=0;i<bfsSize;i++){
 			printf("node i %d, %d \n",i,bfsPath[i]);

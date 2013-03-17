@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "computeAdjTableForFreeCSpacePoints.h"
 
 double min(double a, double b){
 	if(a < b){
