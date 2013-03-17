@@ -3,7 +3,6 @@
 
 int main(int argc, char *argv[]) {
 
-	h=0; 
 	double start,stop, stop1,start1;
 	int i,j;
 	struct Status s;
@@ -94,15 +93,12 @@ int main(int argc, char *argv[]) {
 		int start_point = computeNearestPoint(&s,PI/2,0,0);
 		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
 		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_total,s.adjTableElementSize,s.numberOfPoints_adjTab_total,bfsPath,&bfsSize);	
-	    draw_shortest_path(s,bfsSize,bfsPath);
 		for(i=0;i<bfsSize;i++){
-		//	printf("node i %d, %d \n",i,bfsPath[i]);
+			printf("node i %d, %d \n",i,bfsPath[i]);
 		}
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);	
-	if(h!=NULL)
-		gnuplot_close(h);
 	if(s.myrank==0){
 		stop = MPI_Wtime();
 		printf("Total run time: %2.5f \n ", stop-start);
