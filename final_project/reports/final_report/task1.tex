@@ -8,7 +8,7 @@
 %%%%%%%%%% INTRO %%%%%%%%%%%
 
 
-\section{Introduction}
+\section{\textbf{Introduction}}
 
 In the field of robotics, motion planning is an important topic with many interesting challenges. One of which are the problem of deciding where a robot can move without violating constraints such as colliding with obstacles in the environment of the robot. This cannot be done analytically in closed form, and sampling of the environment must be done to check where the robot can move in order to comply with these constraints. When it is decided where the robot can move, one can use a shortest path algorithms to decide how to move from a desired start point to a desired goal point. This procedure can be very computational intensive, and using parallel computation would therefore increase the running time, allowing for more samples, and thus higher accuracy and efficiency of the robot motion.
 \\  \par
@@ -23,7 +23,7 @@ This paper addresses this problem for a specific scenario of a 3 link robot mani
 
 
 %%%%%%%% NOTATION %%%%%%%%%%%%%%%%
-\section{Notation and Preliminaries}
+\section{\textbf{Preliminaries and Nomenclature}}
 
 Further some specifications and notes on notation can be useful. 
 \begin{itemize} 
@@ -48,6 +48,26 @@ Where $ \mathbb{T}^3 $ denotes that the configuration space lies on a 3-torus. S
 
  \end{itemize}
 
+Below is a short list of symbols used throughout this text.
+
+
+\begin{description}
+
+\item[nprocs] Number of processors
+\item[$\mathbf C_{f,t}$] Total free configuration space
+\item[$\mathbf C_{f,i}$] Configuration space on processor i
+\item[$\mathbf n_{c,t}$] Total size of free configuration space.
+\item[$\mathbf n_{c,i}$] Size of free configuration space on processor i
+\item[$\mathbf n_{s}$] Total number of points in the sample list.
+\item[$\mathbf{ AdjTab_{t}}$] Total adjacency table
+\item[$\mathbf{ AdjTab_{i}}$] Adjacency table on processor i
+\item[$\mathbf n_{a,t}$] Total size of adjacency table.
+\item[$\mathbf n_{a,i}$] Size of adjacency table on processor i
+
+\end{description}
+
+
+
 \begin{figure}[h!] 
  \center 
  \includegraphics[scale=\figurescale]{\figurepath configspace1.eps}
@@ -56,7 +76,7 @@ Where $ \mathbb{T}^3 $ denotes that the configuration space lies on a 3-torus. S
 
 
 %%%%%%%%%%%%% OVERVIEW %%%%%%%%%%%%%%%%%%%%%%
-\section{Overview of the Program}
+\section{\textbf{Overview of the Program}}
 
 The program is divided into 7 modules each with it's own purpose. The modules and their respective member functions are illustrated in Fig. \ref{fig:class1}. Having a look at the program running on one processor, one can divide the program into 4 steps as illustrated in Fig. \ref{fig:float1} and the program will be explained in this top-to-bottom order. 
 
@@ -72,17 +92,85 @@ The program is divided into 7 modules each with it's own purpose. The modules an
  \caption{ Float chart showing the sequential run of the program \label{fig:float1}}
  \end{figure}
 
-%%%%%%%%%%%%%%                           %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%      THE PROGRAM                     %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The Program  }
+\section{\textbf{The Program  }}
 
 In this section each of the different main procedures will be explained.
 
 
+\subsection{\textbf{Create Sample List}}
+
+In order to check collisions at different configurations a list of configurations must be created. In this project we have chosen to use the Halton sequence which is a pseudo random sequence, giving a deterministic sampling that appear to be random, but with low discrepancy compared to a random sampling, meaning it covers the whole space better. 
+
+When running on n processors the data has to be split into nearly equal sized blocks, even when the sample size i not divisible by the number of processors. This is done by the following:
+\par
+
+ \begin{pyglist}[language=java] 
+	sample_size_per_processor = floor( total_sample_size / nprocs );
+	if(myrank==0){
+		sample_size_per_processor +=  total_sample_size %  nprocs;
+	}
+ \end{pyglist}
+
+
+Each processor except from the first one gets an equal sample size, given by the division as given above, while processor 0 gets the same size plus the remainder from the division.
+
+
+%%%%%%%%%%%%%      FREE CS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{\textbf{Compute Free Configuration Space}}
+After each processor has generated a subset of the total configuration space as explained in the previous section, each subset is run through a collision detection procedure that creates a free configuration space. It should be noted that, so far, each processor is working with separate data blocks without any communication.  
+Before a collision detection procedure is run, the workspace is initialized by loading data from a json file describing the polygons making up the links and obstacles, as well as their relative and absolute positions in the workspace. 
+
+The collision detection is performed by checking each point in the sample list for collision. The collision detection wont be explained in detail here as it is somewhat outside the scope of this text, but it can be summarized in short:
+
+\begin{itemize} 
+ \item The collision detection only works for convex obstacles. 
+\item For a given configuration each vertex in the link polygons are checked if inside or outside any obstacle
+\item For a given configuration each segment in any link polygon is checked for intersection with any segment in any obstacle
+ \end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%   DISTRIBUTE CS     %%%%%%%%%%%%%%%%%%%%%%%%%5
+\subsection{\textbf{Distributing Total Configuration Space}}
+\label{sec:distribute}
+To generate a graph based on the total free configuration space $C_{f,t}$ each processor has to have access to $C_{f,t}$. This is done by gathering the data $C_{f,i}, i=\{1,2..nprocs\}$ to processor 0. Since each partition of the free configuration space is of different size the MPI procedure MPI\_Gatherv() is used. In order to use MPI\_Gatherv() to get all the data to processor 0, each processor has to send their respective $n_{c,i}$ to processor 0. From this data two arrays are generated:
+
+
+\begin{description}
+\item[Offsets] An $nprocs \times 1$ array were at index j is the number $\sum_{k=1}^{j-1} n_{c,j}$
+\item[Size\_per\_partition] is a $nprocs \times 1$ array where at index i is the number $n_{c,i}$
+\end{description}
+
+The two arrays above is then used in the MPI\_Gatherv() functon in order to gather the total configuration space $C_{f,t}$ on processor 0, which are then distributed to all the processors.
+
+
+\subsection{\textbf{Create Adjacency Table}}
+In order to run graph algorithms such as BFS a graph has to be generated based on the free configuration space. This is by checking the distance from each point in in the $C_{f,t}$ to all other points. If the distance between two points is below a certain threshold called  $maxAdjRadius$ an edge is created. $MaxAdjRadius$ is constructed as follows:
+
+\begin{align}
+\label{eq:}
+  maxAdjRadius=\frac{2.2\pi}{\sqrt[3]{n_s}-1}
+ \end{align}
+
+ In the parallelized version of this, each point in $C_{f,i}$ is checked against the total $C_{f,t}$, and thus creating partitions of the total graph on each processor. It should be noted that the configuration lies on a 3-torus so that the procedure of checking the distance therefore includes some extra arithmetic. 
+
+Further, each partition of the adjacency table is distributed gathered on processor 0 and distributed to all other processors in the manner as described in Section \ref{sec:distribute}.
+
+%%%%%%%%%%%%%    bfs %%%%%%%%%%%%%%%%%%%%%%%%%%5
+\subsection{\textbf{Finding Shortest Path in the Configuration Space}}
+
+
+%%%%%%%%%%%%%%% where's the data %%%%%%%%%%%%%%%%%%%%%
+\section{\textbf{	Where is the Data}}
+To give a short summary of how the data is distributed throughout the run of the program an illustration was made and can be seen in Fig. \ref{fig:wheresthedata}
+
 \begin{figure}[h!] 
  \center 
- \includegraphics[scale=\figurescale]{\figurepath wherethedata1.eps}
- \caption{  \label{fig:}}
+ \includegraphics[scale=0.5]{\figurepath wherethedata1.eps}
+ \caption{ Illustration of how the data is distributed throughout the run of the program \label{fig:wheresthedata}}
  \end{figure}
 
 

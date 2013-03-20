@@ -82,7 +82,6 @@ void compute3LinkFreeConfigSpace(struct Status* s){//,struct point link1BaseRef,
 		polygons[3] = obstacleList[0];
 		polygons[4] = obstacleList[1];
 		collision=FALSE;
-	//	draw_polys_configSpace(k,s->cs_partition,5,polygons,100);;
 		for(j=0; j < numberOfObstacles;j++){
 			if(check_collision(displacedLink3,obstacleList[j])){
 				collision=TRUE;

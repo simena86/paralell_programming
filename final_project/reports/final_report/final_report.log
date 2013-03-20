@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.1.20)  16 MAR 2013 19:29
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  20 MAR 2013 12:46
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -713,78 +713,8 @@ Package: titlesec 2007/08/12 v2.8 Sectioning titles
 \titlewidth=\dimen183
 \titlewidthlast=\dimen184
 \titlewidthfirst=\dimen185
-)
-(/usr/share/texmf-texlive/tex/latex/base/textcomp.sty
-Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
-Package textcomp Info: Sub-encoding information:
-(textcomp)               5 = only ISO-Adobe without \textcurrency
-(textcomp)               4 = 5 + \texteuro
-(textcomp)               3 = 4 + \textohm
-(textcomp)               2 = 3 + \textestimated + \textcurrency
-(textcomp)               1 = TS1 - \textcircled - \t
-(textcomp)               0 = TS1 (full)
-(textcomp)             Font families with sub-encoding setting implement
-(textcomp)             only a restricted character set as indicated.
-(textcomp)             Family '?' is the default used for unknown fonts.
-(textcomp)             See the documentation for details.
-Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
-
-(/usr/share/texmf-texlive/tex/latex/base/ts1enc.def
-File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
-)
-LaTeX Info: Redefining \oldstylenums on input line 266.
-Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 281.
-Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 282.
-Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 283.
-Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 284.
-Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 285.
-Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 286.
-Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 287.
-Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 288.
-Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 289.
-Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 290.
-Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 291.
-Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 292.
-Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 293.
-Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 294.
-Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 295.
-Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 296.
-Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 297.
-Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 298.
-Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 299.
-Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 300.
-Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
-Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
-Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
-Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
-
-Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
-Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
-Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
-Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 308.
-Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 309.
-Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 310.
-Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 311.
-Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 312.
-Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 313.
-Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 314.
-Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 315.
-Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 316.
-Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 317.
-Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 318.
-Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 319.
-Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 320.
-Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 321.
-Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 322.
-Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 323.
-Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 324.
-Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 325.
-Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 326.
-)
-(/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2004/09/05 1.3 listings language file
 ))
-(/home/sverre/texmf/tex/latex/verbments/verbments.sty
+(/home/simena/texmf/tex/latex/verbments/verbments.sty
 Package: verbments 2011/08/20 v1.2 Pygments/fancyvrb source code highlighting f
 or LaTeX
 
@@ -830,38 +760,41 @@ LaTeX Info: Redefining \addtolength on input line 77.
 )
 \@tmpwidth=\skip80
 \@tmpvskip=\skip81
+)
+(/usr/share/texmf-texlive/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2009/05/18 v2.2 Customized lists
+\enit@toks=\toks47
+\labelindent=\skip82
+\enit@outerparindent=\dimen192
+\enitdp@desc=\count163
 ) (./final_report.aux
 (./abstract.aux)
+
+LaTeX Warning: Label `eq:' multiply defined.
+
 
 LaTeX Warning: Label `eq:' multiply defined.
 
 )
 \openout1 = `final_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 10.
- (/usr/share/texmf-texlive/tex/latex/base/ts1cmr.fd
-File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    ... okay on input line 10.
-
-ABD: EveryShipout initializing macros
-\c@lstlisting=\count163
-Package hyperref Info: Link coloring OFF on input line 10.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+ ABD: EveryShipout initializing macros
+\c@lstlisting=\count164
+Package hyperref Info: Link coloring OFF on input line 15.
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
@@ -869,10 +802,10 @@ Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 (/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count164
+\c@section@level=\count165
 )
-LaTeX Info: Redefining \ref on input line 10.
-LaTeX Info: Redefining \pageref on input line 10.
+LaTeX Info: Redefining \ref on input line 15.
+LaTeX Info: Redefining \pageref on input line 15.
  (./final_report.out) (./final_report.out)
 \@outlinefile=\write5
 \openout5 = `final_report.out'.
@@ -880,10 +813,10 @@ LaTeX Info: Redefining \pageref on input line 10.
 \AtBeginShipoutBox=\box70
 Package caption Info: Begin \AtBeginDocument code.
 Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
-LaTeX Info: Redefining \subref on input line 10.
+LaTeX Info: Redefining \subref on input line 15.
 Package caption Info: End \AtBeginDocument code.
-\c@pllisting=\count165
-\drop=\skip82
+\c@pllisting=\count166
+\drop=\skip83
 File: ./figures/ucsbseal1.eps Graphic file (type eps)
  <./figures/ucsbseal1.eps> [1
 
@@ -894,7 +827,21 @@ File: ./figures/ucsbseal1.eps Graphic file (type eps)
 
 
 ]
-(./final_report.toc)
+(./final_report.toc
+LaTeX Font Info:    Try loading font information for U+msa on input line 5.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 5.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 5.
+
+(/usr/share/texmf-texlive/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+))
 \tf@toc=\write6
 \openout6 = `final_report.toc'.
 
@@ -908,50 +855,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
 File: ./figures/robotarm1.eps Graphic file (type eps)
 <./figures/robotarm1.eps>
-LaTeX Font Info:    Try loading font information for U+msa on input line 31.
- (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 31.
+ (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 31.
-(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2009/06/22 v3.00 AMS symbols B
-)
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 31.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 31.
 
-(/usr/share/texmf-texlive/tex/latex/jknapltx/ursfs.fd
-File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-) [1
+[1
 
 ]
 File: ./figures/configspace1.eps Graphic file (type eps)
-
-<./figures/configspace1.eps>
+ <./figures/configspace1.eps>
 File: ./figures/class1.eps Graphic file (type eps)
  <./figures/class1.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 File: ./figures/float1.eps Graphic file (type eps)
- <./figures/float1.eps>
+<./figures/float1.eps>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[2]
+\openout4 = `final_report.pyg.lst'.
+
+runsystem(pygmentize -P encoding=latin1 -l java -F tokenmerge -f latex -o final
+_report.pyg.vrb final_report.pyg.lst)...executed.
+
+runsystem(pygmentize -S default -f latex > final_report.pyg.sty)...executed.
+
+ (./final_report.pyg.sty) (./final_report.pyg.vrb
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 3.
+)
+Underfull \vbox (badness 7704) detected at line 114
+ []
+
+[3] [4]
 File: ./figures/wherethedata1.eps Graphic file (type eps)
-<./figures/wherethedata1.eps>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) [2]
+ <./figures/wherethedata1.eps>) [5]
 No file final_report.bbl.
-[3] (./final_report.aux (./abstract.aux))
+(./final_report.aux (./abstract.aux))
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17762 strings out of 493849
- 302373 string characters out of 1152846
- 401708 words of memory out of 3000000
- 20621 multiletter control sequences out of 15000+50000
- 14007 words of font info for 52 fonts, out of 3000000 for 9000
+ 17577 strings out of 493849
+ 298893 string characters out of 1152846
+ 380797 words of memory out of 3000000
+ 20435 multiletter control sequences out of 15000+50000
+ 15040 words of font info for 56 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 58i,11n,73p,837b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 58i,13n,73p,837b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on final_report.dvi (6 pages, 21356 bytes).
+Output written on final_report.dvi (8 pages, 35704 bytes).

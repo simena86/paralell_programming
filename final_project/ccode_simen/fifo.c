@@ -1,6 +1,5 @@
 #include "fifo.h"
 
-
 void init_fifo(){
 	
 	first = (node*)malloc(sizeof(node));

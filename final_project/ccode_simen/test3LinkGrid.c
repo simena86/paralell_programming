@@ -1,6 +1,5 @@
 #include "headers.h"
 
-
 int main(int argc, char *argv[]) {
 
 	h=0; 
@@ -15,7 +14,7 @@ int main(int argc, char *argv[]) {
 	if(s.myrank==0)
 		start = MPI_Wtime();
 
-	s.sample_size_per_dim = 20;
+	s.sample_size_per_dim = 30;
 	if(argc==2){
 		s.sample_size_per_dim = atoi(argv[1]);
 	}
@@ -44,7 +43,7 @@ int main(int argc, char *argv[]) {
 	get_total_cs_size(&s);
 	
 
-	// allocate memory for total config space on proc 0 
+	// allocate memory for total config space  
 	s.cs_total=(double **)malloc(s.cs_size_total*sizeof(double *));
 	for(i=0;i<s.cs_size_total;i++){
 		s.cs_total[i]=(double *)malloc(3*sizeof(double));
@@ -60,54 +59,42 @@ int main(int argc, char *argv[]) {
 		s.offsets[i]=0;
 		s.cs_size_per_partition[i]=0;
 	}
-	
 	get_size_partition_and_offsets(s.cs_size_partition, s.cs_size_per_partition,s.offsets,s.nprocs,s.myrank);
 	distribute_total_free_cs(&s);
 		
 	
 	// adjacency table - modules - computeAdjTableForFreeCSpacePoints.c, communication.c	
-	double connectRadius=1.997*PI/(s.sample_size_per_dim-1);
+	double connectRadius=2.3*PI/(s.sample_size_per_dim-1);
 	s.adjTable = (unsigned int **)malloc(sizeof(unsigned int*)* s.cs_size_total);
 	s.adjTableElementSize = (int*)malloc(sizeof(int)* s.cs_size_total);
 	for(i=0;i<s.cs_size_total;i++){
 		s.adjTableElementSize[i]=0;
 	}
 	s.numberOfPoints_adjTab=computeAdjTableForFreeCSpacePoints(&s,connectRadius);
-	
 	get_total_elementSize(&s);	
 	distribute_total_adjTab(&s);
-
-	if(s.myrank==0){
-		printf(" rank %d tot nmber %d size part %d size per proc %d \n",s.myrank, s.numberOfPoints_adjTab_total, s.cs_size_partition, s.sample_size_per_proc);
-	}
-	MPI_Barrier(MPI_COMM_WORLD);
-	if(s.myrank==1){
-		printf(" rank %d tot nmber %d size part %d size per proc %d \n",s.myrank, s.numberOfPoints_adjTab_total, s.cs_size_partition, s.sample_size_per_proc);
-	}
-	MPI_Barrier(MPI_COMM_WORLD);
 
 	// Shortest Path 
 	if(s.myrank==0){
 		int bfsSize;
-		int* bfsPath;
-		bfsPath=(int*)malloc(sizeof(int));
-		int start_point = computeNearestPoint(&s,PI/2,0,0);
-		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
+		int* bfsPath=NULL;
+		bfsPath=(int*)malloc(sizeof(int)*800);
+	
+		int start_point = computeNearestPoint(&s,PI/2,1,2);
+		int stop_point = computeNearestPoint(&s,-PI/2,-0.2,0.4);
+
 		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_total,s.adjTableElementSize,s.numberOfPoints_adjTab_total,bfsPath,&bfsSize);	
-	    draw_shortest_path(s,bfsSize,bfsPath);
+		draw_shortest_path(s,bfsSize,bfsPath);
 		for(i=0;i<bfsSize;i++){
-		//	printf("node i %d, %d \n",i,bfsPath[i]);
+			printf("node i %d, %d \n",i,bfsPath[i]);
 		}
 	}
-
-	MPI_Barrier(MPI_COMM_WORLD);	
 	if(h!=NULL)
 		gnuplot_close(h);
 	if(s.myrank==0){
 		stop = MPI_Wtime();
 		printf("Total run time: %2.5f \n ", stop-start);
 	}
-
 	MPI_Finalize();
 	return 0;
 }
