@@ -70,13 +70,6 @@ void computeBFSPath(int start, int goal,unsigned int ** adjTable, int n,unsigned
 	// Compute the BFS-Edges of the graph
 	int numBFSEdges = computeBFSEdges(start,adjTable,n,adjTableElementSize, edgeTable);
 	
-	// Print the edgeTable
-	/*
-	for(i=0;i<numBFSEdges;i++){
-		printf("%d, %d\n", edgeTable[i][0], edgeTable[i][1]);
-	}
-	printf("\n\n");
-	*/
 	
 	// Set up the path table. Again we are allocating to much memory.
 	int * path = (int *)malloc(sizeof(int)* numBFSEdges);
@@ -110,13 +103,5 @@ void computeBFSPath(int start, int goal,unsigned int ** adjTable, int n,unsigned
 	for(i=0;i<iter;i++){
 		pathTable[i] = path[i];
 	} 
-	
-
-	// Print the path
-	//printf("The edges in the shortest path. (turn off print in bfs.c in computeBFSPath) \n");
-	//for(i=0;i<iter;i++){
-	//	printf("%d\n", path[i]);
-	//}
-	
 }
 

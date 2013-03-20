@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 		
 	
 	// adjacency table - modules - computeAdjTableForFreeCSpacePoints.c, communication.c	
-	double connectRadius=1.997*PI/(s.sample_size_per_dim-1);
+	double connectRadius=2.7*PI/(s.sample_size_per_dim-1);
 	s.adjTable = (unsigned int **)malloc(sizeof(unsigned int*)* s.cs_size_total);
 	s.adjTableElementSize = (int*)malloc(sizeof(int)* s.cs_size_total);
 	for(i=0;i<s.cs_size_total;i++){
@@ -76,14 +76,6 @@ int main(int argc, char *argv[]) {
 	get_total_elementSize(&s);	
 	distribute_total_adjTab(&s);
 
-	if(s.myrank==0){
-		printf(" rank %d tot nmber %d size part %d size per proc %d \n",s.myrank, s.numberOfPoints_adjTab_total, s.cs_size_partition, s.sample_size_per_proc);
-	}
-	MPI_Barrier(MPI_COMM_WORLD);
-	if(s.myrank==1){
-		printf(" rank %d tot nmber %d size part %d size per proc %d \n",s.myrank, s.numberOfPoints_adjTab_total, s.cs_size_partition, s.sample_size_per_proc);
-	}
-	MPI_Barrier(MPI_COMM_WORLD);
 
 	// Shortest Path 
 	if(s.myrank==0){
@@ -93,6 +85,7 @@ int main(int argc, char *argv[]) {
 		int start_point = computeNearestPoint(&s,PI/2,0,0);
 		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
 		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_total,s.adjTableElementSize,s.numberOfPoints_adjTab_total,bfsPath,&bfsSize);	
+		printf("startpoint : %d , endpoint %d, length of path : %d \n \n",start_point, stop_point, bfsSize );
 		for(i=0;i<bfsSize;i++){
 			printf("node i %d, %d \n",i,bfsPath[i]);
 		}
