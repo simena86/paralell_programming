@@ -98,7 +98,7 @@ void computeBFSPath(int start, int goal,unsigned int ** adjTable, int n,unsigned
 	
 	//Copy the path to pathTable
 	
-	*pathTable = (int)malloc(sizeof(int) * iter);
+//	*pathTable = (int)malloc(sizeof(int) * iter);
 
 	for(i=0;i<iter;i++){
 		pathTable[i] = path[i];

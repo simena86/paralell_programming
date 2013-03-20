@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 	if(s.myrank==0){
 		int bfsSize;
 		int* bfsPath;
-		bfsPath=(int*)malloc(sizeof(int));
+		bfsPath=(int*)malloc(sizeof(int)*700);
 		int start_point = computeNearestPoint(&s,PI/2,0,0);
 		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
 		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_total,s.adjTableElementSize,s.numberOfPoints_adjTab_total,bfsPath,&bfsSize);	
