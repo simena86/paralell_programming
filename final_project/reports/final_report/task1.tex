@@ -161,7 +161,8 @@ Further, each partition of the adjacency table is distributed gathered on proces
 
 %%%%%%%%%%%%%    bfs %%%%%%%%%%%%%%%%%%%%%%%%%%5
 \subsection{\textbf{Finding Shortest Path in the Configuration Space}}
-
+To find the shortest path, a sequential breadth first search (BFS) is applied to the adjacency table. The input to this function is the start and goal node. The BFS algorithm is implemented with a linked list FIFO-queue. Initially the BFS algorithm was planed to be parallelized. However, the time used to find the shortest path is negligible compared to the total runtime of the program and therefore the algorithm remains sequential. Since the edges of the graph is not weighted, the shortest path will consist of the path with the least amount of nodes between start and goal.
+\pagebreak
 
 %%%%%%%%%%%%%%% where's the data %%%%%%%%%%%%%%%%%%%%%
 \section{\textbf{	Where is the Data}}
@@ -174,17 +175,8 @@ To give a short summary of how the data is distributed throughout the run of the
  \end{figure}
 
 
-
- 
-
-
-
-
-
-
-
-
-
+%%%%%%%%%%%%% Performance %%%%%%%%%%%%%%%%%%%%%%%
+\input{"sverre.tex"}
 
 
 

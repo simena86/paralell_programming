@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}\textbf {Introduction}}{}{section.1}
+\contentsline {section}{\numberline {2}\textbf {Preliminaries and Nomenclature}}{}{section.2}
+\contentsline {section}{\numberline {3}\textbf {Overview of the Program}}{}{section.3}
+\contentsline {section}{\numberline {4}\textbf {The Program }}{}{section.4}
+\contentsline {subsection}{\numberline {4.1}\textbf {Create Sample List}}{}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}\textbf {Compute Free Configuration Space}}{}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}\textbf {Distributing Total Configuration Space}}{}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}\textbf {Create Adjacency Table}}{}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}\textbf {Finding Shortest Path in the Configuration Space}}{}{subsection.4.5}
+\contentsline {section}{\numberline {5}\textbf { Where is the Data}}{}{section.5}
+\contentsline {section}{\numberline {6}\textbf {Performance}}{}{section.6}

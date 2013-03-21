@@ -1,0 +1,4 @@
+        sample_size_per_processor = floor( total_sample_size / nprocs );
+        if(myrank==0){
+                sample_size_per_processor +=  total_sample_size %  nprocs;
+        }

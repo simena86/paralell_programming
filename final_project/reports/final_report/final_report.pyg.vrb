@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+        \PY{n}{sample\PYZus{}size\PYZus{}per\PYZus{}processor} \PY{o}{=} \PY{n}{floor}\PY{o}{(} \PY{n}{total\PYZus{}sample\PYZus{}size} \PY{o}{/} \PY{n}{nprocs} \PY{o}{);}
+        \PY{k}{if}\PY{o}{(}\PY{n}{myrank}\PY{o}{==}\PY{l+m+mi}{0}\PY{o}{)\PYZob{}}
+                \PY{n}{sample\PYZus{}size\PYZus{}per\PYZus{}processor} \PY{o}{+=}  \PY{n}{total\PYZus{}sample\PYZus{}size} \PY{o}{\PYZpc{}}  \PY{n}{nprocs}\PY{o}{;}
+        \PY{o}{\PYZcb{}}
+\end{Verbatim}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.2.18)  20 MAR 2013 12:46
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2013.1.20)  20 MAR 2013 17:36
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -714,7 +714,7 @@ Package: titlesec 2007/08/12 v2.8 Sectioning titles
 \titlewidthlast=\dimen184
 \titlewidthfirst=\dimen185
 ))
-(/home/simena/texmf/tex/latex/verbments/verbments.sty
+(/home/sverre/texmf/tex/latex/verbments/verbments.sty
 Package: verbments 2011/08/20 v1.2 Pygments/fancyvrb source code highlighting f
 or LaTeX
 
@@ -892,22 +892,50 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
 Underfull \vbox (badness 7704) detected at line 114
  []
 
-[3] [4]
+[3] [4] [5]
 File: ./figures/wherethedata1.eps Graphic file (type eps)
- <./figures/wherethedata1.eps>) [5]
+ <./figures/wherethedata1.eps> (./sverre.tex [6]
+File: ./figures/plot2.eps Graphic file (type eps)
+
+<./figures/plot2.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./figures/plot3.eps Graphic file (type eps)
+<./figures/plot3.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./figures/plot5.eps Graphic file (type eps)
+<./figures/plot5.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ./figures/plot11.eps Graphic file (type eps)
+<./figures/plot11.eps>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+)) [7]
 No file final_report.bbl.
-(./final_report.aux (./abstract.aux))
+[8] [9] [10] (./final_report.aux (./abstract.aux))
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17577 strings out of 493849
- 298893 string characters out of 1152846
- 380797 words of memory out of 3000000
- 20435 multiletter control sequences out of 15000+50000
+ 17599 strings out of 493849
+ 299224 string characters out of 1152846
+ 396683 words of memory out of 3000000
+ 20450 multiletter control sequences out of 15000+50000
  15040 words of font info for 56 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 58i,13n,73p,837b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 58i,13n,73p,1476b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on final_report.dvi (8 pages, 35704 bytes).
+Output written on final_report.dvi (13 pages, 54536 bytes).

@@ -1,0 +1,11 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Preliminaries and Nomenclature}{}
+\BOOKMARK [1][-]{section.3}{Overview of the Program}{}
+\BOOKMARK [1][-]{section.4}{The Program }{}
+\BOOKMARK [2][-]{subsection.4.1}{Create Sample List}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Compute Free Configuration Space}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Distributing Total Configuration Space}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{Create Adjacency Table}{section.4}
+\BOOKMARK [2][-]{subsection.4.5}{Finding Shortest Path in the Configuration Space}{section.4}
+\BOOKMARK [1][-]{section.5}{ Where is the Data}{}
+\BOOKMARK [1][-]{section.6}{Performance}{}

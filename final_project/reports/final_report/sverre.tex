@@ -1,0 +1,119 @@
+
+ \section{\textbf{Performance}}
+The performance of the program yielded a close to linear speedup for large sampling spaces. This is no surprise as the computation load of the adjency table is rather large and independent, i.e. the problem can be divided into large chunks of work for each processor with minimal communication volume between the processors. Fig. \ref{fig:speedup_tot} illustrates speedup when timing the whole program. Fig.  \ref{fig:parallel_efficiency_p} illustrates the corresponding parallel efficiency. Up to the point where nproc passes 30 the efficiency is above 0.9, which indicates good parallelization.  From Table \ref{fig:runtimes_p} we can also conclude that the main time-consuming activity is the computation of the adjacency table. When the number of sampling points become significant large, the other modules in the program (sampling and BFS) becomes negligible compared. Even though the computation time of the sampling is much smaller than the computation of the adjency table, the sampling is parallelizated and have a good speedup for nprocs less than 10, as showed in Fig. \ref{fig:speedup_sampling}. The tables \ref{fig:runtimes1}, \ref{fig:runtimes8}, and \ref{fig:runtimes16} shows the runtime with respect to the input n for 1, 8 and 16 processors respectively, and Fig. \ref{fig:parallel_efficiency_n} illustrates the parallel efficiency with respect to n for the whole program.
+
+\begin{table}[h!] 
+\centering
+\caption{Running times [s] vs nprocs. n=40\label{fig:runtimes_p}}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+nprocs&	Sampling&	Adjacency&	BFS&			Totale  \\ \hline
+1&	0.666704	&	54.267254&	0.045985	&	54.979953\\
+2&	0.33628	&	27.075784&	0.045498	&	27.457603\\
+3&	0.22772	&	18.148102&	0.045721	&	18.421665\\
+4&	0.173505	&	13.570408&	0.045746	&	13.789829\\
+5&	0.140272	&	10.875004&	0.045016	&	11.061219\\
+6&	0.122115	&	9.144176	&	0.04649	&	9.313183\\
+7&	0.104067	&	7.876923	&	0.04649	&	8.029002\\
+8&	0.096887	&	6.879652	&	0.04575	&	7.023167\\
+10&	0.079547	&	5.581816	&	0.047921	&	5.709573\\
+12&	0.0729	&	4.634902	&	0.047505	&	4.755729\\
+16&	0.061942	&	3.487535	&	0.046545	&	3.597782\\
+20&	0.058173	&	2.799534	&	0.044608	&	2.90437\\
+26&	0.056877	&	2.16388	&	0.046477	&	2.269197\\
+32&	0.069046	&	1.858496	&	0.046813	&	1.975175\\
+40&	0.064668	&	1.49332	&	0.045581	&	1.605897\\
+50&	0.058054	&	1.191751	&	0.047265	&	1.297975\\
+64&	0.056982	&	1.026737	&	0.044454	&	1.130737\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.5]{\figurepath plot2.eps}
+ \caption{ The speedup of the totale runtime with respect to nprocs \label{fig:speedup_tot}}
+ \end{figure}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.5]{\figurepath plot3.eps}
+ \caption{ Parallel efficiency of the whole program with respect to nprocs \label{fig:parallel_efficiency_p}}
+ \end{figure}
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.5]{\figurepath plot5.eps}
+ \caption{ The speedup of the sampling module with respect to nprocs \label{fig:speedup_sampling}}
+ \end{figure}
+
+
+\begin{table}[h!] 
+\centering
+\caption{Running times [s] vs n on one processor\label{fig:runtimes1}}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+n&	Sampling&	Adjacency&	BFS&			Totale  \\ \hline
+15&	0.034675	&	0.153544	&	0.002176	&	0.190401\\
+20&	0.082417	&	0.85519	&	0.005061	&	0.942674\\
+25&	0.161021	&	3.27004	&	0.01001	&	3.441077\\
+30&	0.279251	&	9.732613	&	0.017938	&	10.029809\\
+35&	0.448	&	24.459491&	0.028328	&	24.935827\\
+40&	0.670897	&	54.173144&	0.044997	&	54.889046\\
+45&	0.952543	&	110.080956&	0.063599	&	111.097107\\
+50&	1.320307	&	206.835204&	0.087269	&	208.242789\\
+55&	1.742765	&	366.557014&	0.118995	&	368.418783\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h!] 
+\centering
+\caption{Running times [s] vs n on 8 processor\label{fig:runtimes8}}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+n&	Sampling&	Adjacency&	BFS&			Totale  \\ \hline
+15&	0.008055	&	0.020849	&	0.002163	&	0.03116\\
+20&	0.016545	&	0.115837	&	0.005195	&	0.137743\\
+25&	0.022748	&	0.410435	&	0.00997	&	0.443438\\
+30&	0.04352	&	1.219338	&	0.018319	&	1.281424\\
+35&	0.066294	&	3.085242	&	0.029837	&	3.181954\\
+40&	0.097265	&	7.355196	&	0.046719	&	7.50003\\
+45&	0.133225	&	14.492618&	0.061898	&	14.691187\\
+50&	0.185375	&	27.796559&	0.085963	&	28.072558\\
+55&	0.246335	&	49.432498&	0.136099	&	49.815521\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h!] 
+\centering
+\caption{Running times [s] vs n on 16 processor \label{fig:runtimes16}}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+n&	Sampling&	Adjacency&	BFS&			Totale  \\ \hline
+15&	0.008977	&	0.011992	&	0.002213	&	0.023344\\
+20&	0.012298	&	0.058336	&	0.005641	&	0.076406\\
+25&	0.021309	&	0.21244	&	0.010356	&	0.244682\\
+30&	0.027734	&	0.616534	&	0.018334	&	0.663206\\
+35&	0.042801	&	1.549376	&	0.029344	&	1.622798\\
+40&	0.064563	&	3.68557	&	0.046358	&	3.79863\\
+45&	0.079617	&	7.671292	&	0.06518	&	7.819164\\
+50&	0.119901	&	13.876635&	0.092847	&	14.093173\\
+55&	0.147009	&	24.946662&	0.122272	&	25.221188\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{figure}[h!] 
+ \center 
+ \includegraphics[scale=0.5]{\figurepath plot11.eps}
+ \caption{ Parallel efficiency of the whole program with respect to n \label{fig:parallel_efficiency_n}}
+ \end{figure}
