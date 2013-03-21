@@ -1,9 +1,6 @@
 #include "bfs.h"
 
 
-// PORBLEM!!!! -> we are allocating to much memory for the edgeTable
-
-
 int computeBFSEdges(int start,unsigned int ** adjTable, int n,unsigned int * adjTableElementSize, int ** edgeTable){
 	// Returns the number of edges in the BFS-tree
 	printf("computeBFSEdges\n");
@@ -96,9 +93,6 @@ void computeBFSPath(int start, int goal,unsigned int ** adjTable, int n,unsigned
 	iter++;
 	*pathSize = iter; 
 	
-	//Copy the path to pathTable
-	
-//	*pathTable = (int)malloc(sizeof(int) * iter);
 
 	for(i=0;i<iter;i++){
 		pathTable[i] = path[i];

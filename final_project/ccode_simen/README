@@ -1,0 +1,23 @@
+-----------------------------------------
+
+This readme explains how to compile and run
+the program
+by Simen Andresen & Sverre Kvamme
+email: simena86@gmail.com
+-----------------------------------------
+
+The main function is called from "test3LinkGrid.c"
+
+
+compiling:
+	$make
+
+running the program:
+	$make -np $nprocs x.out <sample size per dimension>
+
+The argument "<sample size per dimension>" is optional. If no argument is given, 
+it will default to 30.
+
+
+Visualization:
+Unfortunately no drawing methods are available.
