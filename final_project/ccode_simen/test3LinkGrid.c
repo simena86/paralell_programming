@@ -81,11 +81,13 @@ int main(int argc, char *argv[]) {
 	if(s.myrank==0){
 		int bfsSize;
 		int* bfsPath;
+		puts("\n \n");
 		bfsPath=(int*)malloc(sizeof(int)*700);
 		int start_point = computeNearestPoint(&s,PI/2,0,0);
 		int stop_point = computeNearestPoint(&s,-PI/2,0,0);
 		computeBFSPath(stop_point,start_point,s.adjTable,s.cs_size_total,s.adjTableElementSize,s.numberOfPoints_adjTab_total,bfsPath,&bfsSize);	
-		printf("startpoint : %d , endpoint %d, length of path : %d \n \n",start_point, stop_point, bfsSize );
+		printf("\nstartpoint : %d , endpoint %d, length of path : %d \n \n",start_point, stop_point, bfsSize );
+		printf("----- Path  from start to goal : ---------\n");
 		for(i=0;i<bfsSize;i++){
 			printf("node i %d, %d \n",i,bfsPath[i]);
 		}
